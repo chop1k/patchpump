@@ -1,0 +1,9 @@
+api_platform:
+    title: Patchpump api specification
+    version: 1.0.0
+    resource_class_directories:
+        - '%kernel.project_dir%/src/API/Resource'
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']

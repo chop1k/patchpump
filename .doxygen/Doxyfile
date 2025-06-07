@@ -1,0 +1,19 @@
+DOXYFILE_ENCODING = "UTF-8"
+
+PROJECT_NAME = "Patchpump"
+PROJECT_NUMBER = v0.0.0
+PROJECT_BRIEF = "Vulnerability and patch management system"
+
+OUTPUT_DIRECTORY = "dist"
+CREATE_SUBDIRS = YES
+
+INPUT += docs
+INPUT += docs/ru
+IMAGE_PATH += docs/images/tree.png
+
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_EXTRA_STYLESHEET  = .doxygen/doxygen-awesome-css/doxygen-awesome.css \
+                        .doxygen/doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+HTML_COLORSTYLE        = LIGHT

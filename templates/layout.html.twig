@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <main class="d-flex">
+        <nav style="width: 320px">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        Активы
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        Уязвимости
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        Исправления
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">
+                        Источники
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="w-100 vh-100">
+            {% block header %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+{% endblock %}
