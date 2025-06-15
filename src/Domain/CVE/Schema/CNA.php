@@ -6,21 +6,22 @@ namespace App\Domain\CVE\Schema;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class CNAPublished
+#[Assert\Cascade]
+final class CNA
 {
     #[Assert\NotBlank]
-    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\Length(min: 1, max: 256)]
     public ?string $title = null;
 
     #[Assert\NotNull]
     public ?ProviderMetadata $providerMetadata = null;
 
-    public ?Source $source = null;
+    #[Assert\Length(min: 1)]
+    public ?array $source = null;
 
     /**
      * @var Description[]|null
      */
-    #[Assert\NotNull]
     #[Assert\Length(min: 1)]
     #[Assert\Unique]
     public ?array $descriptions = null;
@@ -28,18 +29,24 @@ final class CNAPublished
     /**
      * @var Affected[]|null
      */
-    #[Assert\NotNull]
     #[Assert\Length(min: 1)]
     public ?array $affected = null;
 
+    /**
+     * @var CPEApplicability[]|null
+     */
     public ?array $applicability = null;
 
+    /**
+     * @var ProblemType[]|null
+     */
+    #[Assert\Length(min: 1)]
+    #[Assert\Unique]
     public ?array $problems = null;
 
     /**
      * @var Reference[]|null
      */
-    #[Assert\NotNull]
     #[Assert\Length(min: 1, max: 512)]
     #[Assert\Unique]
     public ?array $references = null;
@@ -95,7 +102,27 @@ final class CNAPublished
 
     public ?array $tags = null;
 
-    public ?\DateTimeImmutable $publicAt = null;
+    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    public ?\DateTimeImmutable $dateAssigned = null;
 
-    public ?\DateTimeImmutable $assignedAt = null;
+    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    public ?\DateTimeImmutable $datePublished = null;
+
+    /**
+     * @var Description[]|null
+     */
+    public ?array $rejectedReasons = null;
+
+    /**
+     * @var string[]|null
+     */
+    #[Assert\Length(min: 1)]
+    #[Assert\Unique]
+    #[Assert\All(
+        constraints: [
+            new Assert\Type('string'),
+            new Assert\Regex('^CVE-[0-9]{4}-[0-9]{4,19}$'),
+        ]
+    )]
+    public ?array $replacedBy = null;
 }

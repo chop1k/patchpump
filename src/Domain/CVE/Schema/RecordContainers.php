@@ -6,24 +6,15 @@ namespace App\Domain\CVE\Schema;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[Assert\Cascade]
 final class RecordContainers
 {
     #[Assert\NotNull]
-    #[Assert\AtLeastOneOf([
-        new Assert\Sequentially([
-            new Assert\Type(CNARejected::class),
-            new Assert\When(
-                expression: 'adp === null'
-            )
-        ]),
-        new Assert\Sequentially([
-            new Assert\Type(CNAPublished::class),
-            new Assert\When(
-                expression: 'adp !== null'
-            )
-        ])
-    ])]
-    public mixed $cna = null;
+    public ?CNA $cna = null;
 
-    public ?ADP $adp = null;
+    /**
+     * @var ADP[]|null
+     */
+    #[Assert\Length(min: 1)]
+    public ?array $adp = null;
 }

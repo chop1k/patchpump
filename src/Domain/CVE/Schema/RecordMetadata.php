@@ -30,6 +30,9 @@ final class RecordMetadata
     public ?int $serial = null;
 
     #[Assert\NotBlank]
+    #[Assert\When(
+        expression: 'state === "PUBLISHED"'
+    )]
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
     public ?string $datePublished = null;
 
@@ -42,6 +45,9 @@ final class RecordMetadata
     public ?string $dateUpdated = null;
 
     #[Assert\NotBlank]
+    #[Assert\When(
+        expression: 'state === "REJECTED"'
+    )]
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
     public ?string $dateRejected = null;
 
