@@ -6,6 +6,16 @@ namespace App\Domain\CVE\Schema;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class that represents single object for both published/rejected containers according to MITRE CVE V5 schema.
+ *
+ * Objects of the class are used for validating CVE schema and serialization/deserialization.
+ *
+ * @link https://github.com/CVEProject/cve-schema
+ * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
+ *
+ * @see Record
+ */
 #[Assert\Cascade]
 final class RecordContainers
 {
@@ -15,6 +25,6 @@ final class RecordContainers
     /**
      * @var ADP[]|null
      */
-    #[Assert\Length(min: 1)]
+    #[Assert\Count(min: 1)]
     public ?array $adp = null;
 }

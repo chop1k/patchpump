@@ -6,6 +6,16 @@ namespace App\Domain\CVE\Schema;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Class that represents CVE record metadata object according to MITRE CVE V5 schema.
+ *
+ * Objects of the class are used for validating CVE schema and serialization/deserialization.
+ *
+ * @link https://github.com/CVEProject/cve-schema
+ * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
+ *
+ * @see Record
+ */
 final class RecordMetadata
 {
     #[Assert\NotNull]
