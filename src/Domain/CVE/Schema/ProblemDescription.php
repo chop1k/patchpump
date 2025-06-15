@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @link https://github.com/CVEProject/cve-schema
  * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  *
- * @see CNA
+ * @see ProblemType
  */
 final class ProblemDescription
 {
