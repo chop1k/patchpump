@@ -19,12 +19,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Assert\Cascade]
 final class CNA
 {
+    #[Assert\NotNull]
+    public ?ProviderMetadata $providerMetadata = null;
+
     #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 256)]
     public ?string $title = null;
-
-    #[Assert\NotNull]
-    public ?ProviderMetadata $providerMetadata = null;
 
     /**
      * @var Description[]|null
