@@ -7,7 +7,7 @@ namespace App\Domain\CVE\Schema;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class that represents CVSS version 3.1 according to MITRE CVE V5 schema.
+ * Class that represents CVSS version 3.0 according to MITRE CVE V5 schema.
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
@@ -16,14 +16,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see Metric
  */
-final class CVSS31
+final class CVSS30
 {
     #[Assert\NotNull]
-    #[Assert\IdenticalTo('3.1')]
+    #[Assert\IdenticalTo('3.0')]
     public ?string $version = null;
 
     #[Assert\NotNull]
-    #[Assert\Regex('^CVSS:3[.]1/((AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[NLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$')]
+    #[Assert\Regex('^CVSS:3[.]0/((AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])/)*(AV:[NALP]|AC:[LH]|PR:[UNLH]|UI:[NR]|S:[UC]|[CIA]:[NLH]|E:[XUPFH]|RL:[XOTWU]|RC:[XURC]|[CIA]R:[XLMH]|MAV:[XNALP]|MAC:[XLH]|MPR:[XUNLH]|MUI:[XNR]|MS:[XUC]|M[CIA]:[XNLH])$')]
     public ?string $vectorString = null;
 
     #[Assert\NotNull]

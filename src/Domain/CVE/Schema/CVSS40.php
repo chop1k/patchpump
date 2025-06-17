@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class CVSS40
 {
     #[Assert\NotNull]
-    #[Assert\Choice(['4.0'])]
+    #[Assert\IdenticalTo('4.0')]
     public ?string $version = null;
 
     #[Assert\NotNull]
