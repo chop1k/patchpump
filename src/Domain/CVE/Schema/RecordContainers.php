@@ -23,7 +23,7 @@ final class RecordContainers
     public ?CNA $cna = null;
 
     /**
-     * @var ADP[]|null
+     * @var CNA[]|null
      */
     #[Assert\Count(min: 1)]
     public ?array $adp = null;

@@ -7,7 +7,7 @@ namespace App\Domain\CVE\Schema;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class that represents object for both published/rejected CNA according to MITRE CVE V5 schema.
+ * Class that represents object for both published/rejected CNA and ADP according to MITRE CVE V5 schema.
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
