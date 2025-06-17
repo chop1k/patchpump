@@ -7,26 +7,26 @@ namespace App\Domain\CVE\Schema;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class that represents timeline object structure according to MITRE CVE V5 schema.
+ * Class that represents taxonomy relation object structure according to MITRE CVE V5 schema.
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
  * @link https://github.com/CVEProject/cve-schema
  * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  *
- * @see CNA
+ * @see TaxonomyMapping
  */
-final class Timeline
+final class TaxonomyRelation
 {
     #[Assert\NotNull]
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
-    public ?\DateTimeImmutable $time = null;
+    #[Assert\Length(min: 1, max: 2048)]
+    public ?string $taxonomyId = null;
 
     #[Assert\NotNull]
-    #[Assert\Regex('^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$')]
-    public ?string $lang = null;
+    #[Assert\Length(min: 1, max: 128)]
+    public ?string $relationshipName = null;
 
     #[Assert\NotNull]
-    #[Assert\Length(min: 1, max: 4096)]
-    public ?string $value = null;
+    #[Assert\Length(min: 1, max: 2048)]
+    public ?string $relationshipValue = null;
 }

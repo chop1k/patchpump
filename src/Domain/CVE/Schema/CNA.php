@@ -117,8 +117,28 @@ final class CNA
     #[Assert\Count(min: 1)]
     public ?array $source = null;
 
+    /**
+     * @var string[]|null
+     */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\AtLeastOneOf([
+            new Assert\Sequentially([
+                new Assert\Type('string'),
+                new Assert\Length(min: 2, max: 128),
+                new Assert\Regex('^x_.*$')
+            ]),
+            new Assert\Sequentially([
+                new Assert\Type('string'),
+                new Assert\Choice([
+                    'unsupported-when-assigned',
+                    'exclusively-hosted-service',
+                    'disputed'
+                ])
+            ]),
+        ])
+    ])]
     public ?array $tags = null;
 
     #[Assert\Count(min: 1)]
