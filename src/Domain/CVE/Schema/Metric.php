@@ -36,4 +36,6 @@ final class Metric
     public ?CVSS30 $cvssV3_0 = null;
 
     public ?CVSS20 $cvssV2_0 = null;
+
+    public ?Other $other = null;
 }
