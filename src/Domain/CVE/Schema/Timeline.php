@@ -20,10 +20,10 @@ final class Timeline
 {
     #[Assert\NotNull]
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
-    public ?\DateTimeImmutable $time = null;
+    public ?string $time = null;
 
     #[Assert\NotNull]
-    #[Assert\Regex('^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$')]
+    #[Assert\Language]
     public ?string $lang = null;
 
     #[Assert\NotNull]
