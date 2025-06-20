@@ -23,5 +23,6 @@ final class Other
     public ?string $type = null;
 
     #[Assert\NotNull]
+    #[Assert\NotBlank]
     public ?array $content = null;
 }
