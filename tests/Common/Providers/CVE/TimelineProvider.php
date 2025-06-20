@@ -23,7 +23,7 @@ final class TimelineProvider
         ];
     }
 
-    public static function provideWrong(): array
+    public static function provideInvalid(): array
     {
         $timeline_0 = new Timeline();
 

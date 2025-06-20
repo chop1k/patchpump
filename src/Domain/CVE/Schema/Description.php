@@ -16,10 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see CNA
  */
+#[Assert\Cascade]
 final class Description
 {
     #[Assert\NotNull]
-    #[Assert\Regex('^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$')]
+    #[Assert\Language]
     public ?string $language = null;
 
     #[Assert\NotNull]
@@ -31,5 +32,9 @@ final class Description
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(DescriptionMedia::class)
+    ])]
     public ?array $supportingMedia = null;
 }

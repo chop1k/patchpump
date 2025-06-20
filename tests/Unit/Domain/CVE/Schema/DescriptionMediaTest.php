@@ -48,19 +48,19 @@ class DescriptionMediaTest extends TestCase
         self::assertNotCount(0, $errors, $errors->__toString());
     }
 
-    public static function provideInvalidRules(): iterable
-    {
-        return array_map(
-            static fn (DescriptionMedia $media) => [$media],
-            DescriptionMediaProvider::provideInvalid(),
-        );
-    }
-
     public static function provideValidRules(): iterable
     {
         return array_map(
             static fn (DescriptionMedia $media) => [$media],
             DescriptionMediaProvider::provideValid(),
+        );
+    }
+
+    public static function provideInvalidRules(): iterable
+    {
+        return array_map(
+            static fn (DescriptionMedia $media) => [$media],
+            DescriptionMediaProvider::provideInvalid(),
         );
     }
 }
