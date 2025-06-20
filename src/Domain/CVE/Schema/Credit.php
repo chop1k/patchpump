@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class Credit
 {
     #[Assert\NotNull]
-    #[Assert\Regex('^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$')]
+    #[Assert\Language]
     public ?string $lang = null;
 
     #[Assert\NotNull]
