@@ -29,5 +29,9 @@ final class CPENode
      * @var CPEMatch[]|null
      */
     #[Assert\NotNull]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(CPEMatch::class),
+    ])]
     public ?array $cpeMatch = null;
 }

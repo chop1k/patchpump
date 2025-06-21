@@ -21,6 +21,7 @@ final class CPEMatch
     #[Assert\NotNull]
     public ?bool $vulnerable = null;
 
+    #[Assert\NotNull]
     #[Assert\Length(min: 1, max: 2048)]
     #[Assert\Regex('(cpe:2\\.3:[aho*\\-](:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&\'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){5}(:(([a-zA-Z]{2,3}(-([a-zA-Z]{2}|[0-9]{3}))?)|[*\\-]))(:(((\\?*|\\*?)([a-zA-Z0-9\\-._]|(\\\\[\\\\*?!\"#$%&\'()+,/:;<=>@\\[\\]\\^`{|}~]))+(\\?*|\\*?))|[*\\-])){4})')]
     public ?string $criteria = null;

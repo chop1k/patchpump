@@ -16,11 +16,21 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see CNA
  */
+#[Assert\Cascade]
 final class CPEApplicability
 {
+    #[Assert\Choice(['AND', 'OR'])]
+    public ?string $operator = null;
+
+    public ?bool $negate = null;
+
     /**
      * @var CPENode[]|null
      */
     #[Assert\NotNull]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(CPENode::class),
+    ])]
     public ?array $nodes = null;
 }
