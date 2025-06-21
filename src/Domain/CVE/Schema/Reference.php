@@ -24,7 +24,45 @@ final class Reference
     #[Assert\Length(min: 1, max: 512)]
     public ?string $name = null;
 
+    /**
+     * @var string[]|null
+     */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\AtLeastOneOf([
+            new Assert\Sequentially([
+                new Assert\NotNull(),
+                new Assert\Type('string'),
+                new Assert\Length(min: 2, max: 128),
+//                new Assert\Regex('^x_.*$')
+            ]),
+            new Assert\Sequentially([
+                new Assert\NotNull(),
+                new Assert\Type('string'),
+                new Assert\Choice([
+                    'broken-link',
+                    'customer-entitlement',
+                    'exploit',
+                    'government-resource',
+                    'issue-tracking',
+                    'mailing-list',
+                    'mitigation',
+                    'not-applicable',
+                    'patch',
+                    'permissions-required',
+                    'media-coverage',
+                    'product',
+                    'related',
+                    'release-notes',
+                    'signature',
+                    'technical-description',
+                    'third-party-advisory',
+                    'vendor-advisory',
+                    'vdb-entry'
+                ])
+            ]),
+        ])
+    ])]
     public ?array $tags = null;
 }

@@ -16,10 +16,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see ProblemType
  */
+#[Assert\Cascade]
 final class ProblemDescription
 {
     #[Assert\NotNull]
-    #[Assert\Regex('^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$')]
+    #[Assert\Language]
     public ?string $lang = null;
 
     #[Assert\NotNull]
@@ -27,7 +28,7 @@ final class ProblemDescription
     public ?string $description = null;
 
     #[Assert\Length(min: 5, max: 9)]
-    #[Assert\Regex('^CWE-[1-9][0-9]*$')]
+//    #[Assert\Regex('^CWE-[1-9][0-9]*$^')]
     public ?string $cweId = null;
 
     #[Assert\Length(min: 1, max: 128)]
@@ -38,5 +39,9 @@ final class ProblemDescription
      */
     #[Assert\Count(min: 1, max: 512)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Reference::class),
+    ])]
     public ?array $references = null;
 }
