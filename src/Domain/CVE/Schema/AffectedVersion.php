@@ -16,11 +16,26 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see Affected
  */
+#[Assert\Cascade]
+#[Assert\Expression(self::RULE_COMBINED)]
 final class AffectedVersion
 {
+    private const RULE_1 = '(this.versionType === null && this.lessThan === null && this.lessThanOrEqual === null)';
+    private const RULE_2 = '(this.versionType !== null && this.lessThan === null && this.lessThanOrEqual === null)';
+    private const RULE_3 = '(this.versionType !== null && this.lessThan !== null && this.lessThanOrEqual === null)';
+    private const RULE_4 = '(this.versionType !== null && this.lessThan === null && this.lessThanOrEqual !== null)';
+    private const RULE_5 = '(this.version !== null && this.status !== null && this.versionType === null && this.lessThan === null && this.lessThanOrEqual === null)';
+
+    /**
+     * @todo fix when there will be Assert\AtLeastOneOf attribute both for class and property
+     */
+    private const RULE_COMBINED = self::RULE_1 . ' || ' . self::RULE_2 . ' || ' . self::RULE_3 . ' || ' . self::RULE_4 . ' || ' . self::RULE_5;
+
+    #[Assert\NotNull]
     #[Assert\Length(min: 1, max: 1024)]
     public ?string $version = null;
 
+    #[Assert\NotNull]
     #[Assert\Choice(['affected', 'unaffected', 'unknown'])]
     public ?string $status = null;
 
@@ -38,5 +53,9 @@ final class AffectedVersion
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(AffectedVersionChange::class),
+    ])]
     public ?array $changes = null;
 }
