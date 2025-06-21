@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @see CNA
  */
+#[Assert\Cascade]
 final class TaxonomyMapping
 {
     #[Assert\NotNull]
@@ -31,5 +32,9 @@ final class TaxonomyMapping
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(TaxonomyRelation::class),
+    ])]
     public ?array $taxonomyRelations = null;
 }
