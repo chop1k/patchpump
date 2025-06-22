@@ -17,12 +17,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see Record
  */
 #[Assert\Cascade]
+#[Assert\Expression(self::RULE_COMBINED)]
 final class CNA
 {
+    private const RULE_1 = '(this.providerMetadata !== null && this.descriptions !== null && this.affected !== null && this.references !== null)';
+    private const RULE_2 = '(this.providerMetadata !== null && this.rejectedReasons !== null)';
+    private const RULE_3 = 'this.providerMetadata !== null';
+
+    private const RULE_COMBINED = self::RULE_1 . ' || ' . self::RULE_2 . ' || ' . self::RULE_3;
+
     #[Assert\NotNull]
     public ?ProviderMetadata $providerMetadata = null;
 
-    #[Assert\NotBlank]
     #[Assert\Length(min: 1, max: 256)]
     public ?string $title = null;
 
@@ -31,24 +37,40 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $descriptions = null;
 
     /**
      * @var Affected[]|null
      */
     #[Assert\Count(min: 1)]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Affected::class),
+    ])]
     public ?array $affected = null;
 
     /**
      * @var CPEApplicability[]|null
      */
-    public ?array $applicability = null;
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(CPEApplicability::class),
+    ])]
+    public ?array $cpeApplicability = null;
 
     /**
      * @var ProblemType[]|null
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(ProblemType::class),
+    ])]
     public ?array $problems = null;
 
     /**
@@ -56,6 +78,10 @@ final class CNA
      */
     #[Assert\Count(min: 1, max: 512)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Reference::class),
+    ])]
     public ?array $references = null;
 
     /**
@@ -63,6 +89,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Impact::class),
+    ])]
     public ?array $impacts = null;
 
     /**
@@ -70,6 +100,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Metric::class),
+    ])]
     public ?array $metrics = null;
 
     /**
@@ -77,6 +111,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $configurations = null;
 
     /**
@@ -84,6 +122,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $workarounds = null;
 
     /**
@@ -91,6 +133,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $solutions = null;
 
     /**
@@ -98,6 +144,10 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $exploits = null;
 
     /**
@@ -105,13 +155,21 @@ final class CNA
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
-    public ?array $timelines = null;
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Timeline::class),
+    ])]
+    public ?array $timeline = null;
 
     /**
      * @var Credit[]|null
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Credit::class),
+    ])]
     public ?array $credits = null;
 
     #[Assert\Count(min: 1)]
@@ -125,11 +183,13 @@ final class CNA
     #[Assert\All([
         new Assert\AtLeastOneOf([
             new Assert\Sequentially([
+                new Assert\NotNull(),
                 new Assert\Type('string'),
                 new Assert\Length(min: 2, max: 128),
-                new Assert\Regex('^x_.*$')
+                new Assert\Regex('^x_.*$^')
             ]),
             new Assert\Sequentially([
+                new Assert\NotNull(),
                 new Assert\Type('string'),
                 new Assert\Choice([
                     'unsupported-when-assigned',
@@ -141,21 +201,32 @@ final class CNA
     ])]
     public ?array $tags = null;
 
+    /**
+     * @var TaxonomyMapping[]|null
+     */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(TaxonomyMapping::class),
+    ])]
     public ?array $taxonomyMappings = null;
 
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
-    public ?\DateTimeImmutable $dateAssigned = null;
+    public ?string $dateAssigned = null;
 
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
-    public ?\DateTimeImmutable $datePublic = null;
+    public ?string $datePublic = null;
 
     /**
      * @var Description[]|null
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(Description::class),
+    ])]
     public ?array $rejectedReasons = null;
 
     /**
@@ -165,8 +236,9 @@ final class CNA
     #[Assert\Unique]
     #[Assert\All(
         constraints: [
+            new Assert\NotNull(),
             new Assert\Type('string'),
-            new Assert\Regex('^CVE-[0-9]{4}-[0-9]{4,19}$'),
+            new Assert\Regex('^CVE-[0-9]{4}-[0-9]{4,19}$^'),
         ]
     )]
     public ?array $replacedBy = null;

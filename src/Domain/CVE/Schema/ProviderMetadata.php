@@ -28,5 +28,5 @@ final class ProviderMetadata
     public ?string $shortName = null;
 
     #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
-    public ?\DateTimeImmutable $dateUpdated = null;
+    public ?string $dateUpdated = null;
 }
