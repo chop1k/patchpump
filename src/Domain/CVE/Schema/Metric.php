@@ -17,6 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see CNA
  */
 #[Assert\Cascade]
+#[Assert\Expression(
+    'this.cvssV4_0 !== null || this.cvssV3_1 !== null || this.cvssV3_0 !== null || this.cvssV2_0 !== null || this.other !== null'
+)]
 final class Metric
 {
     #[Assert\Length(min: 1, max: 64)]
@@ -27,6 +30,10 @@ final class Metric
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(MetricScenario::class),
+    ])]
     public ?array $scenarios = null;
 
     public ?CVSS40 $cvssV4_0 = null;
