@@ -128,6 +128,20 @@ final class CVSS20Provider
         $cvss_16->vectorString = 'AV:N/AC:L/Au:N/C:P/I:P/A:C';
         $cvss_16->environmentScore = 2;
 
+        $cvss_17 = new CVSS20();
+
+        $cvss_17->version = '2.0';
+        $cvss_17->baseScore = 2;
+        $cvss_17->vectorString = 'AV:N/AC:L/Au:N/C:P/I:P/A:C';
+        $cvss_17->environmentScore = 2.1244;
+
+        $cvss_18 = new CVSS20();
+
+        $cvss_18->version = '2.0';
+        $cvss_18->baseScore = 2;
+        $cvss_18->vectorString = 'AV:N/AC:L/Au:N/C:P/I:P/A:C';
+        $cvss_18->temporalScore = 2.1244;
+
         return [
             $cvss_0,
             $cvss_1,
@@ -146,6 +160,8 @@ final class CVSS20Provider
             $cvss_14,
             $cvss_15,
             $cvss_16,
+            $cvss_17,
+            $cvss_18,
         ];
     }
 

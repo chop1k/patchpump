@@ -28,7 +28,7 @@ final class CVSS20
 
     #[Assert\NotNull]
     #[Assert\Range(min: 0, max: 10)]
-    public ?int $baseScore = null;
+    public ?float $baseScore = null;
 
     #[Assert\Choice([
         'NETWORK',
@@ -100,7 +100,7 @@ final class CVSS20
     public ?string $reportConfidence = null;
 
     #[Assert\Range(min: 0, max: 10)]
-    public ?int $temporalScore = null;
+    public ?float $temporalScore = null;
 
     #[Assert\Choice([
         'NONE',
@@ -146,5 +146,5 @@ final class CVSS20
     public ?string $availabilityRequirement = null;
 
     #[Assert\Range(min: 0, max: 10)]
-    public ?int $environmentScore = null;
+    public ?float $environmentScore = null;
 }
