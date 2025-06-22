@@ -26,5 +26,9 @@ final class RecordContainers
      * @var CNA[]|null
      */
     #[Assert\Count(min: 1)]
+    #[Assert\All([
+        new Assert\NotNull(),
+        new Assert\Type(CNA::class),
+    ])]
     public ?array $adp = null;
 }
