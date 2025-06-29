@@ -95,6 +95,12 @@
         "symfony/polyfill-php82": "*"
     },
     "scripts": {
+        "tests:run" : "@php bin/phpunit",
+        "tests:coverage": "@php bin/phpunit --coverage-text",
+        "code:style:analyze": "@php vendor/bin/php-cs-fixer check src tests",
+        "code:style:fix": "@php vendor/bin/php-cs-fixer fix src tests",
+        "code:style:list": "@php vendor/bin/php-cs-fixer list-files src tests",
+        "code:analyze": "@php vendor/bin/psalm",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
