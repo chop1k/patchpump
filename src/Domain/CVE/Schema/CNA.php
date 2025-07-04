@@ -71,7 +71,7 @@ final class CNA
         new Assert\NotNull(),
         new Assert\Type(ProblemType::class),
     ])]
-    public ?array $problems = null;
+    public ?array $problemTypes = null;
 
     /**
      * @var Reference[]|null
@@ -212,10 +212,16 @@ final class CNA
     ])]
     public ?array $taxonomyMappings = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $dateAssigned = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $datePublic = null;
 
     /**

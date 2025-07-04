@@ -21,7 +21,7 @@ final class Description
 {
     #[Assert\NotNull]
     #[Assert\Language]
-    public ?string $language = null;
+    public ?string $lang = null;
 
     #[Assert\NotNull]
     #[Assert\Length(min: 1, max: 4096)]
