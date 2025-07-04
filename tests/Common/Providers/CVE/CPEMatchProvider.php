@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\CPEMatch;
 
 final class CPEMatchProvider
 {
+    /**
+     * @return CPEMatch[]
+     */
     public static function provideValid(): array
     {
         $match_0 = new CPEMatch();
@@ -55,6 +58,9 @@ final class CPEMatchProvider
         ];
     }
 
+    /**
+     * @return CPEMatch[]
+     */
     public static function provideInvalid(): array
     {
         $match_0 = new CPEMatch();

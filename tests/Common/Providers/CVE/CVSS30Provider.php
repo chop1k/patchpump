@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\CVSS30;
 
 final class CVSS30Provider
 {
+    /**
+     * @return CVSS30[]
+     */
     public static function provideValid(): array
     {
         $cvss_0 = new CVSS30();
@@ -309,6 +312,9 @@ final class CVSS30Provider
         ];
     }
 
+    /**
+     * @return CVSS30[]
+     */
     public static function provideInvalid(): array
     {
         $cvss_0 = new CVSS30();

@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Other;
 
 final class OtherProvider
 {
+    /**
+     * @return Other[]
+     */
     public static function provideValid(): array
     {
         $other_0 = new Other();
@@ -22,6 +25,9 @@ final class OtherProvider
         ];
     }
 
+    /**
+     * @return Other[]
+     */
     public static function provideInvalid(): array
     {
         $other_0 = new Other();

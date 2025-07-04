@@ -10,6 +10,9 @@ use DateTimeInterface;
 
 final class TimelineProvider
 {
+    /**
+     * @return Timeline[]
+     */
     public static function provideValid(): array
     {
         $timeline_0 = new Timeline();
@@ -23,6 +26,9 @@ final class TimelineProvider
         ];
     }
 
+    /**
+     * @return Timeline[]
+     */
     public static function provideInvalid(): array
     {
         $timeline_0 = new Timeline();

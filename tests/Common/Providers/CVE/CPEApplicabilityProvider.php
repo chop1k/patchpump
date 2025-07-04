@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\CPEApplicability;
 
 final class CPEApplicabilityProvider
 {
+    /**
+     * @return CPEApplicability[]
+     */
     public static function provideValid(): array
     {
         $applicability_0 = new CPEApplicability();
@@ -43,6 +46,9 @@ final class CPEApplicabilityProvider
         ];
     }
 
+    /**
+     * @return CPEApplicability[]
+     */
     public static function provideInvalid(): array
     {
         $applicability_0 = new CPEApplicability();

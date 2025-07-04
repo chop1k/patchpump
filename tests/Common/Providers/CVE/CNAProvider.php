@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Common\Providers\CVE;
 
 use App\Domain\CVE\Schema\CNA;
-use Carbon\Carbon;
-use Carbon\Language;
-use DateTimeInterface;
 
 final class CNAProvider
 {
+    /**
+     * @return CNA[]
+     */
     public static function provideValid(): array
     {
         $cna_0 = new CNA();
@@ -40,7 +40,7 @@ final class CNAProvider
         $cna_5 = new CNA();
 
         $cna_5->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_5->problems = ProblemTypeProvider::provideValid();
+        $cna_5->problemTypes = ProblemTypeProvider::provideValid();
 
         $cna_6 = new CNA();
 
@@ -134,12 +134,12 @@ final class CNAProvider
         $cna_21 = new CNA();
 
         $cna_21->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_21->datePublic = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $cna_21->datePublic = '2025-03-19T18:41:32.004Z';
 
         $cna_22 = new CNA();
 
         $cna_22->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_22->dateAssigned = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $cna_22->dateAssigned = '2008-10-14T00:00:00';
 
         $cna_23 = new CNA();
 
@@ -174,6 +174,9 @@ final class CNAProvider
         ];
     }
 
+    /**
+     * @return CNA[]
+     */
     public static function provideInvalid(): array
     {
         $cna_0 = new CNA();
@@ -283,26 +286,26 @@ final class CNAProvider
         $cna_17 = new CNA();
 
         $cna_17->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_17->problems = [];
+        $cna_17->problemTypes = [];
 
         $cna_18 = new CNA();
 
         $cna_18->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_18->problems = [
+        $cna_18->problemTypes = [
             null,
         ];
 
         $cna_19 = new CNA();
 
         $cna_19->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_19->problems = [
+        $cna_19->problemTypes = [
             true,
         ];
 
         $cna_20 = new CNA();
 
         $cna_20->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_20->problems = [
+        $cna_20->problemTypes = [
             null,
             ...ProblemTypeProvider::provideValid(),
         ];
@@ -310,7 +313,7 @@ final class CNAProvider
         $cna_21 = new CNA();
 
         $cna_21->providerMetadata = ProviderMetadataProvider::provideValid()[0];
-        $cna_21->problems = ProblemTypeProvider::provideInvalid();
+        $cna_21->problemTypes = ProblemTypeProvider::provideInvalid();
 
         $cna_22 = new CNA();
 

@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\CPENode;
 
 final class CPENodeProvider
 {
+    /**
+     * @return CPENode[]
+     */
     public static function provideValid(): array
     {
         $node_0 = new CPENode();
@@ -35,6 +38,9 @@ final class CPENodeProvider
         ];
     }
 
+    /**
+     * @return CPENode[]
+     */
     public static function provideInvalid(): array
     {
         $node_0 = new CPENode();

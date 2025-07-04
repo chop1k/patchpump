@@ -10,6 +10,9 @@ final class CVSS40Provider
 {
     public const VECTOR = 'CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/AU:Y/R:A/V:C/RE:M/U:Green';
 
+    /**
+     * @return CVSS40[]
+     */
     public static function provideValid(): array
     {
         $cvss_0 = new CVSS40();
@@ -320,6 +323,9 @@ final class CVSS40Provider
         ];
     }
 
+    /**
+     * @return CVSS40[]
+     */
     public static function provideInvalid(): array
     {
         $cvss_0 = new CVSS40();

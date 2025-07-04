@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Impact;
 
 final class ImpactProvider
 {
+    /**
+     * @return Impact[]
+     */
     public static function provideValid(): array
     {
         $impact_0 = new Impact();
@@ -20,6 +23,9 @@ final class ImpactProvider
         ];
     }
 
+    /**
+     * @return Impact[]
+     */
     public static function provideInvalid(): array
     {
         $impact_0 = new Impact();

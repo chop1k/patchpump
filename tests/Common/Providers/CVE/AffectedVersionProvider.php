@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\AffectedVersion;
 
 final class AffectedVersionProvider
 {
+    /**
+     * @return AffectedVersion[]
+     */
     public static function provideValid(): array
     {
         $version_0 = new AffectedVersion();
@@ -76,6 +79,9 @@ final class AffectedVersionProvider
         ];
     }
 
+    /**
+     * @return AffectedVersion[]
+     */
     public static function provideInvalid(): array
     {
         $version_0 = new AffectedVersion();

@@ -10,6 +10,9 @@ final class CVSS20Provider
 {
     public const VECTOR = 'AV:N/AC:L/Au:N/C:P/I:P/A:C';
 
+    /**
+     * @return CVSS20[]
+     */
     public static function provideValid(): array
     {
         $cvss_0 = new CVSS20();
@@ -167,6 +170,9 @@ final class CVSS20Provider
         ];
     }
 
+    /**
+     * @return CVSS20[]
+     */
     public static function provideInvalid(): array
     {
         $cvss_0 = new CVSS20();

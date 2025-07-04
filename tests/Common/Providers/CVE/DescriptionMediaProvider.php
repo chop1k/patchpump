@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\DescriptionMedia;
 
 final class DescriptionMediaProvider
 {
+    /**
+     * @return DescriptionMedia[]
+     */
     public static function provideValid(): array
     {
         $media_0 = new DescriptionMedia();
@@ -28,6 +31,9 @@ final class DescriptionMediaProvider
         ];
     }
 
+    /**
+     * @return DescriptionMedia[]
+     */
     public static function provideInvalid(): array
     {
         $media_0 = new DescriptionMedia();

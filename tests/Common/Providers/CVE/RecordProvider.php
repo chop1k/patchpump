@@ -11,6 +11,9 @@ use App\Domain\CVE\Schema\RecordMetadata;
 
 final class RecordProvider
 {
+    /**
+     * @return Record[]
+     */
     public static function provideValid(): array
     {
         $metadata_0 = new RecordMetadata();
@@ -79,6 +82,9 @@ final class RecordProvider
         ];
     }
 
+    /**
+     * @return Record[]
+     */
     public static function provideInvalid(): array
     {
         $record_0 = new Record();

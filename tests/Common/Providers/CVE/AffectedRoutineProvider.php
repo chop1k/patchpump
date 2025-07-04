@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\AffectedRoutine;
 
 final class AffectedRoutineProvider
 {
+    /**
+     * @return AffectedRoutine[]
+     */
     public static function provideValid(): array
     {
         $routine_0 = new AffectedRoutine();
@@ -19,6 +22,9 @@ final class AffectedRoutineProvider
         ];
     }
 
+    /**
+     * @return AffectedRoutine[]
+     */
     public static function provideInvalid(): array
     {
         $routine_0 = new AffectedRoutine();

@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Affected;
 
 final class AffectedProvider
 {
+    /**
+     * @return Affected[]
+     */
     public static function provideValid(): array
     {
         $affected_0 = new Affected();
@@ -45,6 +48,9 @@ final class AffectedProvider
         ];
     }
 
+    /**
+     * @return Affected[]
+     */
     public static function provideInvalid(): array
     {
         $affected_0 = new Affected();

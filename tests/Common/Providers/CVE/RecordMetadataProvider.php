@@ -10,6 +10,9 @@ use DateTimeInterface;
 
 final class RecordMetadataProvider
 {
+    /**
+     * @return RecordMetadata[]
+     */
     public static function provideValid(): array
     {
         $metadata_0 = new RecordMetadata();
@@ -44,28 +47,56 @@ final class RecordMetadataProvider
         $metadata_4->cveId = 'CVE-04-12';
         $metadata_4->state = 'PUBLISHED';
         $metadata_4->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
-        $metadata_4->dateUpdated = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_4->dateUpdated = '2025-03-19T18:41:32.004Z';
 
         $metadata_5 = new RecordMetadata();
 
         $metadata_5->cveId = 'CVE-04-12';
         $metadata_5->state = 'PUBLISHED';
         $metadata_5->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
-        $metadata_5->datePublished = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_5->dateUpdated = '2008-10-14T00:00:00';
 
         $metadata_6 = new RecordMetadata();
 
         $metadata_6->cveId = 'CVE-04-12';
         $metadata_6->state = 'PUBLISHED';
         $metadata_6->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
-        $metadata_6->dateReserved = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_6->datePublished = '2025-03-19T18:41:32.004Z';
 
         $metadata_7 = new RecordMetadata();
 
         $metadata_7->cveId = 'CVE-04-12';
-        $metadata_7->state = 'REJECTED';
+        $metadata_7->state = 'PUBLISHED';
         $metadata_7->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
-        $metadata_7->dateRejected = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_7->datePublished = '2008-10-14T00:00:00';
+
+        $metadata_8 = new RecordMetadata();
+
+        $metadata_8->cveId = 'CVE-04-12';
+        $metadata_8->state = 'PUBLISHED';
+        $metadata_8->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
+        $metadata_8->dateReserved = '2025-03-19T18:41:32.004Z';
+
+        $metadata_9 = new RecordMetadata();
+
+        $metadata_9->cveId = 'CVE-04-12';
+        $metadata_9->state = 'PUBLISHED';
+        $metadata_9->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
+        $metadata_9->dateReserved = '2008-10-14T00:00:00';
+
+        $metadata_10 = new RecordMetadata();
+
+        $metadata_10->cveId = 'CVE-04-12';
+        $metadata_10->state = 'REJECTED';
+        $metadata_10->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
+        $metadata_10->dateRejected = '2025-03-19T18:41:32.004Z';
+
+        $metadata_11 = new RecordMetadata();
+
+        $metadata_11->cveId = 'CVE-04-12';
+        $metadata_11->state = 'REJECTED';
+        $metadata_11->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
+        $metadata_11->dateRejected = '2008-10-14T00:00:00';
 
         return [
             $metadata_0,
@@ -76,9 +107,16 @@ final class RecordMetadataProvider
             $metadata_5,
             $metadata_6,
             $metadata_7,
+            $metadata_8,
+            $metadata_9,
+            $metadata_10,
+            $metadata_11,
         ];
     }
 
+    /**
+     * @return RecordMetadata[]
+     */
     public static function provideInvalid(): array
     {
         $metadata_0 = new RecordMetadata();

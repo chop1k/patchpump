@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\TaxonomyRelation;
 
 final class TaxonomyRelationProvider
 {
+    /**
+     * @return TaxonomyRelation[]
+     */
     public static function provideValid(): array
     {
         $relation_0 = new TaxonomyRelation();
@@ -21,6 +24,9 @@ final class TaxonomyRelationProvider
         ];
     }
 
+    /**
+     * @return TaxonomyRelation[]
+     */
     public static function provideInvalid(): array
     {
         $relation_0 = new TaxonomyRelation();

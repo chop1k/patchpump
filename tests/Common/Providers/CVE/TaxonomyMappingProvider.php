@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\TaxonomyMapping;
 
 final class TaxonomyMappingProvider
 {
+    /**
+     * @return TaxonomyMapping[]
+     */
     public static function provideValid(): array
     {
         $mapping_0 = new TaxonomyMapping();
@@ -27,6 +30,9 @@ final class TaxonomyMappingProvider
         ];
     }
 
+    /**
+     * @return TaxonomyMapping[]
+     */
     public static function provideInvalid(): array
     {
         $mapping_0 = new TaxonomyMapping();

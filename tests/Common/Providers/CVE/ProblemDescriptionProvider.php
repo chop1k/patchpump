@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\ProblemDescription;
 
 final class ProblemDescriptionProvider
 {
+    /**
+     * @return ProblemDescription[]
+     */
     public static function provideValid(): array
     {
         $description_0 = new ProblemDescription();
@@ -48,6 +51,9 @@ final class ProblemDescriptionProvider
         ];
     }
 
+    /**
+     * @return ProblemDescription[]
+     */
     public static function provideInvalid(): array
     {
         $description_0 = new ProblemDescription();

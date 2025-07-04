@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests\Common\Providers\CVE;
 
 use App\Domain\CVE\Schema\CVSS31;
@@ -8,6 +10,9 @@ class CVSS31Provider
 {
     public const VECTOR = 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L';
 
+    /**
+     * @return CVSS31[]
+     */
     public static function provideValid(): array
     {
         $cvss_0 = new CVSS31();
@@ -309,6 +314,9 @@ class CVSS31Provider
         ];
     }
 
+    /**
+     * @return CVSS31[]
+     */
     public static function provideInvalid(): array
     {
         $cvss_0 = new CVSS31();

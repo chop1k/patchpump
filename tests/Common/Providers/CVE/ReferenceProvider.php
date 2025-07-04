@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Reference;
 
 final class ReferenceProvider
 {
+    /**
+     * @return Reference[]
+     */
     public static function provideValid(): array
     {
         $reference_0 = new Reference();
@@ -41,6 +44,9 @@ final class ReferenceProvider
         ];
     }
 
+    /**
+     * @return Reference[]
+     */
     public static function provideInvalid(): array
     {
         $reference_0 = new Reference();

@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\MetricScenario;
 
 final class MetricScenarioProvider
 {
+    /**
+     * @return MetricScenario[]
+     */
     public static function provideValid(): array
     {
         $scenario_0 = new MetricScenario();
@@ -20,6 +23,9 @@ final class MetricScenarioProvider
         ];
     }
 
+    /**
+     * @return MetricScenario[]
+     */
     public static function provideInvalid(): array
     {
         $scenario_0 = new MetricScenario();

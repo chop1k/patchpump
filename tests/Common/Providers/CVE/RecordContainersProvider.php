@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\RecordContainers;
 
 final class RecordContainersProvider
 {
+    /**
+     * @return RecordContainers[]
+     */
     public static function provideValid(): array
     {
         $containers_0 = new RecordContainers();
@@ -19,6 +22,9 @@ final class RecordContainersProvider
         ];
     }
 
+    /**
+     * @return RecordContainers[]
+     */
     public static function provideInvalid(): array
     {
         $containers_0 = new RecordContainers();

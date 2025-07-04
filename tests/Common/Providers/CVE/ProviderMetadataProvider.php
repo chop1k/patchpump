@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Common\Providers\CVE;
 
 use App\Domain\CVE\Schema\ProviderMetadata;
-use Carbon\Carbon;
-use DateTimeInterface;
 
 final class ProviderMetadataProvider
 {
+    /**
+     * @return ProviderMetadata[]
+     */
     public static function provideValid(): array
     {
         $metadata_0 = new ProviderMetadata();
@@ -24,15 +25,24 @@ final class ProviderMetadataProvider
         $metadata_2 = new ProviderMetadata();
 
         $metadata_2->orgId = '9162aa6e-691a-47b8-8d1b-833f199741d2';
-        $metadata_2->dateUpdated = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_2->dateUpdated = '2025-03-19T18:41:32.004Z';
+
+        $metadata_3 = new ProviderMetadata();
+
+        $metadata_3->orgId = '9162aa6e-691a-47b8-8d1b-833f199741d2';
+        $metadata_3->dateUpdated = '2008-10-14T00:00:00';
 
         return [
             $metadata_0,
             $metadata_1,
             $metadata_2,
+            $metadata_3,
         ];
     }
 
+    /**
+     * @return ProviderMetadata[]
+     */
     public static function provideInvalid(): array
     {
         $metadata_0 = new ProviderMetadata();

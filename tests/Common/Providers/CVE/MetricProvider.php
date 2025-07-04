@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Metric;
 
 final class MetricProvider
 {
+    /**
+     * @return Metric[]
+     */
     public static function provideValid(): array
     {
         $metric_0 = new Metric();
@@ -46,6 +49,9 @@ final class MetricProvider
         ];
     }
 
+    /**
+     * @return Metric[]
+     */
     public static function provideInvalid(): array
     {
         $metric_0 = new Metric();

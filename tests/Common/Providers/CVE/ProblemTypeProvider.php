@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\ProblemType;
 
 final class ProblemTypeProvider
 {
+    /**
+     * @return ProblemType[]
+     */
     public static function provideValid(): array
     {
         $type_0 = new ProblemType();
@@ -19,6 +22,9 @@ final class ProblemTypeProvider
         ];
     }
 
+    /**
+     * @return ProblemType[]
+     */
     public static function provideInvalid(): array
     {
         $type_0 = new ProblemType();

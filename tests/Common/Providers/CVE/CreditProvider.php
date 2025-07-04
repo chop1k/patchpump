@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema\Credit;
 
 final class CreditProvider
 {
+    /**
+     * @return Credit[]
+     */
     public static function provideValid(): array
     {
         $credit_0 = new Credit();
@@ -34,6 +37,9 @@ final class CreditProvider
         ];
     }
 
+    /**
+     * @return Credit[]
+     */
     public static function provideInvalid(): array
     {
         $credit_0 = new Credit();
