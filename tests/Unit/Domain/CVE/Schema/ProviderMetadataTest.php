@@ -4,63 +4,31 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Domain\CVE\Schema\ProviderMetadata;
 use App\Tests\Common\Providers\CVE\ProviderMetadataProvider;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ValidatorBuilder;
+use App\Tests\Common\SchemaTest;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-class ProviderMetadataTest extends TestCase
+final class ProviderMetadataTest extends SchemaTest
 {
-    private ?ValidatorInterface $validator = null;
-
-    protected function setUp(): void
+    #[DataProvider('provideValidRules')]
+    public function testValidRules(object $value): void
     {
-        $builder = new ValidatorBuilder();
-
-        $builder->enableAttributeMapping();
-
-        $this->validator = $builder->getValidator();
+        parent::testValidRules($value);
     }
 
-    protected function tearDown(): void
+    #[DataProvider('provideInvalidRules')]
+    public function testInvalidRules(object $value): void
     {
-        $this->validator = null;
-    }
-
-    /**
-     * @dataProvider provideValidRules
-     */
-    public function testValidRules(ProviderMetadata $metadata): void
-    {
-        $errors = $this->validator->validate($metadata);
-
-        self::assertCount(0, $errors, $errors->__toString());
-    }
-
-    /**
-     * @dataProvider provideInvalidRules
-     */
-    public function testInvalidRules(ProviderMetadata $metadata): void
-    {
-        $errors = $this->validator->validate($metadata);
-
-        self::assertNotCount(0, $errors, $errors->__toString());
+        parent::testInvalidRules($value);
     }
 
     public static function provideValidRules(): iterable
     {
-        return array_map(
-            static fn (ProviderMetadata $metadata) => [$metadata],
-            ProviderMetadataProvider::provideValid(),
-        );
+        return parent::mapRules(ProviderMetadataProvider::provideValid());
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return array_map(
-            static fn (ProviderMetadata $metadata) => [$metadata],
-            ProviderMetadataProvider::provideInvalid(),
-        );
+        return parent::mapRules(ProviderMetadataProvider::provideInvalid());
     }
 }

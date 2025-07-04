@@ -4,63 +4,31 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Domain\CVE\Schema\TaxonomyRelation;
 use App\Tests\Common\Providers\CVE\TaxonomyRelationProvider;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ValidatorBuilder;
+use App\Tests\Common\SchemaTest;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-class TaxonomyRelationTest extends TestCase
+final class TaxonomyRelationTest extends SchemaTest
 {
-    private ?ValidatorInterface $validator = null;
-
-    protected function setUp(): void
+    #[DataProvider('provideValidRules')]
+    public function testValidRules(object $value): void
     {
-        $builder = new ValidatorBuilder();
-
-        $builder->enableAttributeMapping();
-
-        $this->validator = $builder->getValidator();
+        parent::testValidRules($value);
     }
 
-    protected function tearDown(): void
+    #[DataProvider('provideInvalidRules')]
+    public function testInvalidRules(object $value): void
     {
-        $this->validator = null;
-    }
-
-    /**
-     * @dataProvider provideValidRules
-     */
-    public function testValidRules(TaxonomyRelation $relation): void
-    {
-        $errors = $this->validator->validate($relation);
-
-        self::assertCount(0, $errors, $errors->__toString());
-    }
-
-    /**
-     * @dataProvider provideInvalidRules
-     */
-    public function testInvalidRules(TaxonomyRelation $relation): void
-    {
-        $errors = $this->validator->validate($relation);
-
-        self::assertNotCount(0, $errors, $errors->__toString());
+        parent::testInvalidRules($value);
     }
 
     public static function provideValidRules(): iterable
     {
-        return array_map(
-            static fn (TaxonomyRelation $relation) => [$relation],
-            TaxonomyRelationProvider::provideValid(),
-        );
+        return parent::mapRules(TaxonomyRelationProvider::provideValid());
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return array_map(
-            static fn (TaxonomyRelation $relation) => [$relation],
-            TaxonomyRelationProvider::provideInvalid(),
-        );
+        return parent::mapRules(TaxonomyRelationProvider::provideInvalid());
     }
 }
