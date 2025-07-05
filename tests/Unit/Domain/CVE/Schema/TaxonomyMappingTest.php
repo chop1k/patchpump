@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\CVE\TaxonomyMappingProvider;
+use App\Tests\Common\Providers\Domain\CVE\Schema\TaxonomyMappingProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 

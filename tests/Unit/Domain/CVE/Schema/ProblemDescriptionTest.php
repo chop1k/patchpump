@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\CVE\ProblemDescriptionProvider;
+use App\Tests\Common\Providers\Domain\CVE\Schema\ProblemDescriptionProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
