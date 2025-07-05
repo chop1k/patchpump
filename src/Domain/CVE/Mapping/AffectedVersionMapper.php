@@ -11,26 +11,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class AffectedVersionMapper
 {
-    public static function mapSchemaToPersistence(?Schema\AffectedVersion $schema): ?Persistence\AffectedVersion
+    public static function mapSchemaToPersistence(Schema\AffectedVersion $schema): Persistence\AffectedVersion
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\AffectedVersion();
 
         $persistence->setVersion($schema->version);
         $persistence->setType($schema->versionType);
 
-        if (strtolower($schema->status) === 'unknown') {
+        if (strtolower($schema->status ?? '') === 'unknown') {
             $persistence->setStatus(AffectionStatus::Unknown);
         }
 
-        if (strtolower($schema->status) === 'affected') {
+        if (strtolower($schema->status ?? '') === 'affected') {
             $persistence->setStatus(AffectionStatus::Affected);
         }
 
-        if (strtolower($schema->status) === 'unaffected') {
+        if (strtolower($schema->status ?? '') === 'unaffected') {
             $persistence->setStatus(AffectionStatus::Unaffected);
         }
 
@@ -38,9 +34,14 @@ final class AffectedVersionMapper
         $persistence->setLessThanOrEqual($schema->lessThanOrEqual);
 
         if ($schema->changes !== null) {
+            $filtered = array_filter(
+                $schema->changes,
+                static fn (mixed $change) => is_object($change) && get_class($change) === Schema\AffectedVersionChange::class,
+            );
+
             $persistence->setChanges(
                 new ArrayCollection(
-                    array_map(AffectedVersionChangeMapper::mapSchemaToPersistence(...), $schema->changes),
+                    array_map(AffectedVersionChangeMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

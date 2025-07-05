@@ -26,29 +26,42 @@ final class RecordMapper
 
         $persistence->setId($schema->cveMetadata?->cveId);
 
-        $persistence->setMetadata(
-            RecordMetadataMapper::mapSchemaToPersistenceMetadata($schema->cveMetadata),
-        );
-        $persistence->setAssigner(
-            RecordMetadataMapper::mapSchemaToPersistenceAssigner($schema->cveMetadata),
-        );
-
-        if ($persistence->getMetadata()?->getState() === RecordState::Published) {
-            $persistence->setPublishedCNA(
-                RecordContainersMapper::mapSchemaCNAToPersistencePublished($schema->containers?->cna),
+        if ($schema->cveMetadata !== null) {
+            $persistence->setMetadata(
+                RecordMetadataMapper::mapSchemaToPersistenceMetadata($schema->cveMetadata),
+            );
+            $persistence->setAssigner(
+                RecordMetadataMapper::mapSchemaToPersistenceAssigner($schema->cveMetadata),
             );
         }
 
-        if ($persistence->getMetadata()?->getState() === RecordState::Rejected) {
-            $persistence->setRejectedCNA(
-                RecordContainersMapper::mapSchemaCNAToPersistenceRejected($schema->containers?->cna),
-            );
+        if ($schema->containers === null) {
+            return $persistence;
         }
 
-        if ($schema->containers?->adp !== null) {
+        if ($schema->containers->cna !== null) {
+            if ($persistence->getMetadata()?->getState() === RecordState::Published) {
+                $persistence->setPublishedCNA(
+                    RecordContainersMapper::mapSchemaCNAToPersistencePublished($schema->containers->cna),
+                );
+            }
+
+            if ($persistence->getMetadata()?->getState() === RecordState::Rejected) {
+                $persistence->setRejectedCNA(
+                    RecordContainersMapper::mapSchemaCNAToPersistenceRejected($schema->containers->cna),
+                );
+            }
+        }
+
+        if ($schema->containers->adp !== null) {
+            $filtered = array_filter(
+                $schema->containers->adp,
+                static fn (mixed $adp) => is_object($adp) && get_class($adp) === Schema\CNA::class,
+            );
+
             $persistence->setAdp(
                 new ArrayCollection(
-                    array_map(RecordContainersMapper::mapSchemaADPToPersistence(...), $schema->containers?->adp)
+                    array_map(RecordContainersMapper::mapSchemaADPToPersistence(...), $filtered),
                 ),
             );
         }

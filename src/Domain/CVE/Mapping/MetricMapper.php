@@ -10,12 +10,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class MetricMapper
 {
-    public static function mapSchemaToPersistence(?Schema\Metric $schema): ?Persistence\Metric
+    public static function mapSchemaToPersistence(Schema\Metric $schema): Persistence\Metric
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\Metric();
 
         $cvss = [];
@@ -42,14 +38,21 @@ final class MetricMapper
             unset($cvss);
         }
 
-        $persistence->setOther(
-            MetricOtherMapper::mapSchemaToPersistence($schema->other),
-        );
+        if ($schema->other !== null) {
+            $persistence->setOther(
+                MetricOtherMapper::mapSchemaToPersistence($schema->other),
+            );
+        }
 
         if ($schema->scenarios !== null) {
+            $filtered = array_filter(
+                $schema->scenarios,
+                static fn (mixed $scenario) => is_object($scenario) && get_class($scenario) === Schema\MetricScenario::class,
+            );
+
             $persistence->setScenarios(
                 new ArrayCollection(
-                    array_map(MetricScenarioMapper::mapSchemaToPersistence(...), $schema->scenarios),
+                    array_map(MetricScenarioMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

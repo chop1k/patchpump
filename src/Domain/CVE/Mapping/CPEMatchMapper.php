@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class CPEMatchMapper
 {
-    public static function mapSchemaToPersistence(?Schema\CPEMatch $schema): ?Persistence\CPEMatch
+    public static function mapSchemaToPersistence(Schema\CPEMatch $schema): Persistence\CPEMatch
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\CPEMatch();
 
         $persistence->setVulnerable($schema->vulnerable);

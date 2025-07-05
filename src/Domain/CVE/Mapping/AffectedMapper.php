@@ -6,16 +6,13 @@ namespace App\Domain\CVE\Mapping;
 
 use App\Domain\CVE\Schema as Schema;
 use App\Persistence\Document\CVE as Persistence;
+use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final class AffectedMapper
 {
-    public static function mapSchemaToPersistence(?Schema\Affected $schema): ?Persistence\Affected
+    public static function mapSchemaToPersistence(Schema\Affected $schema): Persistence\Affected
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\Affected();
 
         if ($schema->vendor !== null && $schema->product !== null) {
@@ -50,10 +47,27 @@ final class AffectedMapper
         $persistence->setCpe($schema->cpes);
         $persistence->setPlatforms($schema->platforms);
 
+        if ($schema->defaultStatus !== null) {
+            if (strtolower($schema->defaultStatus) === 'affected') {
+                $persistence->setVersions(AffectionStatus::Affected);
+            }
+            if (strtolower($schema->defaultStatus) === 'unaffected') {
+                $persistence->setVersions(AffectionStatus::Unaffected);
+            }
+            if (strtolower($schema->defaultStatus) === 'unknown') {
+                $persistence->setVersions(AffectionStatus::Unknown);
+            }
+        }
+
         if ($schema->versions !== null) {
+            $filtered = array_filter(
+                $schema->versions,
+                static fn (mixed $change) => is_object($change) && get_class($change) === Schema\AffectedVersion::class,
+            );
+
             $persistence->setVersions(
                 new ArrayCollection(
-                    array_map(AffectedVersionMapper::mapSchemaToPersistence(...), $schema->versions)
+                    array_map(AffectedVersionMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

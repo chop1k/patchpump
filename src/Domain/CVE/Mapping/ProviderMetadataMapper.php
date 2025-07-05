@@ -10,12 +10,8 @@ use Carbon\Carbon;
 
 final class ProviderMetadataMapper
 {
-    public static function mapSchemaToPersistence(?Schema\ProviderMetadata $schema): ?Persistence\ContainerProvider
+    public static function mapSchemaToPersistence(Schema\ProviderMetadata $schema): Persistence\ContainerProvider
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\ContainerProvider();
 
         $persistence->setOrgId($schema->orgId);
@@ -38,7 +34,7 @@ final class ProviderMetadataMapper
         return $persistence;
     }
 
-    public static function mapPersistenceToSchema(?Persistence\ContainerProvider $persistence): ?Schema\ProviderMetadata
+    public static function mapPersistenceToSchema(Persistence\ContainerProvider $persistence): Schema\ProviderMetadata
     {
     }
 }

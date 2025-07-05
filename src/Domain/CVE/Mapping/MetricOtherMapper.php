@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class MetricOtherMapper
 {
-    public static function mapSchemaToPersistence(?Schema\Other $schema): ?Persistence\MetricOther
+    public static function mapSchemaToPersistence(Schema\Other $schema): Persistence\MetricOther
     {
-        if ($schema === null) {
-            return null;
-        }
-
         $persistence = new Persistence\MetricOther();
 
         $persistence->setType($schema->type);

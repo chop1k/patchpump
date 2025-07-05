@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class MetricScenarioMapper
 {
-    public static function mapSchemaToPersistence(?Schema\MetricScenario $schema): ?Persistence\MetricScenario
+    public static function mapSchemaToPersistence(Schema\MetricScenario $schema): Persistence\MetricScenario
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\MetricScenario();
 
         $persistence->setLanguage($schema->lang);

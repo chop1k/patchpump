@@ -12,19 +12,15 @@ use DateTimeInterface;
 
 final class RecordMetadataMapper
 {
-    public static function mapSchemaToPersistenceMetadata(?Schema\RecordMetadata $schema): ?Persistence\RecordMetadata
+    public static function mapSchemaToPersistenceMetadata(Schema\RecordMetadata $schema): Persistence\RecordMetadata
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\RecordMetadata();
 
-        if (strtolower($schema->state) === 'published') {
+        if (strtolower($schema->state ?? '') === 'published') {
             $persistence->setState(RecordState::Published);
         }
 
-        if (strtolower($schema->state) === 'rejected') {
+        if (strtolower($schema->state ?? '') === 'rejected') {
             $persistence->setState(RecordState::Rejected);
         }
 
@@ -82,12 +78,8 @@ final class RecordMetadataMapper
         return $persistence;
     }
 
-    public static function mapSchemaToPersistenceAssigner(?Schema\RecordMetadata $schema): ?Persistence\RecordAssigner
+    public static function mapSchemaToPersistenceAssigner(Schema\RecordMetadata $schema): Persistence\RecordAssigner
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\RecordAssigner();
 
         $persistence->setOrgId($schema->assignerOrgId);

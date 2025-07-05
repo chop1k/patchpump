@@ -10,17 +10,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class ProblemMapper
 {
-    public static function mapSchemaToPersistence(?Schema\ProblemType $schema): ?array
+    public static function mapSchemaToPersistence(Schema\ProblemType $schema): array
     {
-        if (null === $schema) {
-            return null;
-        }
+        $filtered = array_filter(
+            $schema->descriptions ?? [],
+            static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\ProblemDescription::class,
+        );
 
-        if ($schema->descriptions === null) {
-            return null;
-        }
-
-        return array_map(function (Schema\ProblemDescription $problem) {
+        return array_map(static function (Schema\ProblemDescription $problem) {
             $persistence = new Persistence\Problem();
 
             $persistence->setLanguage($problem->lang);
@@ -29,14 +26,19 @@ final class ProblemMapper
             $persistence->setCwe($problem->cweId);
 
             if ($problem->references !== null) {
+                $filtered = array_filter(
+                    $problem->references,
+                    static fn (mixed $ref) => is_object($ref) && get_class($ref) === Schema\Reference::class,
+                );
+
                 $persistence->setReferences(
                     new ArrayCollection(
-                        array_map(ReferenceMapper::mapSchemaToPersistence(...), $problem->references),
+                        array_map(ReferenceMapper::mapSchemaToPersistence(...), $filtered),
                     ),
                 );
             }
 
             return $persistence;
-        }, $schema->descriptions);
+        }, $filtered);
     }
 }

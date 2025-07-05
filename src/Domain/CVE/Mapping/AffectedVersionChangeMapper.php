@@ -10,25 +10,21 @@ use App\Persistence\Enum\CVE\AffectionStatus;
 
 final class AffectedVersionChangeMapper
 {
-    public static function mapSchemaToPersistence(?Schema\AffectedVersionChange $schema): ?Persistence\AffectedVersionChange
+    public static function mapSchemaToPersistence(Schema\AffectedVersionChange $schema): Persistence\AffectedVersionChange
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\AffectedVersionChange();
 
         $persistence->setAt($schema->at);
 
-        if (strtolower($schema->status) === 'unknown') {
+        if (strtolower($schema->status ?? '') === 'unknown') {
             $persistence->setStatus(AffectionStatus::Unknown);
         }
 
-        if (strtolower($schema->status) === 'affected') {
+        if (strtolower($schema->status ?? '') === 'affected') {
             $persistence->setStatus(AffectionStatus::Affected);
         }
 
-        if (strtolower($schema->status) === 'unaffected') {
+        if (strtolower($schema->status ?? '') === 'unaffected') {
             $persistence->setStatus(AffectionStatus::Unaffected);
         }
 

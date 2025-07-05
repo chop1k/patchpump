@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class TaxonomyRelationMapper
 {
-    public static function mapSchemaToPersistence(?Schema\TaxonomyRelation $schema): ?Persistence\TaxonomyRelation
+    public static function mapSchemaToPersistence(Schema\TaxonomyRelation $schema): Persistence\TaxonomyRelation
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\TaxonomyRelation();
 
         $persistence->setId($schema->taxonomyId);

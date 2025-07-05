@@ -11,28 +11,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class CPEApplicabilityMapper
 {
-    public static function mapSchemaToPersistence(?Schema\CPEApplicability $schema): ?Persistence\CPEApplicability
+    public static function mapSchemaToPersistence(Schema\CPEApplicability $schema): Persistence\CPEApplicability
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\CPEApplicability();
 
-        if (strtolower($schema->operator) === 'and') {
+        if (strtolower($schema->operator ?? '') === 'and') {
             $persistence->setOperator(ApplicabilityOperator::And);
         }
 
-        if (strtolower($schema->operator) === 'or') {
+        if (strtolower($schema->operator ?? '') === 'or') {
             $persistence->setOperator(ApplicabilityOperator::Or);
         }
 
         $persistence->setNegate($schema->negate);
 
         if ($schema->nodes !== null) {
+            $filtered = array_filter(
+                $schema->nodes,
+                static fn (mixed $node) => is_object($node) && get_class($node) === Schema\CPENode::class,
+            );
+
             $persistence->setNodes(
                 new ArrayCollection(
-                    array_map(CPENodeMapper::mapSchemaToPersistence(...), $schema->nodes),
+                    array_map(CPENodeMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

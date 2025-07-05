@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class DescriptionMediaMapper
 {
-    public static function mapSchemaToPersistence(?Schema\DescriptionMedia $schema): ?Persistence\DescriptionMedia
+    public static function mapSchemaToPersistence(Schema\DescriptionMedia $schema): Persistence\DescriptionMedia
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\DescriptionMedia();
 
         $persistence->setType($schema->type);

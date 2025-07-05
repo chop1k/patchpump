@@ -9,12 +9,8 @@ use App\Persistence\Document\CVE as Persistence;
 
 final class ReferenceMapper
 {
-    public static function mapSchemaToPersistence(?Schema\Reference $schema): ?Persistence\Reference
+    public static function mapSchemaToPersistence(Schema\Reference $schema): Persistence\Reference
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\Reference();
 
         $persistence->setName($schema->name);

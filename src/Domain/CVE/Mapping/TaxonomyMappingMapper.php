@@ -10,21 +10,22 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class TaxonomyMappingMapper
 {
-    public static function mapSchemaToPersistence(?Schema\TaxonomyMapping $schema): ?Persistence\TaxonomyMapping
+    public static function mapSchemaToPersistence(Schema\TaxonomyMapping $schema): Persistence\TaxonomyMapping
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\TaxonomyMapping();
 
         $persistence->setVersion($schema->taxonomyVersion);
         $persistence->setName($schema->taxonomyName);
 
         if ($schema->taxonomyRelations !== null) {
+            $filtered = array_filter(
+                $schema->taxonomyRelations,
+                static fn (mixed $rel) => is_object($rel) && get_class($rel) === Schema\TaxonomyRelation::class,
+            );
+
             $persistence->setRelations(
                 new ArrayCollection(
-                    array_map(TaxonomyRelationMapper::mapSchemaToPersistence(...), $schema->taxonomyRelations),
+                    array_map(TaxonomyRelationMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

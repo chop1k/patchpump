@@ -15,24 +15,34 @@ final class RecordContainersMapper
     {
     }
 
-    public static function mapSchemaCNAToPersistenceRejected(?Schema\CNA $schema): ?Persistence\RejectedCNA
+    public static function mapSchemaCNAToPersistenceRejected(Schema\CNA $schema): Persistence\RejectedCNA
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\RejectedCNA();
 
-        $persistence->setProvider(
-            ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
-        );
+        if ($schema->providerMetadata !== null) {
+            $persistence->setProvider(
+                ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
+            );
+        }
 
-        $persistence->setReplacedBy($schema->replacedBy);
+        if ($schema->replacedBy !== null) {
+            $filtered = array_filter(
+                $schema->replacedBy,
+                static fn (mixed $replaced) => is_string($replaced),
+            );
+
+            $persistence->setReplacedBy($filtered);
+        }
 
         if ($schema->rejectedReasons !== null) {
+            $filtered = array_filter(
+                $schema->rejectedReasons,
+                static fn (mixed $reason) => is_object($reason) && get_class($reason) === Schema\Description::class,
+            );
+
             $persistence->setReasons(
                 new ArrayCollection(
-                    array_map(DescriptionMapper::mapSchemaPlainToPersistence(...), $schema->rejectedReasons),
+                    array_map(DescriptionMapper::mapSchemaPlainToPersistence(...), $filtered),
                 ),
             );
         }
@@ -40,20 +50,83 @@ final class RecordContainersMapper
         return $persistence;
     }
 
-    private static function mapSchemaCommonCNAToPersistence(Persistence\PublishedCNA|Persistence\ADP $persistence, ?Schema\CNA $schema): Persistence\PublishedCNA|Persistence\ADP
+    /**
+     * @param Persistence\PublishedCNA|Persistence\ADP $persistence
+     * @param Schema\CNA $schema
+     *
+     * @return Persistence\PublishedCNA|Persistence\ADP
+     */
+    private static function mapSchemaCommonCNAToPersistence(mixed $persistence, Schema\CNA $schema): mixed
     {
         $persistence->setTitle($schema->title);
-        $persistence->setProvider(
-            ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
-        );
 
-        $descriptions = array_merge(
-            array_map(DescriptionMapper::mapSchemaPlainToPersistence(...), $schema->descriptions ?? []),
-            array_map(DescriptionMapper::mapSchemaConfigurationToPersistence(...), $schema->configurations ?? []),
-            array_map(DescriptionMapper::mapSchemaWorkaroundToPersistence(...), $schema->workarounds ?? []),
-            array_map(DescriptionMapper::mapSchemaSolutionToPersistence(...), $schema->solutions ?? []),
-            array_map(DescriptionMapper::mapSchemaExploitToPersistence(...), $schema->exploits ?? []),
-        );
+        if ($schema->providerMetadata!== null) {
+            $persistence->setProvider(
+                ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
+            );
+        }
+
+        $descriptions = [];
+
+        if ($schema->descriptions !== null) {
+            $filtered = array_filter(
+                $schema->descriptions,
+                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+            );
+
+            $descriptions = array_merge(
+                $descriptions,
+                array_map(DescriptionMapper::mapSchemaPlainToPersistence(...), $filtered)
+            );
+        }
+
+        if ($schema->configurations !== null) {
+            $filtered = array_filter(
+                $schema->configurations,
+                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+            );
+
+            $descriptions = array_merge(
+                $descriptions,
+                array_map(DescriptionMapper::mapSchemaConfigurationToPersistence(...), $filtered)
+            );
+        }
+
+        if ($schema->workarounds !== null) {
+            $filtered = array_filter(
+                $schema->workarounds,
+                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+            );
+
+            $descriptions = array_merge(
+                $descriptions,
+                array_map(DescriptionMapper::mapSchemaWorkaroundToPersistence(...), $filtered)
+            );
+        }
+
+        if ($schema->solutions !== null) {
+            $filtered = array_filter(
+                $schema->solutions,
+                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+            );
+
+            $descriptions = array_merge(
+                $descriptions,
+                array_map(DescriptionMapper::mapSchemaSolutionToPersistence(...), $filtered)
+            );
+        }
+
+        if ($schema->exploits !== null) {
+            $filtered = array_filter(
+                $schema->exploits,
+                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+            );
+
+            $descriptions = array_merge(
+                $descriptions,
+                array_map(DescriptionMapper::mapSchemaExploitToPersistence(...), $filtered)
+            );
+        }
 
         if (count($descriptions) > 0) {
             $persistence->setDescriptions(
@@ -64,23 +137,38 @@ final class RecordContainersMapper
         }
 
         if ($schema->affected !== null) {
+            $filtered = array_filter(
+                $schema->affected,
+                static fn (mixed $affected) => is_object($affected) && get_class($affected) === Schema\Affected::class,
+            );
+
             $persistence->setAffected(
                 new ArrayCollection(
-                    array_map(AffectedMapper::mapSchemaToPersistence(...), $schema->affected),
+                    array_map(AffectedMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
 
         if ($schema->cpeApplicability !== null) {
+            $filtered = array_filter(
+                $schema->cpeApplicability,
+                static fn (mixed $cpe) => is_object($cpe) && get_class($cpe) === Schema\CPEApplicability::class,
+            );
+
             $persistence->setCpeApplicability(
                 new ArrayCollection(
-                    array_map(CPEApplicabilityMapper::mapSchemaToPersistence(...), $schema->cpeApplicability),
+                    array_map(CPEApplicabilityMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
 
         if ($schema->problemTypes !== null) {
-            $problems = array_map(ProblemMapper::mapSchemaToPersistence(...), $schema->problemTypes);
+            $filtered = array_filter(
+                $schema->problemTypes,
+                static fn (mixed $cpe) => is_object($cpe) && get_class($cpe) === Schema\ProblemType::class,
+            );
+
+            $problems = array_map(ProblemMapper::mapSchemaToPersistence(...), $filtered);
 
             $persistence->setProblems(
                 new ArrayCollection(
@@ -99,33 +187,53 @@ final class RecordContainersMapper
         }
 
         if ($schema->references !== null) {
+            $filtered = array_filter(
+                $schema->references,
+                static fn (mixed $ref) => is_object($ref) && get_class($ref) === Schema\Reference::class,
+            );
+
             $persistence->setReferences(
                 new ArrayCollection(
-                    array_map(ReferenceMapper::mapSchemaToPersistence(...), $schema->references),
+                    array_map(ReferenceMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
 
         if ($schema->metrics !== null) {
+            $filtered = array_filter(
+                $schema->metrics,
+                static fn (mixed $metric) => is_object($metric) && get_class($metric) === Schema\Metric::class,
+            );
+
             $persistence->setMetrics(
                 new ArrayCollection(
-                    array_map(MetricMapper::mapSchemaToPersistence(...), $schema->metrics),
+                    array_map(MetricMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
 
         if ($schema->timeline !== null) {
+            $filtered = array_filter(
+                $schema->timeline,
+                static fn (mixed $timeline) => is_object($timeline) && get_class($timeline) === Schema\Timeline::class,
+            );
+
             $persistence->setTimeline(
                 new ArrayCollection(
-                    array_map(TimelineMapper::mapSchemaToPersistence(...), $schema->timeline),
+                    array_map(TimelineMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
 
         if ($schema->credits !== null) {
+            $filtered = array_filter(
+                $schema->credits,
+                static fn (mixed $credit) => is_object($credit) && get_class($credit) === Schema\Credit::class,
+            );
+
             $persistence->setCredits(
                 new ArrayCollection(
-                    array_map(CreditMapper::mapSchemaToPersistence(...), $schema->credits),
+                    array_map(CreditMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
@@ -134,9 +242,14 @@ final class RecordContainersMapper
         $persistence->setTags($schema->tags);
 
         if ($schema->taxonomyMappings !== null) {
+            $filtered = array_filter(
+                $schema->taxonomyMappings,
+                static fn (mixed $tax) => is_object($tax) && get_class($tax) === Schema\TaxonomyMapping::class,
+            );
+
             $persistence->setTaxonomyMappings(
                 new ArrayCollection(
-                    array_map(TaxonomyMappingMapper::mapSchemaToPersistence(...), $schema->taxonomyMappings),
+                    array_map(TaxonomyMappingMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }

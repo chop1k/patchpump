@@ -11,28 +11,29 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 final class CPENodeMapper
 {
-    public static function mapSchemaToPersistence(?Schema\CPENode $schema): ?Persistence\CPENode
+    public static function mapSchemaToPersistence(Schema\CPENode $schema): Persistence\CPENode
     {
-        if (null === $schema) {
-            return null;
-        }
-
         $persistence = new Persistence\CPENode();
 
-        if (strtolower($schema->operator) === 'and') {
+        if (strtolower($schema->operator ?? '') === 'and') {
             $persistence->setOperator(ApplicabilityOperator::And);
         }
 
-        if (strtolower($schema->operator) === 'or') {
+        if (strtolower($schema->operator ?? '') === 'or') {
             $persistence->setOperator(ApplicabilityOperator::Or);
         }
 
         $persistence->setNegate($schema->negate);
 
         if ($schema->cpeMatch !== null) {
+            $filtered = array_filter(
+                $schema->cpeMatch,
+                static fn (mixed $change) => is_object($change) && get_class($change) === Schema\CPEMatch::class,
+            );
+
             $persistence->setMatches(
                 new ArrayCollection(
-                    array_map(CPEMatchMapper::mapSchemaToPersistence(...), $schema->cpeMatch),
+                    array_map(CPEMatchMapper::mapSchemaToPersistence(...), $filtered),
                 ),
             );
         }
