@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Persistence\Document\CVE;
 
+use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -32,10 +33,10 @@ class Affected
     private ?array $platforms = null;
 
     /**
-     * @var Collection<AffectedVersion>|string|null
+     * @var Collection<AffectedVersion>|AffectionStatus|null
      */
     #[ODM\EmbedMany]
-    private Collection|string|null $versions = null;
+    private Collection|AffectionStatus|null $versions = null;
 
     public function getProduct(): ?AffectedProduct
     {
@@ -103,12 +104,12 @@ class Affected
         return $this;
     }
 
-    public function getVersions(): Collection|string|null
+    public function getVersions(): Collection|AffectionStatus|null
     {
         return $this->versions;
     }
 
-    public function setVersions(Collection|string|null $versions): self
+    public function setVersions(Collection|AffectionStatus|null $versions): self
     {
         $this->versions = $versions;
 
