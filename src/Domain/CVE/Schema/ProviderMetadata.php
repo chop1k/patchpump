@@ -27,6 +27,9 @@ final class ProviderMetadata
     #[Assert\Length(min: 2, max: 32)]
     public ?string $shortName = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $dateUpdated = null;
 }

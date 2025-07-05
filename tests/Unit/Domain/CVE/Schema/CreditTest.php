@@ -4,63 +4,31 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Domain\CVE\Schema\Credit;
-use App\Tests\Common\Providers\CVE\CreditProvider;
-use PHPUnit\Framework\TestCase;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ValidatorBuilder;
+use App\Tests\Common\Providers\Domain\CVE\Schema\CreditProvider;
+use App\Tests\Common\SchemaTest;
+use PHPUnit\Framework\Attributes\DataProvider;
 
-class CreditTest extends TestCase
+final class CreditTest extends SchemaTest
 {
-    private ?ValidatorInterface $validator = null;
-
-    protected function setUp(): void
+    #[DataProvider('provideValidRules')]
+    public function testValidRules(object $value): void
     {
-        $builder = new ValidatorBuilder();
-
-        $builder->enableAttributeMapping();
-
-        $this->validator = $builder->getValidator();
+        parent::testValidRules($value);
     }
 
-    protected function tearDown(): void
+    #[DataProvider('provideInvalidRules')]
+    public function testInvalidRules(object $value): void
     {
-        $this->validator = null;
-    }
-
-    /**
-     * @dataProvider provideValidRules
-     */
-    public function testValidRules(Credit $credit): void
-    {
-        $errors = $this->validator->validate($credit);
-
-        self::assertCount(0, $errors, $errors->__toString());
-    }
-
-    /**
-     * @dataProvider provideInvalidRules
-     */
-    public function testInvalidRules(Credit $credit): void
-    {
-        $errors = $this->validator->validate($credit);
-
-        self::assertNotCount(0, $errors, $errors->__toString());
+        parent::testInvalidRules($value);
     }
 
     public static function provideValidRules(): iterable
     {
-        return array_map(
-            static fn (Credit $credit) => [$credit],
-            CreditProvider::provideValid(),
-        );
+        return parent::mapRules(CreditProvider::provideValid());
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return array_map(
-            static fn (Credit $credit) => [$credit],
-            CreditProvider::provideInvalid(),
-        );
+        return parent::mapRules(CreditProvider::provideInvalid());
     }
 }

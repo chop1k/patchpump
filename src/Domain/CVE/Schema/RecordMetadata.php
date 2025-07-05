@@ -41,16 +41,28 @@ final class RecordMetadata
     #[Assert\GreaterThanOrEqual(1)]
     public ?int $serial = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $datePublished = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $dateReserved = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $dateUpdated = null;
 
-    #[Assert\DateTime(format: \DateTimeInterface::ISO8601_EXPANDED)]
+    #[Assert\AtLeastOneOf([
+        new Assert\DateTime(format: Timestamp::FormatWithTz),
+        new Assert\DateTime(format: Timestamp::Format),
+    ])]
     public ?string $dateRejected = null;
 
     #[Assert\NotNull]
