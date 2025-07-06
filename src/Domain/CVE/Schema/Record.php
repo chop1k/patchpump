@@ -37,7 +37,7 @@ final class Record
     public ?string $dataType = null;
 
     #[Assert\NotNull]
-    #[Assert\IdenticalTo('5.1.1')]
+    #[Assert\IdenticalTo('5.1')]
     public ?string $dataVersion = null;
 
     #[Assert\NotNull]
