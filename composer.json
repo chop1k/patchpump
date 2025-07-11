@@ -11,7 +11,7 @@
         "api-platform/doctrine-odm": "^4.1.18",
         "api-platform/doctrine-orm": "^4.1.18",
         "api-platform/symfony": "^4.1.18",
-        "doctrine/dbal": "^3.9.5",
+        "doctrine/dbal": "^4.2.4",
         "doctrine/doctrine-bundle": "^2.15.0",
         "doctrine/doctrine-migrations-bundle": "^3.4.2",
         "doctrine/mongodb-odm": ">=2.11.2",
@@ -29,7 +29,7 @@
         "symfony/doctrine-messenger": "7.2.*",
         "symfony/dotenv": "7.2.*",
         "symfony/expression-language": "7.2.*",
-        "symfony/flex": "^2.8.0",
+        "symfony/flex": "^2.8.1",
         "symfony/framework-bundle": "7.2.*",
         "symfony/http-client": "7.2.*",
         "symfony/intl": "7.2.*",
@@ -57,7 +57,7 @@
         "twig/twig": "^2.12|^3.21.1"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.76.0",
+        "friendsofphp/php-cs-fixer": "^3.82.2",
         "phpunit/phpunit": "^12.2.6",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
@@ -102,9 +102,8 @@
         "tests:coverage": "@php bin/phpunit --coverage-text",
         "tests:unit:run": "@php bin/phpunit --testsuite unit",
         "tests:e2e:run": "@php bin/phpunit --testsuite e2e",
-        "code:style:analyze": "@php vendor/bin/php-cs-fixer check src tests",
-        "code:style:fix": "@php vendor/bin/php-cs-fixer fix src tests",
-        "code:style:list": "@php vendor/bin/php-cs-fixer list-files src tests",
+        "code:style:analyze": "@php vendor/bin/php-cs-fixer --config=.php-cs-fixer.php check src tests",
+        "code:style:fix": "@php vendor/bin/php-cs-fixer --config=.php-cs-fixer.php fix src tests",
         "code:analyze": "@php vendor/bin/psalm",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
