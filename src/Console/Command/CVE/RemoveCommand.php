@@ -13,5 +13,4 @@ use Symfony\Component\Console\Command\Command;
 )]
 final class RemoveCommand extends Command
 {
-
 }

@@ -18,7 +18,6 @@ final class AnalyzeCommand extends Command
 {
     protected function configure(): void
     {
-        $this->addOption('format', 'f', InputOption::VALUE_REQUIRED, '', 'console');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

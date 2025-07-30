@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
+use App\Console\Input\CVE\ShowInput;
+use App\Console\Output\CVE\ShowOutput;
 use App\Persistence\Repository\Document\RecordRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'pp:cve:show',
@@ -25,26 +26,38 @@ final class ShowCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
-        $this->addOption('format', 'f', InputOption::VALUE_REQUIRED, '', 'console');
-
-        $this->addArgument('id', InputArgument::REQUIRED);
+        ShowInput::configure($this);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $id = $input->getArgument('id');
+        $io = new SymfonyStyle($input, $output);
+
+        $this->executeShow(
+            new ShowInput($input),
+            new ShowOutput($io)
+        );
+
+        return Command::SUCCESS;
+    }
+
+    protected function executeShow(ShowInput $input, ShowOutput $output): void
+    {
+        $value = $input->value();
 
         $record = (new RecordRepository($this->documentManager))
-            ->findById($id);
+            ->findById($value);
 
-        if ($record === null) {
-            return 1;
+        if (null === $record) {
+            $output->notFound($value);
+
+            return;
         }
 
-        dump($record);
-
-        return 0;
+        $output->recordFound($record);
     }
 }

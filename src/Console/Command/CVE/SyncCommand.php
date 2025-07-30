@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Domain\CVE\Synchronization\RecordComparator\DateRecordComparator;
-use App\Domain\CVE\Synchronization\RecordLocator\ArchiveRecordLocator;
-use App\Domain\CVE\Synchronization\RecordLocator\DirectoryRecordLocator;
-use App\Domain\CVE\Synchronization\RecordLocator\FileRecordLocator;
-use App\Domain\CVE\Synchronization\RecordLocator\GuessRecordLocator;
-use App\Domain\CVE\Synchronization\RecordLocator\RepositoryRecordLocator;
-use App\Domain\CVE\Synchronization\RecordLocator\StdinRecordLocator;
-use App\Domain\CVE\Synchronization\RecordSynchronizer;
+use App\Console\Factory\CVE\Factory;
+use App\Console\Input\CVE\SyncInput;
+use App\Console\Output\CVE\SyncOutput;
+use App\Domain\Vulnerabilities\Synchronization\Process;
+use App\Domain\Vulnerabilities\Synchronization\Result;
+use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -31,59 +29,88 @@ final class SyncCommand extends Command
     public function __construct(
         private readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
+        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly DocumentManager $documentManager,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
-        $this->addOption('from-directory', 'd', InputOption::VALUE_NONE);
-        $this->addOption('from-archive', 'a', InputOption::VALUE_NONE);
-        $this->addOption('from-repository', 'r', InputOption::VALUE_NONE);
-        $this->addOption('from-stdin', 's', InputOption::VALUE_NONE);
-        $this->addOption('from-file', 'f', InputOption::VALUE_NONE);
-
-        $this->addOption('format', 'F', InputOption::VALUE_REQUIRED, '', 'console');
-
-        $this->addArgument('records', InputArgument::OPTIONAL|InputArgument::IS_ARRAY);
+        SyncInput::configure($this);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $fromDirectory = $input->getOption('from-directory') ?? false;
-        $fromArchive = $input->getOption('from-archive') ?? false;
-        $fromRepository = $input->getOption('from-repository') ?? false;
-        $fromStdin = $input->getOption('from-stdin') ?? false;
-        $fromFile = $input->getOption('from-file') ?? false;
+        $io = new SymfonyStyle($input, $output);
 
-        if ($fromDirectory) {
-            $recordLocator = new DirectoryRecordLocator();
-        } else if ($fromArchive) {
-            $recordLocator = new ArchiveRecordLocator();
-        } else if ($fromRepository) {
-            $recordLocator = new RepositoryRecordLocator();
-        } else if ($fromStdin) {
-            $recordLocator = new StdinRecordLocator();
-        } else if ($fromFile) {
-            $recordLocator = new FileRecordLocator();
-        } else {
-            $recordLocator = new GuessRecordLocator();
-        }
+        $this->executeSync(
+            new SyncInput($input),
+            new SyncOutput($io),
+        );
 
-        $recordComparator = new DateRecordComparator();
+        return Command::SUCCESS;
+    }
 
-        (new RecordSynchronizer(
-            $recordLocator,
-            $recordComparator,
+    private function executeSync(SyncInput $input, SyncOutput $output): void
+    {
+        $factory = new Factory(
             $this->serializer,
             $this->validator,
             $this->documentManager,
-        ))->synchronize(
-            $input->getArgument('records'),
+            $input
         );
 
-        return 0;
+        /**
+         * @var Process<Record> $process
+         */
+        $process = new Process(
+            $this->eventDispatcher,
+            $factory->source(),
+            $factory->persistence(),
+            $factory->comparator(),
+            16,
+        );
+
+        $counters = [
+            'created' => 0,
+            'updated' => 0,
+            'nothing' => 0,
+        ];
+
+        /**
+         * По каким-то неведомым мне причинам, IDE считает, что $result является генератором.
+         * Хотя в блоке документации к методу generator() явно указано, что возвращаемый генератор перечисляет экземпляры
+         * класса Result с шаблоном, который должен быть динамически вычислен из аргументов конструктора...
+         *
+         * @var Result<Record> $result
+         */
+        foreach ($process->generator() as $result) {
+            $record = $result->record();
+
+            if ($result->created() === true) {
+                $counters['created']++;
+
+                $output->recordCreated($record);
+
+                continue;
+            }
+
+            if ($result->updated() === true) {
+                $counters['updated']++;
+
+                $output->recordUpdated($record);
+
+                continue;
+            }
+
+            $counters['nothing']++;
+
+            $output->nothingChanged($record);
+        }
+
+        $output->done($counters['updated'], $counters['created'], $counters['nothing']);
     }
 }
