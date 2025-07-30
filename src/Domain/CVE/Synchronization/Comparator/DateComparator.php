@@ -2,25 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\CVE\Synchronization\RecordComparator;
+namespace App\Domain\CVE\Synchronization\Comparator;
 
-use App\Domain\CVE\Synchronization\Contracts\RecordComparatorInterface;
+use App\Domain\Vulnerabilities\Synchronization\Contracts\ComparatorInterface;
 use App\Persistence\Document\CVE\Record;
 use Carbon\Carbon;
 
-final class DateRecordComparator implements RecordComparatorInterface
+/**
+ * @implements ComparatorInterface<Record>
+ */
+final class DateComparator implements ComparatorInterface
 {
-    public function compare(Record $old, Record $new): bool
+    public function newer(mixed $old, mixed $new): bool
     {
         $oldUpdatedAt = $old->getMetadata()?->getUpdatedAt();
 
-        if ($oldUpdatedAt === null) {
+        if (null === $oldUpdatedAt) {
             return true;
         }
 
         $newUpdatedAt = $new->getMetadata()?->getUpdatedAt();
 
-        if ($newUpdatedAt === null) {
+        if (null === $newUpdatedAt) {
             return false;
         }
 
