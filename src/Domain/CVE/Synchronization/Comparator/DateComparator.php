@@ -13,6 +13,12 @@ use Carbon\Carbon;
  */
 final class DateComparator implements ComparatorInterface
 {
+    /**
+     * @param Record $old
+     * @param Record $new
+     *
+     * @return bool
+     */
     public function newer(mixed $old, mixed $new): bool
     {
         $oldUpdatedAt = $old->getMetadata()?->getUpdatedAt();

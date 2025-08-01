@@ -6,8 +6,6 @@ namespace App\Console\Enum\CVE;
 
 enum SourceType: string
 {
-    case Guess = 'guess';
-
     case Directory = 'directory';
 
     case Archive = 'archive';

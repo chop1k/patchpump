@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Synchronization\Source;
 
-use App\Domain\CVE\Synchronization\Source\Common\Factory;
+use App\Domain\CVE\Synchronization\Source\Common\TextRecord;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\SourceInterface;
 use App\Persistence\Document\CVE\Record;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @implements SourceInterface<Record>
@@ -14,7 +16,8 @@ use App\Persistence\Document\CVE\Record;
 final readonly class StdinSource implements SourceInterface
 {
     public function __construct(
-        private Factory $factory,
+        private SerializerInterface $serializer,
+        private ValidatorInterface $validator,
     ) {
     }
 
@@ -26,7 +29,13 @@ final readonly class StdinSource implements SourceInterface
             throw new \RuntimeException('Could not read from stdin');
         }
 
-        $record = $this->factory->record($text)
+        $record = new TextRecord(
+            $this->serializer,
+            $this->validator,
+            $text,
+        );
+
+        $record = $record
             ->serialize()
             ->validate()
             ->toPersistence();

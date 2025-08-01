@@ -6,10 +6,7 @@ namespace App\Domain\CVE\Synchronization\Persistence;
 
 use App\Domain\Vulnerabilities\Synchronization\Contracts\PersistenceInterface;
 use App\Persistence\Document\CVE\Record;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\LockException;
-use Doctrine\ODM\MongoDB\Mapping\MappingException;
-use Doctrine\ODM\MongoDB\MongoDBException;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * @implements PersistenceInterface<Record>
@@ -17,18 +14,19 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 final readonly class DocumentPersistence implements PersistenceInterface
 {
     public function __construct(
-        private DocumentManager $documentManager,
+        private ObjectManager $documentManager,
     ) {
     }
 
     /**
-     * @throws MappingException
-     * @throws LockException
+     * @param string $id
+     *
+     * @return mixed
      */
     public function get(string $id): mixed
     {
         return $this->documentManager->getRepository(Record::class)
-            ->find($id);
+            ->find($id) ?? throw new \InvalidArgumentException("Record with id $id not found");
     }
 
     public function update(mixed $record): void
@@ -40,10 +38,6 @@ final readonly class DocumentPersistence implements PersistenceInterface
         $this->documentManager->persist($record);
     }
 
-    /**
-     * @throws \Throwable
-     * @throws MongoDBException
-     */
     public function flush(): void
     {
         $this->documentManager->flush();

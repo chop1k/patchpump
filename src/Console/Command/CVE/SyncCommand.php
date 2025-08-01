@@ -10,7 +10,7 @@ use App\Console\Output\CVE\SyncOutput;
 use App\Domain\Vulnerabilities\Synchronization\Process;
 use App\Domain\Vulnerabilities\Synchronization\Result;
 use App\Persistence\Document\CVE\Record;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +30,7 @@ final class SyncCommand extends Command
         private readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly DocumentManager $documentManager,
+        private readonly ObjectManager $documentManager,
     ) {
         parent::__construct();
     }
@@ -71,7 +71,6 @@ final class SyncCommand extends Command
             $factory->source(),
             $factory->persistence(),
             $factory->comparator(),
-            16,
         );
 
         $counters = [
@@ -87,7 +86,7 @@ final class SyncCommand extends Command
          *
          * @var Result<Record> $result
          */
-        foreach ($process->generator() as $result) {
+        foreach ($process->generator(16) as $result) {
             $record = $result->record();
 
             if ($result->created() === true) {

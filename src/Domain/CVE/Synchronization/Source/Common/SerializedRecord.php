@@ -24,7 +24,7 @@ final readonly class SerializedRecord
         $errors = $this->validator->validate($this->record);
 
         if (count($errors) > 0) {
-            throw new ValidatorException();
+            throw new ValidatorException($errors->__toString());
         }
 
         return new ValidatedRecord($this->record);

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Synchronization\Source;
 
-use App\Domain\CVE\Synchronization\Source\Common\Factory;
+use App\Domain\CVE\Synchronization\Source\Common\TextRecord;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\SourceInterface;
 use App\Persistence\Document\CVE\Record;
-use Symfony\Component\Filesystem\Filesystem;
+use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @implements SourceInterface<Record>
@@ -15,24 +18,38 @@ use Symfony\Component\Filesystem\Filesystem;
 final readonly class FileSource implements SourceInterface
 {
     public function __construct(
+        private SerializerInterface $serializer,
+        private ValidatorInterface $validator,
         private Filesystem $filesystem,
-        private Factory $factory,
-        private string $path,
+        /**
+         * @var string[] $paths
+         */
+        private array $paths,
     ) {
     }
 
     /**
+     * @throws FilesystemException
+     *
      * @return \Generator<string, Record>
      */
     public function generator(): \Generator
     {
-        $text = $this->filesystem->readFile($this->path);
+        foreach ($this->paths as $path) {
+            $text = $this->filesystem->read($path);
 
-        $record = $this->factory->record($text)
-            ->serialize()
-            ->validate()
-            ->toPersistence();
+            $record = new TextRecord(
+                $this->serializer,
+                $this->validator,
+                $text,
+            );
 
-        yield $record->getId() => $record;
+            $record = $record
+                ->serialize()
+                ->validate()
+                ->toPersistence();
+
+            yield $record->getId() => $record;
+        }
     }
 }
