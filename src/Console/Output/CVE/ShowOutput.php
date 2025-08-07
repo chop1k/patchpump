@@ -67,7 +67,7 @@ final readonly class ShowOutput
     {
         $cna = $record->getPublishedCNA();
 
-        if ($cna !== null) {
+        if (null !== $cna) {
             $this->cnaPublishedSection($cna);
 
             return;
@@ -75,7 +75,7 @@ final readonly class ShowOutput
 
         $cna = $record->getRejectedCNA();
 
-        if ($cna !== null) {
+        if (null !== $cna) {
             $this->cnaRejectedSection($cna);
         }
     }

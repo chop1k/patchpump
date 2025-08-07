@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Console\Factory\CVE\Factory;
+use App\Console\Factory\CVE\SyncFactory;
 use App\Console\Input\CVE\SyncInput;
 use App\Console\Output\CVE\SyncOutput;
 use App\Domain\Vulnerabilities\Synchronization\Process;
 use App\Domain\Vulnerabilities\Synchronization\Result;
 use App\Persistence\Document\CVE\Record;
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +30,7 @@ final class SyncCommand extends Command
         private readonly SerializerInterface $serializer,
         private readonly ValidatorInterface $validator,
         private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ObjectManager $documentManager,
+        private readonly DocumentManager $documentManager,
     ) {
         parent::__construct();
     }
@@ -46,21 +46,13 @@ final class SyncCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->executeSync(
-            new SyncInput($input),
-            new SyncOutput($io),
-        );
+        $input = new SyncInput($input);
+        $output = new SyncOutput($io);
 
-        return Command::SUCCESS;
-    }
-
-    private function executeSync(SyncInput $input, SyncOutput $output): void
-    {
-        $factory = new Factory(
+        $factory = new SyncFactory(
             $this->serializer,
             $this->validator,
             $this->documentManager,
-            $input
         );
 
         /**
@@ -68,7 +60,10 @@ final class SyncCommand extends Command
          */
         $process = new Process(
             $this->eventDispatcher,
-            $factory->source(),
+            $factory->source(
+                $input->sourceType(),
+                $input->records(),
+            ),
             $factory->persistence(),
             $factory->comparator(),
         );
@@ -89,27 +84,29 @@ final class SyncCommand extends Command
         foreach ($process->generator(16) as $result) {
             $record = $result->record();
 
-            if ($result->created() === true) {
-                $counters['created']++;
+            if (true === $result->created()) {
+                ++$counters['created'];
 
                 $output->recordCreated($record);
 
                 continue;
             }
 
-            if ($result->updated() === true) {
-                $counters['updated']++;
+            if (true === $result->updated()) {
+                ++$counters['updated'];
 
                 $output->recordUpdated($record);
 
                 continue;
             }
 
-            $counters['nothing']++;
+            ++$counters['nothing'];
 
             $output->nothingChanged($record);
         }
 
         $output->done($counters['updated'], $counters['created'], $counters['nothing']);
+
+        return Command::SUCCESS;
     }
 }

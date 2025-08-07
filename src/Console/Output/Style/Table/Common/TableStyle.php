@@ -7,9 +7,6 @@ namespace App\Console\Output\Style\Table\Common;
 trait TableStyle
 {
     /**
-     * @param string $key
-     * @param string|null $value
-     *
      * @return array{
      *     0: string,
      *     1: string,
@@ -17,7 +14,7 @@ trait TableStyle
      */
     protected function keyValue(string $key, ?string $value): array
     {
-        if ($value === null) {
+        if (null === $value) {
             return [];
         }
 
@@ -30,10 +27,6 @@ trait TableStyle
     }
 
     /**
-     * @param string $key
-     * @param int $index
-     * @param string|null $value
-     *
      * @return array{
      *     0: string,
      *     1: string,
@@ -42,7 +35,7 @@ trait TableStyle
      */
     protected function keyIndexValue(string $key, int $index, ?string $value): array
     {
-        if ($value === null) {
+        if (null === $value) {
             return [];
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Console\Output\Style\Table\CVE;
 
@@ -17,21 +17,19 @@ trait CNACommon
 {
     /**
      * @param iterable<int, Description> $descriptions
-     *
-     * @return TableField
      */
     protected function descriptionsField(iterable $descriptions): TableField
     {
         $field = new TableField('descriptions');
 
         foreach ($descriptions as $i => $description) {
-            if ($description === null) {
+            if (null === $description) {
                 continue;
             }
 
             $content = $description->getContent();
 
-            if ($content === null) {
+            if (null === $content) {
                 continue;
             }
 
@@ -43,21 +41,19 @@ trait CNACommon
 
     /**
      * @param iterable<int, Affected> $affected
-     *
-     * @return TableField
      */
     protected function affectedField(iterable $affected): TableField
     {
         $field = new TableField('affected');
 
         foreach ($affected as $i => $item) {
-            if ($item === null) {
+            if (null === $item) {
                 continue;
             }
 
             $product = $item->getProduct();
 
-            if ($product !== null) {
+            if (null !== $product) {
                 $vendor = sprintf('vendor: %s', $product->getVendor());
                 $name = sprintf('product: %s', $product->getProduct());
 
@@ -67,7 +63,7 @@ trait CNACommon
 
             $package = $item->getPackage();
 
-            if ($package !== null) {
+            if (null !== $package) {
                 $url = sprintf('package: %s', $package->getCollectionUrl());
                 $name = sprintf('name: %s', $package->getName());
 
@@ -77,7 +73,7 @@ trait CNACommon
 
             $platforms = $item->getPlatforms();
 
-            if ($platforms !== null) {
+            if (null !== $platforms) {
                 $field = $field->addLine($i, 'platforms:');
 
                 foreach ($platforms as $platform) {
@@ -89,7 +85,7 @@ trait CNACommon
 
             $cpes = $item->getCpe();
 
-            if ($cpes !== null) {
+            if (null !== $cpes) {
                 $field = $field->addLine($i, 'cpes:');
 
                 foreach ($cpes as $cpe) {
@@ -116,15 +112,15 @@ trait CNACommon
                     $type = $version->getType() ?? 'unknown';
                     $name = $version->getVersion();
 
-                    if ($lessThanOrEqual !== null) {
+                    if (null !== $lessThanOrEqual) {
                         $string = sprintf('    <= %s (%s)', $lessThanOrEqual, $type);
 
                         $field = $field->addLine($i, $string);
-                    } else if ($lessThan!== null) {
+                    } elseif (null !== $lessThan) {
                         $string = sprintf('    < %s (%s)', $lessThan, $type);
 
                         $field = $field->addLine($i, $string);
-                    } else if ($name !== null) {
+                    } elseif (null !== $name) {
                         $string = sprintf('    %s (%s)', $name, $type);
 
                         $field = $field->addLine($i, $string);
@@ -138,21 +134,19 @@ trait CNACommon
 
     /**
      * @param iterable<int, Metric> $metrics
-     *
-     * @return TableField
      */
     protected function metricsField(iterable $metrics): TableField
     {
         $field = new TableField('metrics');
 
         foreach ($metrics as $i => $metric) {
-            if ($metric === null) {
+            if (null === $metric) {
                 continue;
             }
 
             $cvss = $metric->getCvss();
 
-            if ($cvss !== null) {
+            if (null !== $cvss) {
                 foreach ($cvss as $vector) {
                     $field = $field->addLine($i, $vector);
                 }
@@ -160,7 +154,7 @@ trait CNACommon
 
             $other = $metric->getOther();
 
-            if ($other !== null) {
+            if (null !== $other) {
                 $field = $field->addLine($i, 'unsupported metric');
             }
         }
@@ -170,21 +164,19 @@ trait CNACommon
 
     /**
      * @param iterable<int, Credit> $credits
-     *
-     * @return TableField
      */
     protected function creditsField(iterable $credits): TableField
     {
         $field = new TableField('credits');
 
         foreach ($credits as $i => $credit) {
-            if ($credit === null) {
+            if (null === $credit) {
                 continue;
             }
 
             $language = $credit->getLanguage();
 
-            if ($language !== null) {
+            if (null !== $language) {
                 $string = sprintf('language: %s', $language);
 
                 $field = $field->addLine($i, $string);
@@ -192,7 +184,7 @@ trait CNACommon
 
             $user = $credit->getUser();
 
-            if ($user !== null) {
+            if (null !== $user) {
                 $string = sprintf('user: %s', $user);
 
                 $field = $field->addLine($i, $string);
@@ -200,7 +192,7 @@ trait CNACommon
 
             $type = $credit->getType();
 
-            if ($type !== null) {
+            if (null !== $type) {
                 $string = sprintf('type: %s', $type->name);
 
                 $field = $field->addLine($i, $string);
@@ -208,7 +200,7 @@ trait CNACommon
 
             $content = $credit->getContent();
 
-            if ($content !== null) {
+            if (null !== $content) {
                 $field = $field->addLine($i, 'description:');
 
                 $fieldString = new TableFieldString($content, 100);

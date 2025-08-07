@@ -8,7 +8,7 @@ final readonly class TableFieldString
 {
     public function __construct(
         private string $value,
-        private int    $limit,
+        private int $limit,
     ) {
     }
 
@@ -24,7 +24,7 @@ final readonly class TableFieldString
     {
         $chunks = mb_split('\n', $this->value);
 
-        if ($chunks === false) {
+        if (false === $chunks) {
             return [
                 $this->value,
             ];
@@ -34,8 +34,6 @@ final readonly class TableFieldString
     }
 
     /**
-     * @param string $row
-     *
      * @return string[]
      */
     private function mapRow(string $row): array
@@ -55,7 +53,7 @@ final readonly class TableFieldString
         }
 
         return [
-            $row
+            $row,
         ];
     }
 

@@ -24,7 +24,7 @@ final readonly class TableField
 
         $result = $this->rows;
 
-        if ($row === null) {
+        if (null === $row) {
             $result[$index] = [$value];
         } else {
             $result[$index] = array_merge($row, [$value]);
@@ -38,7 +38,7 @@ final readonly class TableField
 
     private function fieldGenerator(int $index, array $values): \Generator
     {
-        $fieldUsed = $index !== 0;
+        $fieldUsed = 0 !== $index;
         $indexUsed = false;
 
         foreach ($values as $string) {
@@ -46,16 +46,16 @@ final readonly class TableField
 
             foreach ($fieldString->toRows() as $row) {
                 yield [
-                    $fieldUsed === false ? $this->field : '',
-                    $indexUsed === false ? $index : '',
+                    false === $fieldUsed ? $this->field : '',
+                    false === $indexUsed ? $index : '',
                     $row,
                 ];
 
-                if ($fieldUsed === false) {
+                if (false === $fieldUsed) {
                     $fieldUsed = true;
                 }
 
-                if ($indexUsed === false) {
+                if (false === $indexUsed) {
                     $indexUsed = true;
                 }
             }

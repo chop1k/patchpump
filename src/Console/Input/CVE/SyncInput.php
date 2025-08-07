@@ -20,7 +20,6 @@ final readonly class SyncInput
     public static function configure(Command $command): void
     {
         $command->addOption('from-directory', 'd', InputOption::VALUE_NONE);
-        $command->addOption('from-archive', 'a', InputOption::VALUE_NONE);
         $command->addOption('from-repository', 'r', InputOption::VALUE_NONE);
         $command->addOption('from-stdin', 's', InputOption::VALUE_NONE);
         $command->addOption('from-file', 'f', InputOption::VALUE_NONE);
@@ -32,8 +31,6 @@ final readonly class SyncInput
     {
         if ($this->input->getOption('from-directory')) {
             return SourceType::Directory;
-        } elseif ($this->input->getOption('from-archive')) {
-            return SourceType::Archive;
         } elseif ($this->input->getOption('from-repository')) {
             return SourceType::Repository;
         } elseif ($this->input->getOption('from-file')) {
@@ -41,18 +38,16 @@ final readonly class SyncInput
         } elseif ($this->input->getOption('from-stdin')) {
             return SourceType::Stdin;
         }
-
-        return SourceType::Guess;
     }
 
     /**
      * @return string[]
      */
-    public function records():array
+    public function records(): array
     {
         $records = $this->input->getArgument('records');
 
-        if ($records === null) {
+        if (null === $records) {
             return [];
         }
 

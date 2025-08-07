@@ -6,7 +6,7 @@ namespace App\Console\Command\CVE;
 
 use App\Console\Input\CVE\ShowInput;
 use App\Console\Output\CVE\ShowOutput;
-use App\Persistence\Repository\Document\RecordRepository;
+use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -37,27 +37,22 @@ final class ShowCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $this->executeShow(
-            new ShowInput($input),
-            new ShowOutput($io)
-        );
+        $input = new ShowInput($input);
+        $output = new ShowOutput($io);
 
-        return Command::SUCCESS;
-    }
-
-    protected function executeShow(ShowInput $input, ShowOutput $output): void
-    {
         $value = $input->value();
 
-        $record = (new RecordRepository($this->documentManager))
-            ->findById($value);
+        $record = $this->documentManager->getRepository(Record::class)
+            ->find($value);
 
         if (null === $record) {
             $output->notFound($value);
 
-            return;
+            return Command::FAILURE;
         }
 
         $output->recordFound($record);
+
+        return Command::SUCCESS;
     }
 }

@@ -8,8 +8,6 @@ enum SourceType: string
 {
     case Directory = 'directory';
 
-    case Archive = 'archive';
-
     case Repository = 'repository';
 
     case Stdin = 'stdin';

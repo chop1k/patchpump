@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Factory\CVE;
 
 use App\Console\Enum\CVE\SourceType;
-use App\Console\Input\CVE\SyncInput;
 use App\Domain\CVE\Synchronization\Comparator\DateComparator;
 use App\Domain\CVE\Synchronization\Persistence\DocumentPersistence;
-use App\Domain\CVE\Synchronization\Source\ArchiveSource;
 use App\Domain\CVE\Synchronization\Source\DirectorySource;
 use App\Domain\CVE\Synchronization\Source\FileSource;
 use App\Domain\CVE\Synchronization\Source\RepositorySource;
@@ -23,29 +21,26 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class Factory
+final readonly class SyncFactory
 {
     public function __construct(
         private SerializerInterface $serializer,
         private ValidatorInterface $validator,
         private ObjectManager $documentManager,
-        private SyncInput $input,
     ) {
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @param string[] $records
      *
      * @return SourceInterface<Record>
+     *
+     * @throws \InvalidArgumentException
      */
-    public function source(): SourceInterface
+    public function source(SourceType $type, array $records): SourceInterface
     {
-        $type = $this->input->sourceType();
-        $records = $this->input->records();
-
         return match ($type) {
             SourceType::Directory => $this->directorySource($records),
-            SourceType::Archive => $this->archiveSource($records),
             SourceType::Repository => $this->repositorySource(),
             SourceType::Stdin => $this->stdinSource(),
             SourceType::File => $this->fileSource($records),
@@ -67,11 +62,6 @@ final readonly class Factory
             $this->rootFilesystem(),
             $paths,
         );
-    }
-
-    private function archiveSource(array $paths): ArchiveSource
-    {
-        return new ArchiveSource();
     }
 
     private function repositorySource(): RepositorySource

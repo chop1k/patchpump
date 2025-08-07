@@ -10,7 +10,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final readonly class SyncOutput
 {
     public function __construct(
-        private SymfonyStyle $style
+        private SymfonyStyle $style,
     ) {
     }
 

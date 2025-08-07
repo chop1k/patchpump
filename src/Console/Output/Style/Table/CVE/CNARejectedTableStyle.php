@@ -29,7 +29,7 @@ final readonly class CNARejectedTableStyle
     {
         $provider = $this->cna->getProvider();
 
-        if ($provider === null) {
+        if (null === $provider) {
             return [];
         }
 
@@ -37,10 +37,10 @@ final readonly class CNARejectedTableStyle
 
         $name = $provider->getOrgName();
 
-        if ($name !== null) {
+        if (null !== $name) {
             $timestamp = $provider->getUpdatedAt();
 
-            if ($timestamp !== null) {
+            if (null !== $timestamp) {
                 $string = sprintf('%s (last updated %s)', $name, $timestamp->format('c'));
             } else {
                 $string = $name;
@@ -64,13 +64,13 @@ final readonly class CNARejectedTableStyle
         $field = new TableField('reasons');
 
         foreach ($this->cna->getReasons() ?? [] as $i => $description) {
-            if ($description === null) {
+            if (null === $description) {
                 continue;
             }
 
             $content = $description->getContent();
 
-            if ($content === null) {
+            if (null === $content) {
                 continue;
             }
 
@@ -92,7 +92,7 @@ final readonly class CNARejectedTableStyle
         $field = new TableField('replaced_by');
 
         foreach ($this->cna->getReplacedBy() ?? [] as $cve) {
-            if ($cve === null) {
+            if (null === $cve) {
                 continue;
             }
 
