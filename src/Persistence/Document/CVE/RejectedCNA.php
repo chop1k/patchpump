@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class RejectedCNA
 {
@@ -37,11 +40,17 @@ class RejectedCNA
         return $this;
     }
 
+    /**
+     * @return string[]|null
+     */
     public function getReplacedBy(): ?array
     {
         return $this->replacedBy;
     }
 
+    /**
+     * @return $this
+     */
     public function setReplacedBy(?array $replacedBy): self
     {
         $this->replacedBy = $replacedBy;
@@ -49,11 +58,19 @@ class RejectedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Description>|null
+     */
     public function getReasons(): ?Collection
     {
         return $this->reasons;
     }
 
+    /**
+     * @param Collection<Description>|null $reasons
+     *
+     * @return $this
+     */
     public function setReasons(?Collection $reasons): self
     {
         $this->reasons = $reasons;

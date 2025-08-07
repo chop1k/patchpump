@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class PublishedCNA
 {
@@ -109,6 +112,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Description>|null
+     */
     public function getDescriptions(): ?Collection
     {
         return $this->descriptions;
@@ -121,6 +127,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Affected>|null
+     */
     public function getAffected(): ?Collection
     {
         return $this->affected;
@@ -133,6 +142,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<CPEApplicability>|null
+     */
     public function getCpeApplicability(): ?Collection
     {
         return $this->cpeApplicability;
@@ -145,6 +157,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Problem>|null
+     */
     public function getProblems(): ?Collection
     {
         return $this->problems;
@@ -157,6 +172,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Reference>|null
+     */
     public function getReferences(): ?Collection
     {
         return $this->references;
@@ -169,6 +187,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Metric>|null
+     */
     public function getMetrics(): ?Collection
     {
         return $this->metrics;
@@ -181,6 +202,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Timeline>|null
+     */
     public function getTimeline(): ?Collection
     {
         return $this->timeline;
@@ -193,6 +217,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<Credit>|null
+     */
     public function getCredits(): ?Collection
     {
         return $this->credits;
@@ -223,6 +250,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<string>|null
+     */
     public function getTags(): ?array
     {
         return $this->tags;
@@ -244,6 +274,9 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return Collection<TaxonomyMapping>|null
+     */
     public function getTaxonomyMappings(): ?Collection
     {
         return $this->taxonomyMappings;

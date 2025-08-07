@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class TaxonomyMapping
 {

@@ -7,6 +7,11 @@ namespace App\Persistence\Document\CVE;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @todo change collection name
+ *
+ * @final
+ */
 #[ODM\Document]
 class Record
 {

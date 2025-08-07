@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use App\Persistence\Enum\CVE\RecordState;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class RecordMetadata
 {
@@ -47,7 +50,7 @@ class RecordMetadata
 
     public function setState(?RecordState $state): self
     {
-        if ($state === null) {
+        if (null === $state) {
             $this->state = null;
 
             return $this;

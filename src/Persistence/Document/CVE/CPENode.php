@@ -8,6 +8,9 @@ use App\Persistence\Enum\CVE\ApplicabilityOperator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class CPENode
 {
@@ -30,7 +33,7 @@ class CPENode
 
     public function setOperator(?ApplicabilityOperator $operator): self
     {
-        if ($operator === null) {
+        if (null === $operator) {
             $this->operator = null;
 
             return $this;

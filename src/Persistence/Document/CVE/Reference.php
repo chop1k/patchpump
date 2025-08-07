@@ -6,6 +6,9 @@ namespace App\Persistence\Document\CVE;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class Reference
 {

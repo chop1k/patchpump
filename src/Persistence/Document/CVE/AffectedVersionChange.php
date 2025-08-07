@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class AffectedVersionChange
 {
@@ -35,7 +38,7 @@ class AffectedVersionChange
 
     public function setStatus(?AffectionStatus $status): self
     {
-        if ($status === null) {
+        if (null === $status) {
             $this->status = null;
 
             return $this;

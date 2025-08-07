@@ -8,6 +8,9 @@ use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class Affected
 {
@@ -36,7 +39,7 @@ class Affected
      * @var Collection<AffectedVersion>|AffectionStatus|null
      */
     #[ODM\EmbedMany]
-    private Collection|AffectionStatus|null $versions = null;
+    private mixed $versions = null;
 
     public function getProduct(): ?AffectedProduct
     {
@@ -104,15 +107,48 @@ class Affected
         return $this;
     }
 
-    public function getVersions(): Collection|AffectionStatus|null
+    /**
+     * @return Collection<AffectedVersion>|AffectionStatus|null
+     */
+    public function getVersions(): mixed
     {
-        return $this->versions;
+        if (null === $this->versions) {
+            return null;
+        }
+
+        if (in_array(Collection::class, class_implements($this->versions), true)) {
+            return $this->versions;
+        }
+
+        if ($this->versions instanceof AffectionStatus) {
+            return $this->versions;
+        }
+
+        return null;
     }
 
-    public function setVersions(Collection|AffectionStatus|null $versions): self
+    /**
+     * @param Collection<AffectedVersion>|AffectionStatus|null $versions
+     */
+    public function setVersions(mixed $versions): self
     {
-        $this->versions = $versions;
+        if (null === $this->versions) {
+            $this->versions = null;
 
-        return $this;
+            return $this;
+        }
+        if (in_array(Collection::class, class_implements($this->versions), true)) {
+            $this->versions = $versions;
+
+            return $this;
+        }
+
+        if ($this->versions instanceof AffectionStatus) {
+            $this->versions = $versions;
+
+            return $this;
+        }
+
+        throw new \InvalidArgumentException('123');
     }
 }

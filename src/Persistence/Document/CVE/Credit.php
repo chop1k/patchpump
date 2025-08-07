@@ -7,6 +7,9 @@ namespace App\Persistence\Document\CVE;
 use App\Persistence\Enum\CVE\CreditType;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class Credit
 {
@@ -53,7 +56,7 @@ class Credit
 
     public function setType(?CreditType $type): self
     {
-        if ($type === null) {
+        if (null === $type) {
             $this->type = null;
 
             return $this;

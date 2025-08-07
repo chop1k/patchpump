@@ -8,6 +8,9 @@ use App\Persistence\Enum\CVE\DescriptionType;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
+/**
+ * @final
+ */
 #[ODM\EmbeddedDocument]
 class Description
 {
@@ -33,7 +36,7 @@ class Description
 
     public function setType(?DescriptionType $type): self
     {
-        if ($type === null) {
+        if (null === $type) {
             $this->type = null;
 
             return $this;
