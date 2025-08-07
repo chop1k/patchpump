@@ -8,6 +8,31 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
+/**
+ * php bin/console pp:cve:find
+ *     --id=CVE-2023-0123
+ *     --title=Some\ title one
+ *     --title=Some\ title two
+ *     --published
+ *     --published=>12345678
+ *     --published=<12345678
+ *     --published=12345678
+ *     --published=2024-08-07T04:24:17.541Z
+ *     --updated=...
+ *     --reserved=...
+ *     --rejected=...
+ *     --assigner=mitre
+ *     --assigner=af854a3a-2127-422b-91ae-364da2661108
+ *     --description=some keywords to search
+ *     --configuration=some keywords to search
+ *     --workaround=some keywords to search
+ *     --exploit=some keywords to search
+ *     --solution=some keywords to search
+ *     --affected=some keywords to search
+ *     --problem=some keywords to search
+ *     --cpe=some keywords to search
+ *     --metrics=some keywords to search.
+ */
 final readonly class FindInput
 {
     public function __construct(
@@ -15,42 +40,179 @@ final readonly class FindInput
     ) {
     }
 
+    private static function configureCriteria(Command $command, string $name): void
+    {
+        $command->addOption($name, null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY);
+    }
+
     public static function configure(Command $command): void
     {
-        $command->addOption('id', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('title', null, InputOption::VALUE_OPTIONAL); // exact title
-        $command->addOption('title-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('published-at', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('published-before', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('published-after', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('updated-at', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('updated-before', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('updated-after', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('reserved-at', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('reserved-before', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('reserved-after', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('rejected-at', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('rejected-before', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('rejected-after', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('published', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('rejected', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('assigner', null, InputOption::VALUE_OPTIONAL); // name or id
-        $command->addOption('description-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('configuration-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('workaround-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('exploit-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('solution-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('affected-vendor', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('affected-package', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('affected-version', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('problem-cwe', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('problem-type', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('problem-contains', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('provided-by', null, InputOption::VALUE_OPTIONAL); // name or id
-        $command->addOption('cpe', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('metric-type', null, InputOption::VALUE_OPTIONAL);
-        $command->addOption('metric-cvss', null, InputOption::VALUE_OPTIONAL); // vector regex
-        $command->addOption('metric-cvss-score', null, InputOption::VALUE_OPTIONAL); // operator + score
-        $command->addOption('metric-cvss-severity', null, InputOption::VALUE_OPTIONAL);
+        self::configureCriteria($command, 'id');
+        self::configureCriteria($command, 'title');
+        self::configureCriteria($command, 'published');
+        self::configureCriteria($command, 'updated');
+        self::configureCriteria($command, 'reserved');
+        self::configureCriteria($command, 'rejected');
+        self::configureCriteria($command, 'assigner');
+        //        self::configureCriteria($command, 'description'); // search for keywords
+        //        self::configureCriteria($command, 'configuration');
+        //        self::configureCriteria($command, 'workaround');
+        //        self::configureCriteria($command, 'exploit');
+        //        self::configureCriteria($command, 'solution');
+        //        self::configureCriteria($command, 'affected');
+        //        self::configureCriteria($command, 'problem'); // search for keywords
+        //        self::configureCriteria($command, 'provided-by'); // name or id
+        //        self::configureCriteria($command, 'cpe');
+        //        self::configureCriteria($command, 'metrics');
+    }
+
+    /**
+     * @return string[]
+     */
+    private function criteria(string $name): array
+    {
+        $content = $this->input->getOption($name);
+
+        if (false === is_array($content)) {
+            throw new \InvalidArgumentException($name);
+        }
+
+        return array_filter($content, 'is_string');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function id(): array
+    {
+        return $this->criteria('id');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function title(): array
+    {
+        return $this->criteria('title');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function published(): array
+    {
+        return $this->criteria('published');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function updated(): array
+    {
+        return $this->criteria('updated');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function reserved(): array
+    {
+        return $this->criteria('reserved');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function rejected(): array
+    {
+        return $this->criteria('reserved');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function assigner(): array
+    {
+        return $this->criteria('assigner');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function description(): array
+    {
+        return $this->criteria('description');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function configuration(): array
+    {
+        return $this->criteria('configuration');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function workaround(): array
+    {
+        return $this->criteria('workaround');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function exploit(): array
+    {
+        return $this->criteria('exploit');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function solution(): array
+    {
+        return $this->criteria('solution');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function affected(): array
+    {
+        return $this->criteria('affected');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function problem(): array
+    {
+        return $this->criteria('problem');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function providedBy(): array
+    {
+        return $this->criteria('provided-by');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function cpe(): array
+    {
+        return $this->criteria('cpe');
+    }
+
+    /**
+     * @return string[]
+     */
+    public function metric(): array
+    {
+        return $this->criteria('metric');
     }
 }
