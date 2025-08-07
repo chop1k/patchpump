@@ -37,7 +37,7 @@ final class AffectedProvider
         $affected_3->product = '123';
         $affected_3->defaultStatus = 'affected';
         $affected_3->cpes = [
-            'cpe:2.3:o:microsoft:windows_7:-:sp2:*:*:*:*:*:*'
+            'cpe:2.3:o:microsoft:windows_7:-:sp2:*:*:*:*:*:*',
         ];
 
         return [
@@ -131,14 +131,14 @@ final class AffectedProvider
         $affected_12->packageName = '123';
         $affected_12->defaultStatus = 'affected';
 
-//        $affected_13 = new Affected();
-//
-//        $affected_13->vendor = '124';
-//        $affected_13->product = '123';
-//        $affected_13->defaultStatus = 'affected';
-//        $affected_13->cpes = [
-//            '123',
-//        ];
+        //        $affected_13 = new Affected();
+        //
+        //        $affected_13->vendor = '124';
+        //        $affected_13->product = '123';
+        //        $affected_13->defaultStatus = 'affected';
+        //        $affected_13->cpes = [
+        //            '123',
+        //        ];
 
         $affected_14 = new Affected();
 
@@ -347,7 +347,7 @@ final class AffectedProvider
             $affected_10,
             $affected_11,
             $affected_12,
-//            $affected_13,
+            //            $affected_13,
             $affected_14,
             $affected_15,
             $affected_16,

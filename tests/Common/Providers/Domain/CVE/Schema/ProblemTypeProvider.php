@@ -51,7 +51,7 @@ final class ProblemTypeProvider
 
         $type_4->descriptions = [
             null,
-            ...ProblemDescriptionProvider::provideValid()
+            ...ProblemDescriptionProvider::provideValid(),
         ];
 
         return [

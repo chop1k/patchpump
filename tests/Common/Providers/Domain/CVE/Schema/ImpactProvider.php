@@ -70,7 +70,7 @@ final class ImpactProvider
         $impact_7->capecId = 'CAPEC-123';
         $impact_7->descriptions = [
             '123',
-            '123'
+            '123',
         ];
 
         return [

@@ -93,7 +93,7 @@ final class MetricProvider
 
         $metric_7->cvssV4_0 = CVSS40Provider::provideValid()[0];
         $metric_7->scenarios = [
-            CVSS40Provider::provideValid()[0]
+            CVSS40Provider::provideValid()[0],
         ];
 
         $metric_8 = new Metric();

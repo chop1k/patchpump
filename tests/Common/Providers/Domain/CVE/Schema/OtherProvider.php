@@ -17,7 +17,7 @@ final class OtherProvider
 
         $other_0->type = '123';
         $other_0->content = [
-            'a' => 'a'
+            'a' => 'a',
         ];
 
         return [
@@ -34,7 +34,7 @@ final class OtherProvider
 
         $other_0->type = null;
         $other_0->content = [
-            'a' => 'a'
+            'a' => 'a',
         ];
 
         $other_1 = new Other();
@@ -46,7 +46,7 @@ final class OtherProvider
 
         $other_2->type = '';
         $other_2->content = [
-            'a' => 'a'
+            'a' => 'a',
         ];
 
         $other_4 = new Other();

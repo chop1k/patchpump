@@ -747,7 +747,7 @@ final class CNAProvider
 
         $cna_89->providerMetadata = ProviderMetadataProvider::provideValid()[0];
         $cna_89->replacedBy = [
-            '123'
+            '123',
         ];
 
         return [

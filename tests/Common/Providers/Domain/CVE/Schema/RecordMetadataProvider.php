@@ -6,7 +6,6 @@ namespace App\Tests\Common\Providers\Domain\CVE\Schema;
 
 use App\Domain\CVE\Schema\RecordMetadata;
 use Carbon\Carbon;
-use DateTimeInterface;
 
 final class RecordMetadataProvider
 {
@@ -223,7 +222,7 @@ final class RecordMetadataProvider
         $metadata_15->cveId = 'CVE-04-12';
         $metadata_15->state = 'PUBLISHED';
         $metadata_15->assignerOrgId = 'd7cd2984-4694-4d3f-a1fc-f96a98118d12';
-        $metadata_15->dateRejected = Carbon::now()->format(DateTimeInterface::ISO8601_EXPANDED);
+        $metadata_15->dateRejected = Carbon::now()->format(\DateTimeInterface::ISO8601_EXPANDED);
 
         return [
             $metadata_0,

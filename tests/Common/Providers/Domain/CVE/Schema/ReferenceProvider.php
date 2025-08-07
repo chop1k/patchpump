@@ -26,14 +26,14 @@ final class ReferenceProvider
 
         $reference_2->url = '123';
         $reference_2->tags = [
-            'disputed'
+            'disputed',
         ];
 
         $reference_3 = new Reference();
 
         $reference_3->url = '123';
         $reference_3->tags = [
-            'x_alalala'
+            'x_alalala',
         ];
 
         return [
@@ -63,12 +63,12 @@ final class ReferenceProvider
         $reference_2->url = '123';
         $reference_2->tags = [];
 
-//        $reference_3 = new Reference();
-//
-//        $reference_3->url = '123';
-//        $reference_3->tags = [
-//            '123',
-//        ];
+        //        $reference_3 = new Reference();
+        //
+        //        $reference_3->url = '123';
+        //        $reference_3->tags = [
+        //            '123',
+        //        ];
 
         $reference_4 = new Reference();
 
@@ -77,27 +77,27 @@ final class ReferenceProvider
             null,
         ];
 
-//        $reference_5 = new Reference();
-//
-//        $reference_5->url = '123';
-//        $reference_5->tags = [
-//            '',
-//        ];
+        //        $reference_5 = new Reference();
+        //
+        //        $reference_5->url = '123';
+        //        $reference_5->tags = [
+        //            '',
+        //        ];
 
-//        $reference_6 = new Reference();
-//
-//        $reference_6->url = '123';
-//        $reference_6->tags = [
-//            'disputed',
-//            '123'
-//        ];
+        //        $reference_6 = new Reference();
+        //
+        //        $reference_6->url = '123';
+        //        $reference_6->tags = [
+        //            'disputed',
+        //            '123'
+        //        ];
 
         $reference_7 = new Reference();
 
         $reference_7->url = '123';
         $reference_7->tags = [
             'disputed',
-            null
+            null,
         ];
 
         $reference_8 = new Reference();
@@ -105,17 +105,17 @@ final class ReferenceProvider
         $reference_8->url = '123';
         $reference_8->tags = [
             'disputed',
-            ''
+            '',
         ];
 
         return [
             $reference_0,
             $reference_1,
             $reference_2,
-//            $reference_3,
+            //            $reference_3,
             $reference_4,
-//            $reference_5,
-//            $reference_6,
+            //            $reference_5,
+            //            $reference_6,
             $reference_7,
             $reference_8,
         ];

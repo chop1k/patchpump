@@ -835,7 +835,6 @@ final class CVSS30Provider
         $cvss_65->baseSeverity = 'LOW';
         $cvss_65->environmentSeverity = '123';
 
-
         return [
             $cvss_0,
             $cvss_1,

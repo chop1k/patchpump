@@ -18,7 +18,7 @@ final class RecordContainersProvider
         $containers_0->cna = CNAProvider::provideValid()[0];
 
         return [
-            $containers_0
+            $containers_0,
         ];
     }
 

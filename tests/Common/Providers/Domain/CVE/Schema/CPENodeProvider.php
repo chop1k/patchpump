@@ -81,7 +81,7 @@ final class CPENodeProvider
         $node_5->operator = 'AND';
         $node_5->cpeMatch = [
             ...CPEMatchProvider::provideValid(),
-            null
+            null,
         ];
 
         $node_6 = new CPENode();
@@ -91,7 +91,7 @@ final class CPENodeProvider
         $node_6->cpeMatch = [
             null,
             ...CPEMatchProvider::provideValid(),
-            null
+            null,
         ];
 
         $node_7 = new CPENode();
