@@ -8,6 +8,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
+/**
+ * php bin/console pp:cve:remove
+ *     CVE-2023-4123
+ *     CVE-2002-4451
+ *     ...
+ */
 final readonly class RemoveInput
 {
     public function __construct(
@@ -17,11 +23,20 @@ final readonly class RemoveInput
 
     public static function configure(Command $command): void
     {
-        $command->addArgument('value', InputArgument::REQUIRED);
+        $command->addArgument('values', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
-    public function value(): string
+    /**
+     * @return string[]
+     */
+    public function values(): array
     {
-        return $this->input->getArgument('value');
+        $content = $this->input->getArgument('values');
+
+        if (false === is_array($content)) {
+            throw new \InvalidArgumentException('values');
+        }
+
+        return array_filter($content, 'is_string');
     }
 }
