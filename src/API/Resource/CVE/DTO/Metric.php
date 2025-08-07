@@ -6,5 +6,4 @@ namespace App\API\Resource\CVE\DTO;
 
 final class Metric
 {
-
 }

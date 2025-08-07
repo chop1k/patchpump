@@ -13,7 +13,6 @@ class OrganizationProcessor implements ProcessorInterface
         dump($data, $operation, $uriVariables, $context);
 
         if ($operation instanceof Post) {
-
         }
     }
 }
