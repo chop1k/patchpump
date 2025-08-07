@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Metric
  */
 final class CVSS40
@@ -37,7 +36,7 @@ final class CVSS40
         'LOW',
         'MEDIUM',
         'HIGH',
-        'CRITICAL'
+        'CRITICAL',
     ])]
     public ?string $baseSeverity = null;
 
@@ -45,75 +44,75 @@ final class CVSS40
         'NETWORK',
         'ADJACENT',
         'LOCAL',
-        'PHYSICAL'
+        'PHYSICAL',
     ])]
     public ?string $attackVector = null;
 
     #[Assert\Choice([
         'HIGH',
-        'LOW'
+        'LOW',
     ])]
     public ?string $attackComplexity = null;
 
     #[Assert\Choice([
         'NONE',
-        'PRESENT'
+        'PRESENT',
     ])]
     public ?string $attackRequirements = null;
 
     #[Assert\Choice([
         'HIGH',
         'LOW',
-        'NONE'
+        'NONE',
     ])]
     public ?string $privilegesRequired = null;
 
     #[Assert\Choice([
         'NONE',
         'PASSIVE',
-        'ACTIVE'
+        'ACTIVE',
     ])]
     public ?string $userInteraction = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $vulnConfidentialityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $vulnIntegrityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $vulnAvailabilityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $subConfidentialityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $subIntegrityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $subAvailabilityImpact = null;
 
@@ -121,7 +120,7 @@ final class CVSS40
         'UNREPORTED',
         'PROOF_OF_CONCEPT',
         'ATTACKED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $exploitMaturity = null;
 
@@ -129,7 +128,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $confidentialityRequirement = null;
 
@@ -137,7 +136,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $integrityRequirement = null;
 
@@ -145,7 +144,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $availabilityRequirement = null;
 
@@ -154,21 +153,21 @@ final class CVSS40
         'ADJACENT',
         'LOCAL',
         'PHYSICAL',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAttackVector = null;
 
     #[Assert\Choice([
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAttackComplexity = null;
 
     #[Assert\Choice([
         'NONE',
         'PRESENT',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAttackRequirements = null;
 
@@ -176,7 +175,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedPrivilegesRequired = null;
 
@@ -184,7 +183,7 @@ final class CVSS40
         'NONE',
         'PASSIVE',
         'ACTIVE',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedUserInteraction = null;
 
@@ -192,7 +191,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedVulnConfidentialityImpact = null;
 
@@ -200,7 +199,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedVulnIntegrityImpact = null;
 
@@ -208,7 +207,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedVulnAvailabilityImpact = null;
 
@@ -216,7 +215,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedSubConfidentialityImpact = null;
 
@@ -224,7 +223,7 @@ final class CVSS40
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedSubIntegrityImpact = null;
 
@@ -233,21 +232,21 @@ final class CVSS40
         'LOW',
         'HIGH',
         'SAFETY',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedSubAvailabilityImpact = null;
 
     #[Assert\Choice([
         'NEGLIGIBLE',
         'PRESENT',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $SafetyType = null;
 
     #[Assert\Choice([
         'NO',
         'YES',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $Automatable = null;
 
@@ -255,14 +254,14 @@ final class CVSS40
         'AUTOMATIC',
         'USER',
         'IRRECOVERABLE',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $Recovery = null;
 
     #[Assert\Choice([
         'DIFFUSE',
         'CONCENTRATED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $valueDensity = null;
 
@@ -270,7 +269,7 @@ final class CVSS40
         'LOW',
         'MODERATE',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $vulnerabilityResponseEffort = null;
 
@@ -279,7 +278,7 @@ final class CVSS40
         'GREEN',
         'AMBER',
         'RED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $providerUrgency = null;
 }

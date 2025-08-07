@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -17,10 +17,10 @@ final class TaxonomyMappingMapper
         $persistence->setVersion($schema->taxonomyVersion);
         $persistence->setName($schema->taxonomyName);
 
-        if ($schema->taxonomyRelations !== null) {
+        if (null !== $schema->taxonomyRelations) {
             $filtered = array_filter(
                 $schema->taxonomyRelations,
-                static fn (mixed $rel) => is_object($rel) && get_class($rel) === Schema\TaxonomyRelation::class,
+                static fn (mixed $rel) => is_object($rel) && Schema\TaxonomyRelation::class === get_class($rel),
             );
 
             $persistence->setRelations(

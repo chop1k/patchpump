@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
  */
 #[Assert\Cascade]
@@ -34,7 +33,7 @@ final class Description
     #[Assert\Unique]
     #[Assert\All([
         new Assert\NotNull(),
-        new Assert\Type(DescriptionMedia::class)
+        new Assert\Type(DescriptionMedia::class),
     ])]
     public ?array $supportingMedia = null;
 }

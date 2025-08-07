@@ -29,9 +29,9 @@ final readonly class FileSource implements SourceInterface
     }
 
     /**
-     * @throws FilesystemException
-     *
      * @return \Generator<string, Record>
+     *
+     * @throws FilesystemException
      */
     public function generator(): \Generator
     {

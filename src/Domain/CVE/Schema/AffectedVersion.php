@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Affected
  */
 #[Assert\Cascade]
@@ -29,7 +28,7 @@ final class AffectedVersion
     /**
      * @todo fix when there will be Assert\AtLeastOneOf attribute both for class and property
      */
-    private const RULE_COMBINED = self::RULE_1 . ' || ' . self::RULE_2 . ' || ' . self::RULE_3 . ' || ' . self::RULE_4 . ' || ' . self::RULE_5;
+    private const RULE_COMBINED = self::RULE_1.' || '.self::RULE_2.' || '.self::RULE_3.' || '.self::RULE_4.' || '.self::RULE_5;
 
     #[Assert\NotNull]
     #[Assert\Length(min: 1, max: 1024)]

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,7 +15,7 @@ final class AffectedMapper
     {
         $persistence = new Persistence\Affected();
 
-        if ($schema->vendor !== null && $schema->product !== null) {
+        if (null !== $schema->vendor && null !== $schema->product) {
             $product = new Persistence\AffectedProduct();
 
             $product->setVendor($schema->vendor);
@@ -24,7 +24,7 @@ final class AffectedMapper
             $persistence->setProduct($product);
         }
 
-        if ($schema->packageName !== null && $schema->collectionURL !== null) {
+        if (null !== $schema->packageName && null !== $schema->collectionURL) {
             $package = new Persistence\AffectedPackage();
 
             $package->setName($schema->packageName);
@@ -33,7 +33,7 @@ final class AffectedMapper
             $persistence->setPackage($package);
         }
 
-        if ($schema->programFiles !== null || $schema->programRoutines !== null || $schema->repo !== null || $schema->modules !== null) {
+        if (null !== $schema->programFiles || null !== $schema->programRoutines || null !== $schema->repo || null !== $schema->modules) {
             $source = new Persistence\AffectedSource();
 
             $source->setRepository($schema->repo);
@@ -47,22 +47,22 @@ final class AffectedMapper
         $persistence->setCpe($schema->cpes);
         $persistence->setPlatforms($schema->platforms);
 
-        if ($schema->defaultStatus !== null) {
-            if (strtolower($schema->defaultStatus) === 'affected') {
+        if (null !== $schema->defaultStatus) {
+            if ('affected' === strtolower($schema->defaultStatus)) {
                 $persistence->setVersions(AffectionStatus::Affected);
             }
-            if (strtolower($schema->defaultStatus) === 'unaffected') {
+            if ('unaffected' === strtolower($schema->defaultStatus)) {
                 $persistence->setVersions(AffectionStatus::Unaffected);
             }
-            if (strtolower($schema->defaultStatus) === 'unknown') {
+            if ('unknown' === strtolower($schema->defaultStatus)) {
                 $persistence->setVersions(AffectionStatus::Unknown);
             }
         }
 
-        if ($schema->versions !== null) {
+        if (null !== $schema->versions) {
             $filtered = array_filter(
                 $schema->versions,
-                static fn (mixed $change) => is_object($change) && get_class($change) === Schema\AffectedVersion::class,
+                static fn (mixed $change) => is_object($change) && Schema\AffectedVersion::class === get_class($change),
             );
 
             $persistence->setVersions(

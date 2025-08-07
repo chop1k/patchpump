@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -14,7 +14,7 @@ final class ProblemMapper
     {
         $filtered = array_filter(
             $schema->descriptions ?? [],
-            static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\ProblemDescription::class,
+            static fn (mixed $desc) => is_object($desc) && Schema\ProblemDescription::class === get_class($desc),
         );
 
         return array_map(static function (Schema\ProblemDescription $problem) {
@@ -25,10 +25,10 @@ final class ProblemMapper
             $persistence->setType($problem->type);
             $persistence->setCwe($problem->cweId);
 
-            if ($problem->references !== null) {
+            if (null !== $problem->references) {
                 $filtered = array_filter(
                     $problem->references,
-                    static fn (mixed $ref) => is_object($ref) && get_class($ref) === Schema\Reference::class,
+                    static fn (mixed $ref) => is_object($ref) && Schema\Reference::class === get_class($ref),
                 );
 
                 $persistence->setReferences(

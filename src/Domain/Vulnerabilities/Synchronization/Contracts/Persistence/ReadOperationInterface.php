@@ -10,9 +10,9 @@ namespace App\Domain\Vulnerabilities\Synchronization\Contracts\Persistence;
 interface ReadOperationInterface
 {
     /**
-     * @throws \InvalidArgumentException Not found
-     *
      * @return T
+     *
+     * @throws \InvalidArgumentException Not found
      */
     public function get(string $id): mixed;
 }

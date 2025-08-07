@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\ApplicabilityOperator;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,20 +15,20 @@ final class CPEApplicabilityMapper
     {
         $persistence = new Persistence\CPEApplicability();
 
-        if (strtolower($schema->operator ?? '') === 'and') {
+        if ('and' === strtolower($schema->operator ?? '')) {
             $persistence->setOperator(ApplicabilityOperator::And);
         }
 
-        if (strtolower($schema->operator ?? '') === 'or') {
+        if ('or' === strtolower($schema->operator ?? '')) {
             $persistence->setOperator(ApplicabilityOperator::Or);
         }
 
         $persistence->setNegate($schema->negate);
 
-        if ($schema->nodes !== null) {
+        if (null !== $schema->nodes) {
             $filtered = array_filter(
                 $schema->nodes,
-                static fn (mixed $node) => is_object($node) && get_class($node) === Schema\CPENode::class,
+                static fn (mixed $node) => is_object($node) && Schema\CPENode::class === get_class($node),
             );
 
             $persistence->setNodes(

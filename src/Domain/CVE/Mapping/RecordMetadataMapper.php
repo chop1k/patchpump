@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\RecordState;
 use Carbon\Carbon;
-use DateTimeInterface;
 
 final class RecordMetadataMapper
 {
@@ -16,17 +15,17 @@ final class RecordMetadataMapper
     {
         $persistence = new Persistence\RecordMetadata();
 
-        if (strtolower($schema->state ?? '') === 'published') {
+        if ('published' === strtolower($schema->state ?? '')) {
             $persistence->setState(RecordState::Published);
         }
 
-        if (strtolower($schema->state ?? '') === 'rejected') {
+        if ('rejected' === strtolower($schema->state ?? '')) {
             $persistence->setState(RecordState::Rejected);
         }
 
         $persistence->setSerial($schema->serial);
 
-        if ($schema->datePublished !== null) {
+        if (null !== $schema->datePublished) {
             if (Carbon::canBeCreatedFromFormat($schema->datePublished, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setPublishedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->datePublished)->toDateTimeImmutable(),
@@ -38,7 +37,7 @@ final class RecordMetadataMapper
                 );
             }
         }
-        if ($schema->dateRejected !== null) {
+        if (null !== $schema->dateRejected) {
             if (Carbon::canBeCreatedFromFormat($schema->dateRejected, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setRejectedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->dateRejected)->toDateTimeImmutable(),
@@ -50,7 +49,7 @@ final class RecordMetadataMapper
                 );
             }
         }
-        if ($schema->dateUpdated !== null) {
+        if (null !== $schema->dateUpdated) {
             if (Carbon::canBeCreatedFromFormat($schema->dateUpdated, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setUpdatedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->dateUpdated)->toDateTimeImmutable(),
@@ -62,7 +61,7 @@ final class RecordMetadataMapper
                 );
             }
         }
-        if ($schema->dateReserved !== null) {
+        if (null !== $schema->dateReserved) {
             if (Carbon::canBeCreatedFromFormat($schema->dateReserved, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setReservedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->dateReserved)->toDateTimeImmutable(),

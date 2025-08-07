@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Metric
  */
 final class CVSS20
@@ -37,39 +36,38 @@ final class CVSS20
     ])]
     public ?string $accessVector = null;
 
-
     #[Assert\Choice([
         'HIGH',
         'MEDIUM',
-        'LOW'
+        'LOW',
     ])]
     public ?string $accessComplexity = null;
 
     #[Assert\Choice([
         'MULTIPLE',
         'SINGLE',
-        'NONE'
+        'NONE',
     ])]
     public ?string $authentication = null;
 
     #[Assert\Choice([
         'NONE',
         'PARTIAL',
-        'COMPLETE'
+        'COMPLETE',
     ])]
     public ?string $confidentialityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'PARTIAL',
-        'COMPLETE'
+        'COMPLETE',
     ])]
     public ?string $integrityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'PARTIAL',
-        'COMPLETE'
+        'COMPLETE',
     ])]
     public ?string $availabilityImpact = null;
 
@@ -78,7 +76,7 @@ final class CVSS20
         'PROOF_OF_CONCEPT',
         'FUNCTIONAL',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $exploitability = null;
 
@@ -87,7 +85,7 @@ final class CVSS20
         'TEMPORARY_FIX',
         'WORKAROUND',
         'UNAVAILABLE',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $remediationLevel = null;
 
@@ -95,7 +93,7 @@ final class CVSS20
         'UNCONFIRMED',
         'UNCORROBORATED',
         'CONFIRMED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $reportConfidence = null;
 
@@ -108,7 +106,7 @@ final class CVSS20
         'LOW_MEDIUM',
         'MEDIUM_HIGH',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $collateralDamagePotential = null;
 
@@ -117,7 +115,7 @@ final class CVSS20
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $targetDistribution = null;
 
@@ -125,7 +123,7 @@ final class CVSS20
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $confidentialityRequirement = null;
 
@@ -133,7 +131,7 @@ final class CVSS20
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $integrityRequirement = null;
 
@@ -141,7 +139,7 @@ final class CVSS20
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $availabilityRequirement = null;
 

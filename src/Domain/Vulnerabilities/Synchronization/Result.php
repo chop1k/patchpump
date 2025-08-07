@@ -23,12 +23,12 @@ final readonly class Result
 
     public function created(): bool
     {
-        return $this->status === 1;
+        return 1 === $this->status;
     }
 
     public function updated(): bool
     {
-        return $this->status === 2;
+        return 2 === $this->status;
     }
 
     /**

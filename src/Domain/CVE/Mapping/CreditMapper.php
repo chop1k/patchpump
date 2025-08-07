@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\CreditType;
 
@@ -17,43 +17,43 @@ final class CreditMapper
         $persistence->setLanguage($schema->lang);
         $persistence->setUser($schema->user);
 
-        if (strtolower($schema->type ?? '') === 'other') {
+        if ('other' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Other);
         }
 
-        if (strtolower($schema->type ?? '') === 'finder') {
+        if ('finder' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Finder);
         }
 
-        if (strtolower($schema->type ?? '') === 'reporter') {
+        if ('reporter' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Reporter);
         }
 
-        if (strtolower($schema->type ?? '') === 'analyst') {
+        if ('analyst' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Analyst);
         }
 
-        if (strtolower($schema->type ?? '') === 'coordinator') {
+        if ('coordinator' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Coordinator);
         }
 
-        if (strtolower($schema->type ?? '') === 'remediation developer') {
+        if ('remediation developer' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::RemediationDeveloper);
         }
 
-        if (strtolower($schema->type ?? '') === 'remediation reviewer') {
+        if ('remediation reviewer' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::RemediationReviewer);
         }
 
-        if (strtolower($schema->type ?? '') === 'remediation verifier') {
+        if ('remediation verifier' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::RemediationVerifier);
         }
 
-        if (strtolower($schema->type ?? '') === 'tool') {
+        if ('tool' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Tool);
         }
 
-        if (strtolower($schema->type ?? '') === 'sponsor') {
+        if ('sponsor' === strtolower($schema->type ?? '')) {
             $persistence->setType(CreditType::Sponsor);
         }
 

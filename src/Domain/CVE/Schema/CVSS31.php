@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Metric
  */
 final class CVSS31
@@ -37,7 +36,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'CRITICAL'
+        'CRITICAL',
     ])]
     public ?string $baseSeverity = null;
 
@@ -45,53 +44,53 @@ final class CVSS31
         'NETWORK',
         'ADJACENT_NETWORK',
         'LOCAL',
-        'PHYSICAL'
+        'PHYSICAL',
     ])]
     public ?string $attackVector = null;
 
     #[Assert\Choice([
         'HIGH',
-        'LOW'
+        'LOW',
     ])]
     public ?string $attackComplexity = null;
 
     #[Assert\Choice([
         'HIGH',
         'LOW',
-        'NONE'
+        'NONE',
     ])]
     public ?string $privilegesRequired = null;
 
     #[Assert\Choice([
         'NONE',
-        'REQUIRED'
+        'REQUIRED',
     ])]
     public ?string $userInteraction = null;
 
     #[Assert\Choice([
         'UNCHANGED',
-        'CHANGED'
+        'CHANGED',
     ])]
     public ?string $scope = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $confidentialityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $integrityImpact = null;
 
     #[Assert\Choice([
         'NONE',
         'LOW',
-        'HIGH'
+        'HIGH',
     ])]
     public ?string $availabilityImpact = null;
 
@@ -100,7 +99,7 @@ final class CVSS31
         'PROOF_OF_CONCEPT',
         'FUNCTIONAL',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $exploitCodeMaturity = null;
 
@@ -109,7 +108,7 @@ final class CVSS31
         'TEMPORARY_FIX',
         'WORKAROUND',
         'UNAVAILABLE',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $remediationLevel = null;
 
@@ -117,7 +116,7 @@ final class CVSS31
         'UNKNOWN',
         'REASONABLE',
         'CONFIRMED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $reportConfidence = null;
 
@@ -130,7 +129,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'CRITICAL'
+        'CRITICAL',
     ])]
     public ?string $temporalSeverity = null;
 
@@ -138,7 +137,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $confidentialityRequirement = null;
 
@@ -146,7 +145,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $integrityRequirement = null;
 
@@ -154,7 +153,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $availabilityRequirement = null;
 
@@ -163,14 +162,14 @@ final class CVSS31
         'ADJACENT_NETWORK',
         'LOCAL',
         'PHYSICAL',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAttackVector = null;
 
     #[Assert\Choice([
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAttackComplexity = null;
 
@@ -178,21 +177,21 @@ final class CVSS31
         'HIGH',
         'LOW',
         'NONE',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedPrivilegesRequired = null;
 
     #[Assert\Choice([
         'NONE',
         'REQUIRED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedUserInteraction = null;
 
     #[Assert\Choice([
         'UNCHANGED',
         'CHANGED',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedScope = null;
 
@@ -200,7 +199,7 @@ final class CVSS31
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedConfidentialityImpact = null;
 
@@ -208,7 +207,7 @@ final class CVSS31
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedIntegrityImpact = null;
 
@@ -216,7 +215,7 @@ final class CVSS31
         'NONE',
         'LOW',
         'HIGH',
-        'NOT_DEFINED'
+        'NOT_DEFINED',
     ])]
     public ?string $modifiedAvailabilityImpact = null;
 
@@ -229,7 +228,7 @@ final class CVSS31
         'LOW',
         'MEDIUM',
         'HIGH',
-        'CRITICAL'
+        'CRITICAL',
     ])]
     public ?string $environmentSeverity = null;
 }

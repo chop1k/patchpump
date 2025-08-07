@@ -29,9 +29,9 @@ final readonly class DirectorySource implements SourceInterface
     }
 
     /**
-     * @throws FilesystemException
-     *
      * @return \Generator<Record>
+     *
+     * @throws FilesystemException
      */
     public function generator(): \Generator
     {
@@ -39,10 +39,11 @@ final readonly class DirectorySource implements SourceInterface
             yield from $this->innerGenerator($path);
         }
     }
+
     /**
-     * @throws FilesystemException
-     *
      * @return \Generator<Record>
+     *
+     * @throws FilesystemException
      */
     private function innerGenerator(string $path): \Generator
     {
@@ -54,7 +55,7 @@ final readonly class DirectorySource implements SourceInterface
                 $file,
             );
 
-            if ($entry->valid() === false) {
+            if (false === $entry->valid()) {
                 continue;
             }
 

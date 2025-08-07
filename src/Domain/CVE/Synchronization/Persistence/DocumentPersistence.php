@@ -18,11 +18,6 @@ final readonly class DocumentPersistence implements PersistenceInterface
     ) {
     }
 
-    /**
-     * @param string $id
-     *
-     * @return mixed
-     */
     public function get(string $id): mixed
     {
         return $this->documentManager->getRepository(Record::class)

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\AffectionStatus;
 
@@ -16,15 +16,15 @@ final class AffectedVersionChangeMapper
 
         $persistence->setAt($schema->at);
 
-        if (strtolower($schema->status ?? '') === 'unknown') {
+        if ('unknown' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Unknown);
         }
 
-        if (strtolower($schema->status ?? '') === 'affected') {
+        if ('affected' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Affected);
         }
 
-        if (strtolower($schema->status ?? '') === 'unaffected') {
+        if ('unaffected' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Unaffected);
         }
 

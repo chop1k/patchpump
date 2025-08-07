@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\RecordState;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,7 +15,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 final class RecordMapper
 {
-
     public static function mapPersistenceToSchema(Persistence\Record $persistence): Schema\Record
     {
     }
@@ -26,7 +25,7 @@ final class RecordMapper
 
         $persistence->setId($schema->cveMetadata?->cveId);
 
-        if ($schema->cveMetadata !== null) {
+        if (null !== $schema->cveMetadata) {
             $persistence->setMetadata(
                 RecordMetadataMapper::mapSchemaToPersistenceMetadata($schema->cveMetadata),
             );
@@ -35,28 +34,28 @@ final class RecordMapper
             );
         }
 
-        if ($schema->containers === null) {
+        if (null === $schema->containers) {
             return $persistence;
         }
 
-        if ($schema->containers->cna !== null) {
-            if ($persistence->getMetadata()?->getState() === RecordState::Published) {
+        if (null !== $schema->containers->cna) {
+            if (RecordState::Published === $persistence->getMetadata()?->getState()) {
                 $persistence->setPublishedCNA(
                     RecordContainersMapper::mapSchemaCNAToPersistencePublished($schema->containers->cna),
                 );
             }
 
-            if ($persistence->getMetadata()?->getState() === RecordState::Rejected) {
+            if (RecordState::Rejected === $persistence->getMetadata()?->getState()) {
                 $persistence->setRejectedCNA(
                     RecordContainersMapper::mapSchemaCNAToPersistenceRejected($schema->containers->cna),
                 );
             }
         }
 
-        if ($schema->containers->adp !== null) {
+        if (null !== $schema->containers->adp) {
             $filtered = array_filter(
                 $schema->containers->adp,
-                static fn (mixed $adp) => is_object($adp) && get_class($adp) === Schema\CNA::class,
+                static fn (mixed $adp) => is_object($adp) && Schema\CNA::class === get_class($adp),
             );
 
             $persistence->setAdp(

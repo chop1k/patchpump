@@ -11,9 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see ProblemType
  */
 #[Assert\Cascade]
@@ -28,7 +27,7 @@ final class ProblemDescription
     public ?string $description = null;
 
     #[Assert\Length(min: 5, max: 9)]
-//    #[Assert\Regex('^CWE-[1-9][0-9]*$^')]
+    //    #[Assert\Regex('^CWE-[1-9][0-9]*$^')]
     public ?string $cweId = null;
 
     #[Assert\Length(min: 1, max: 128)]

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -16,19 +16,19 @@ final class MetricMapper
 
         $cvss = [];
 
-        if ($schema->cvssV2_0 !== null) {
+        if (null !== $schema->cvssV2_0) {
             $cvss[] = $schema->cvssV2_0->vectorString;
         }
 
-        if ($schema->cvssV3_0 !== null) {
+        if (null !== $schema->cvssV3_0) {
             $cvss[] = $schema->cvssV3_0->vectorString;
         }
 
-        if ($schema->cvssV3_1 !== null) {
+        if (null !== $schema->cvssV3_1) {
             $cvss[] = $schema->cvssV3_1->vectorString;
         }
 
-        if ($schema->cvssV4_0 !== null) {
+        if (null !== $schema->cvssV4_0) {
             $cvss[] = $schema->cvssV4_0->vectorString;
         }
 
@@ -38,16 +38,16 @@ final class MetricMapper
             unset($cvss);
         }
 
-        if ($schema->other !== null) {
+        if (null !== $schema->other) {
             $persistence->setOther(
                 MetricOtherMapper::mapSchemaToPersistence($schema->other),
             );
         }
 
-        if ($schema->scenarios !== null) {
+        if (null !== $schema->scenarios) {
             $filtered = array_filter(
                 $schema->scenarios,
-                static fn (mixed $scenario) => is_object($scenario) && get_class($scenario) === Schema\MetricScenario::class,
+                static fn (mixed $scenario) => is_object($scenario) && Schema\MetricScenario::class === get_class($scenario),
             );
 
             $persistence->setScenarios(

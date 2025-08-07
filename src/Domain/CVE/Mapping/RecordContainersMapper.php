@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use Carbon\Carbon;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,13 +19,13 @@ final class RecordContainersMapper
     {
         $persistence = new Persistence\RejectedCNA();
 
-        if ($schema->providerMetadata !== null) {
+        if (null !== $schema->providerMetadata) {
             $persistence->setProvider(
                 ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
             );
         }
 
-        if ($schema->replacedBy !== null) {
+        if (null !== $schema->replacedBy) {
             $filtered = array_filter(
                 $schema->replacedBy,
                 static fn (mixed $replaced) => is_string($replaced),
@@ -34,10 +34,10 @@ final class RecordContainersMapper
             $persistence->setReplacedBy($filtered);
         }
 
-        if ($schema->rejectedReasons !== null) {
+        if (null !== $schema->rejectedReasons) {
             $filtered = array_filter(
                 $schema->rejectedReasons,
-                static fn (mixed $reason) => is_object($reason) && get_class($reason) === Schema\Description::class,
+                static fn (mixed $reason) => is_object($reason) && Schema\Description::class === get_class($reason),
             );
 
             $persistence->setReasons(
@@ -52,7 +52,6 @@ final class RecordContainersMapper
 
     /**
      * @param Persistence\PublishedCNA|Persistence\ADP $persistence
-     * @param Schema\CNA $schema
      *
      * @return Persistence\PublishedCNA|Persistence\ADP
      */
@@ -60,7 +59,7 @@ final class RecordContainersMapper
     {
         $persistence->setTitle($schema->title);
 
-        if ($schema->providerMetadata!== null) {
+        if (null !== $schema->providerMetadata) {
             $persistence->setProvider(
                 ProviderMetadataMapper::mapSchemaToPersistence($schema->providerMetadata),
             );
@@ -68,10 +67,10 @@ final class RecordContainersMapper
 
         $descriptions = [];
 
-        if ($schema->descriptions !== null) {
+        if (null !== $schema->descriptions) {
             $filtered = array_filter(
                 $schema->descriptions,
-                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+                static fn (mixed $desc) => is_object($desc) && Schema\Description::class === get_class($desc),
             );
 
             $descriptions = array_merge(
@@ -80,10 +79,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->configurations !== null) {
+        if (null !== $schema->configurations) {
             $filtered = array_filter(
                 $schema->configurations,
-                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+                static fn (mixed $desc) => is_object($desc) && Schema\Description::class === get_class($desc),
             );
 
             $descriptions = array_merge(
@@ -92,10 +91,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->workarounds !== null) {
+        if (null !== $schema->workarounds) {
             $filtered = array_filter(
                 $schema->workarounds,
-                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+                static fn (mixed $desc) => is_object($desc) && Schema\Description::class === get_class($desc),
             );
 
             $descriptions = array_merge(
@@ -104,10 +103,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->solutions !== null) {
+        if (null !== $schema->solutions) {
             $filtered = array_filter(
                 $schema->solutions,
-                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+                static fn (mixed $desc) => is_object($desc) && Schema\Description::class === get_class($desc),
             );
 
             $descriptions = array_merge(
@@ -116,10 +115,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->exploits !== null) {
+        if (null !== $schema->exploits) {
             $filtered = array_filter(
                 $schema->exploits,
-                static fn (mixed $desc) => is_object($desc) && get_class($desc) === Schema\Description::class,
+                static fn (mixed $desc) => is_object($desc) && Schema\Description::class === get_class($desc),
             );
 
             $descriptions = array_merge(
@@ -136,10 +135,10 @@ final class RecordContainersMapper
             unset($descriptions);
         }
 
-        if ($schema->affected !== null) {
+        if (null !== $schema->affected) {
             $filtered = array_filter(
                 $schema->affected,
-                static fn (mixed $affected) => is_object($affected) && get_class($affected) === Schema\Affected::class,
+                static fn (mixed $affected) => is_object($affected) && Schema\Affected::class === get_class($affected),
             );
 
             $persistence->setAffected(
@@ -149,10 +148,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->cpeApplicability !== null) {
+        if (null !== $schema->cpeApplicability) {
             $filtered = array_filter(
                 $schema->cpeApplicability,
-                static fn (mixed $cpe) => is_object($cpe) && get_class($cpe) === Schema\CPEApplicability::class,
+                static fn (mixed $cpe) => is_object($cpe) && Schema\CPEApplicability::class === get_class($cpe),
             );
 
             $persistence->setCpeApplicability(
@@ -162,10 +161,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->problemTypes !== null) {
+        if (null !== $schema->problemTypes) {
             $filtered = array_filter(
                 $schema->problemTypes,
-                static fn (mixed $cpe) => is_object($cpe) && get_class($cpe) === Schema\ProblemType::class,
+                static fn (mixed $cpe) => is_object($cpe) && Schema\ProblemType::class === get_class($cpe),
             );
 
             $problems = array_map(ProblemMapper::mapSchemaToPersistence(...), $filtered);
@@ -186,10 +185,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->references !== null) {
+        if (null !== $schema->references) {
             $filtered = array_filter(
                 $schema->references,
-                static fn (mixed $ref) => is_object($ref) && get_class($ref) === Schema\Reference::class,
+                static fn (mixed $ref) => is_object($ref) && Schema\Reference::class === get_class($ref),
             );
 
             $persistence->setReferences(
@@ -199,10 +198,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->metrics !== null) {
+        if (null !== $schema->metrics) {
             $filtered = array_filter(
                 $schema->metrics,
-                static fn (mixed $metric) => is_object($metric) && get_class($metric) === Schema\Metric::class,
+                static fn (mixed $metric) => is_object($metric) && Schema\Metric::class === get_class($metric),
             );
 
             $persistence->setMetrics(
@@ -212,10 +211,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->timeline !== null) {
+        if (null !== $schema->timeline) {
             $filtered = array_filter(
                 $schema->timeline,
-                static fn (mixed $timeline) => is_object($timeline) && get_class($timeline) === Schema\Timeline::class,
+                static fn (mixed $timeline) => is_object($timeline) && Schema\Timeline::class === get_class($timeline),
             );
 
             $persistence->setTimeline(
@@ -225,10 +224,10 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->credits !== null) {
+        if (null !== $schema->credits) {
             $filtered = array_filter(
                 $schema->credits,
-                static fn (mixed $credit) => is_object($credit) && get_class($credit) === Schema\Credit::class,
+                static fn (mixed $credit) => is_object($credit) && Schema\Credit::class === get_class($credit),
             );
 
             $persistence->setCredits(
@@ -241,10 +240,10 @@ final class RecordContainersMapper
         $persistence->setSource($schema->source);
         $persistence->setTags($schema->tags);
 
-        if ($schema->taxonomyMappings !== null) {
+        if (null !== $schema->taxonomyMappings) {
             $filtered = array_filter(
                 $schema->taxonomyMappings,
-                static fn (mixed $tax) => is_object($tax) && get_class($tax) === Schema\TaxonomyMapping::class,
+                static fn (mixed $tax) => is_object($tax) && Schema\TaxonomyMapping::class === get_class($tax),
             );
 
             $persistence->setTaxonomyMappings(
@@ -254,7 +253,7 @@ final class RecordContainersMapper
             );
         }
 
-        if ($schema->datePublic !== null) {
+        if (null !== $schema->datePublic) {
             if (Carbon::canBeCreatedFromFormat($schema->datePublic, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setPublicAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->datePublic)->toDateTimeImmutable(),
@@ -278,7 +277,7 @@ final class RecordContainersMapper
 
         $persistence = new Persistence\PublishedCNA();
 
-        if ($schema->dateAssigned !== null) {
+        if (null !== $schema->dateAssigned) {
             if (Carbon::canBeCreatedFromFormat($schema->dateAssigned, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setAssignedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->dateAssigned)->toDateTimeImmutable(),

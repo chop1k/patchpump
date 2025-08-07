@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\DescriptionType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,10 +19,10 @@ final class DescriptionMapper
         $persistence->setLanguage($schema->lang);
         $persistence->setContent($schema->value);
 
-        if ($schema->supportingMedia !== null) {
+        if (null !== $schema->supportingMedia) {
             $filtered = array_filter(
                 $schema->supportingMedia,
-                static fn (mixed $media) => is_object($media) && get_class($media) === Schema\DescriptionMedia::class,
+                static fn (mixed $media) => is_object($media) && Schema\DescriptionMedia::class === get_class($media),
             );
 
             $persistence->setMedia(

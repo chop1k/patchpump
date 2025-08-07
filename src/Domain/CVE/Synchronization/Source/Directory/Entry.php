@@ -7,6 +7,7 @@ namespace App\Domain\CVE\Synchronization\Source\Directory;
 use App\Domain\CVE\Synchronization\Source\Common\TextRecord;
 use League\Flysystem\FileAttributes;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\StorageAttributes;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -38,9 +39,12 @@ final readonly class Entry
         $name = Path::getFilenameWithoutExtension($path);
         $extension = Path::getExtension($path);
 
-        return $extension === 'json' && preg_match(self::IdPattern, $name);
+        return 'json' === $extension && preg_match(self::IdPattern, $name);
     }
 
+    /**
+     * @throws FilesystemException
+     */
     public function toRecord(): TextRecord
     {
         $path = $this->file->path();

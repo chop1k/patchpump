@@ -46,7 +46,7 @@ final readonly class Process
         $buffer = [];
 
         while (true) {
-            if ($generator->valid() === false || count($buffer) > $limit) {
+            if (false === $generator->valid() || count($buffer) > $limit) {
                 $this->persistence->flush();
                 $this->persistence->clear();
 
@@ -55,7 +55,7 @@ final readonly class Process
                 $buffer = [];
             }
 
-            if ($generator->valid() === false) {
+            if (false === $generator->valid()) {
                 break;
             }
 

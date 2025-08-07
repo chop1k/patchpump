@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use Carbon\Carbon;
 
@@ -17,7 +17,7 @@ final class ProviderMetadataMapper
         $persistence->setOrgId($schema->orgId);
         $persistence->setOrgName($schema->shortName);
 
-        if ($schema->dateUpdated !== null) {
+        if (null !== $schema->dateUpdated) {
             if (Carbon::canBeCreatedFromFormat($schema->dateUpdated, Schema\Timestamp::FormatWithTz)) {
                 $persistence->setUpdatedAt(
                     Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $schema->dateUpdated)->toDateTimeImmutable(),

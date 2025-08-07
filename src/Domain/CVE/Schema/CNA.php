@@ -11,10 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * Objects of the class are used for validating CVE schema and serialization/deserialization.
  *
- * @link https://github.com/CVEProject/cve-schema
- * @link https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
- *
- * @see Record
+ * @see https://github.com/CVEProject/cve-schema
+ * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
+ * @see TextRecord
  */
 #[Assert\Cascade]
 #[Assert\Expression(self::RULE_COMBINED)]
@@ -24,7 +23,7 @@ final class CNA
     private const RULE_2 = '(this.providerMetadata !== null && this.rejectedReasons !== null)';
     private const RULE_3 = 'this.providerMetadata !== null';
 
-    private const RULE_COMBINED = self::RULE_1 . ' || ' . self::RULE_2 . ' || ' . self::RULE_3;
+    private const RULE_COMBINED = self::RULE_1.' || '.self::RULE_2.' || '.self::RULE_3;
 
     #[Assert\NotNull]
     public ?ProviderMetadata $providerMetadata = null;
@@ -186,7 +185,7 @@ final class CNA
                 new Assert\NotNull(),
                 new Assert\Type('string'),
                 new Assert\Length(min: 2, max: 128),
-                new Assert\Regex('^x_.*$^')
+                new Assert\Regex('^x_.*$^'),
             ]),
             new Assert\Sequentially([
                 new Assert\NotNull(),
@@ -194,10 +193,10 @@ final class CNA
                 new Assert\Choice([
                     'unsupported-when-assigned',
                     'exclusively-hosted-service',
-                    'disputed'
-                ])
+                    'disputed',
+                ]),
             ]),
-        ])
+        ]),
     ])]
     public ?array $tags = null;
 

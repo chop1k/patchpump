@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping;
 
-use App\Domain\CVE\Schema as Schema;
+use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\AffectionStatus;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,25 +18,25 @@ final class AffectedVersionMapper
         $persistence->setVersion($schema->version);
         $persistence->setType($schema->versionType);
 
-        if (strtolower($schema->status ?? '') === 'unknown') {
+        if ('unknown' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Unknown);
         }
 
-        if (strtolower($schema->status ?? '') === 'affected') {
+        if ('affected' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Affected);
         }
 
-        if (strtolower($schema->status ?? '') === 'unaffected') {
+        if ('unaffected' === strtolower($schema->status ?? '')) {
             $persistence->setStatus(AffectionStatus::Unaffected);
         }
 
         $persistence->setLessThan($schema->lessThan);
         $persistence->setLessThanOrEqual($schema->lessThanOrEqual);
 
-        if ($schema->changes !== null) {
+        if (null !== $schema->changes) {
             $filtered = array_filter(
                 $schema->changes,
-                static fn (mixed $change) => is_object($change) && get_class($change) === Schema\AffectedVersionChange::class,
+                static fn (mixed $change) => is_object($change) && Schema\AffectedVersionChange::class === get_class($change),
             );
 
             $persistence->setChanges(
