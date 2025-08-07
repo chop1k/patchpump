@@ -40,18 +40,20 @@ final class ShowCommand extends Command
         $input = new ShowInput($input);
         $output = new ShowOutput($io);
 
-        $value = $input->value();
+        $values = $input->values();
 
-        $record = $this->documentManager->getRepository(Record::class)
-            ->find($value);
+        foreach ($values as $value) {
+            $record = $this->documentManager->getRepository(Record::class)
+                ->find($value);
 
-        if (null === $record) {
-            $output->notFound($value);
+            if (null === $record) {
+                $output->notFound($value);
 
-            return Command::FAILURE;
+                continue;
+            }
+
+            $output->recordFound($record);
         }
-
-        $output->recordFound($record);
 
         return Command::SUCCESS;
     }

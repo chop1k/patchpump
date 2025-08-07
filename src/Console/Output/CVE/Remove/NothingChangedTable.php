@@ -12,15 +12,15 @@ final readonly class NothingChangedTable
 {
     public function __construct(
         private OutputInterface $output,
-        private ParagraphStyle  $paragraph,
+        private ParagraphStyle $paragraph,
         /**
          * @var string[] $notFound
          */
-        private array           $notFound,
+        private array $notFound,
         /**
          * @var non-negative-int $count
          */
-        private int             $count,
+        private int $count,
     ) {
     }
 

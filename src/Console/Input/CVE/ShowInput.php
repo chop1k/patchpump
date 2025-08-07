@@ -17,11 +17,20 @@ final readonly class ShowInput
 
     public static function configure(Command $command): void
     {
-        $command->addArgument('value', InputArgument::REQUIRED);
+        $command->addArgument('values', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
-    public function value(): string
+    /**
+     * @return string[]
+     */
+    public function values(): array
     {
-        return $this->input->getArgument('value');
+        $content = $this->input->getArgument('values');
+
+        if (false === is_array($content)) {
+            throw new \InvalidArgumentException('values');
+        }
+
+        return array_filter($content, 'is_string');
     }
 }
