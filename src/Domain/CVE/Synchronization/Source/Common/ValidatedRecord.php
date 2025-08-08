@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Synchronization\Source\Common;
 
-use App\Domain\CVE\Mapping\RecordMapper;
+use App\Domain\CVE\Mapping\RecordMapping;
 use App\Domain\CVE\Schema\Record;
 
 /**
@@ -19,6 +19,9 @@ final readonly class ValidatedRecord
 
     public function toPersistence(): \App\Persistence\Document\CVE\Record
     {
-        return RecordMapper::mapSchemaToPersistence($this->record);
+        $mapping = new RecordMapping();
+
+        return $mapping->fromSchema($this->record)
+            ->toPersistence();
     }
 }
