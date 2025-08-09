@@ -57,21 +57,21 @@ final class RecordProvider
         $record_0 = new Record();
 
         $record_0->dataType = 'CVE_RECORD';
-        $record_0->dataVersion = '5.1.1';
+        $record_0->dataVersion = '5.1';
         $record_0->cveMetadata = $metadata_0;
         $record_0->containers = $containers_0;
 
         $record_1 = new Record();
 
         $record_1->dataType = 'CVE_RECORD';
-        $record_1->dataVersion = '5.1.1';
+        $record_1->dataVersion = '5.1';
         $record_1->cveMetadata = $metadata_0;
         $record_1->containers = $containers_1;
 
         $record_2 = new Record();
 
         $record_2->dataType = 'CVE_RECORD';
-        $record_2->dataVersion = '5.1.1';
+        $record_2->dataVersion = '5.1';
         $record_2->cveMetadata = $metadata_1;
         $record_2->containers = $containers_2;
 
@@ -90,14 +90,14 @@ final class RecordProvider
         $record_0 = new Record();
 
         $record_0->dataType = null;
-        $record_0->dataVersion = '5.1.1';
+        $record_0->dataVersion = '5.1';
         $record_0->cveMetadata = RecordMetadataProvider::provideValid()[0];
         $record_0->containers = RecordContainersProvider::provideValid()[0];
 
         $record_1 = new Record();
 
         $record_1->dataType = '';
-        $record_1->dataVersion = '5.1.1';
+        $record_1->dataVersion = '5.1';
         $record_1->cveMetadata = RecordMetadataProvider::provideValid()[0];
         $record_1->containers = RecordContainersProvider::provideValid()[0];
 
@@ -111,14 +111,14 @@ final class RecordProvider
         $record_3 = new Record();
 
         $record_3->dataType = 'CVE_RECORD';
-        $record_3->dataVersion = '5.1.1';
+        $record_3->dataVersion = '5.1';
         $record_3->cveMetadata = RecordMetadataProvider::provideInvalid()[0];
         $record_3->containers = RecordContainersProvider::provideValid()[0];
 
         $record_4 = new Record();
 
         $record_4->dataType = 'CVE_RECORD';
-        $record_4->dataVersion = '5.1.1';
+        $record_4->dataVersion = '5.1';
         $record_4->cveMetadata = RecordMetadataProvider::provideValid()[0];
         $record_4->containers = RecordContainersProvider::provideInvalid()[0];
 
@@ -132,14 +132,14 @@ final class RecordProvider
         $record_6 = new Record();
 
         $record_6->dataType = 'CVE_RECORD';
-        $record_6->dataVersion = '5.1.1';
+        $record_6->dataVersion = '5.1';
         $record_6->cveMetadata = null;
         $record_6->containers = RecordContainersProvider::provideValid()[0];
 
         $record_7 = new Record();
 
         $record_7->dataType = 'CVE_RECORD';
-        $record_7->dataVersion = '5.1.1';
+        $record_7->dataVersion = '5.1';
         $record_7->cveMetadata = RecordMetadataProvider::provideValid()[0];
         $record_7->containers = null;
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Common\Providers\Domain\CVE\Schema;
 
 use App\Domain\CVE\Schema\Timeline;
+use App\Domain\CVE\Schema\Timestamp;
 use Carbon\Carbon;
 
 final class TimelineProvider
@@ -18,7 +19,7 @@ final class TimelineProvider
 
         $timeline_0->lang = 'fr';
         $timeline_0->value = '123';
-        $timeline_0->time = Carbon::now()->format(\DateTimeInterface::ISO8601_EXPANDED);
+        $timeline_0->time = Carbon::now()->format(Timestamp::FormatWithTz);
 
         return [
             $timeline_0,
