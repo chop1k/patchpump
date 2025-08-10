@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\CPENodeProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -24,11 +23,15 @@ final class CPENodeTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(CPENodeProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_cpe_nodes(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(CPENodeProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_cpe_nodes(),
+        );
     }
 }

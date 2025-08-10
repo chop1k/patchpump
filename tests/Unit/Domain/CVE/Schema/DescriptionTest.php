@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\DescriptionProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -27,11 +26,15 @@ final class DescriptionTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(DescriptionProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_descriptions(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(DescriptionProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_descriptions(),
+        );
     }
 }

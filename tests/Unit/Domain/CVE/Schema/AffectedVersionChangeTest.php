@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\AffectedVersionChangeProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -24,11 +23,15 @@ final class AffectedVersionChangeTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(AffectedVersionChangeProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_affected_version_changes(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(AffectedVersionChangeProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_affected_version_changes(),
+        );
     }
 }

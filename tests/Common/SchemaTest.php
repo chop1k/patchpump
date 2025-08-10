@@ -4,25 +4,27 @@ declare(strict_types=1);
 
 namespace App\Tests\Common;
 
-use PHPUnit\Framework\TestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Validator\ValidatorBuilder;
 
-abstract class SchemaTest extends TestCase
+abstract class SchemaTest extends KernelTestCase
 {
     protected ?ValidatorInterface $validator = null;
 
     protected function setUp(): void
     {
-        $builder = new ValidatorBuilder();
+        parent::setUp();
 
-        $builder->enableAttributeMapping();
+        self::bootKernel();
 
-        $this->validator = $builder->getValidator();
+        $this->validator = self::getContainer()
+            ->get(ValidatorInterface::class);
     }
 
     protected function tearDown(): void
     {
+        parent::tearDown();
+
         $this->validator = null;
     }
 

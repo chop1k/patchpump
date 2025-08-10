@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\ReferenceProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -27,11 +26,11 @@ final class ReferenceTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(ReferenceProvider::provideValid());
+        return parent::mapRules(provide_valid_references());
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(ReferenceProvider::provideInvalid());
+        return parent::mapRules(provide_invalid_references());
     }
 }

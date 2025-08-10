@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\OtherProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -24,11 +23,15 @@ final class OtherTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(OtherProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_other_metrics()
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(OtherProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_other_metrics(),
+        );
     }
 }

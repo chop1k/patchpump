@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\MetricProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -27,11 +26,15 @@ final class MetricTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(MetricProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_metrics(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(MetricProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_metrics(),
+        );
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\RecordMetadataProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -27,11 +26,15 @@ final class RecordMetadataTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(RecordMetadataProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_record_metadata(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(RecordMetadataProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_record_metadata(),
+        );
     }
 }

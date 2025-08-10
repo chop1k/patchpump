@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\CVSS40Provider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -27,11 +26,15 @@ final class CVSS40Test extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(CVSS40Provider::provideValid());
+        return parent::mapRules(
+            provide_valid_cvss40(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(CVSS40Provider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_cvss40(),
+        );
     }
 }

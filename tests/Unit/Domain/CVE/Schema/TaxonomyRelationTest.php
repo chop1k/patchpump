@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit\Domain\CVE\Schema;
 
-use App\Tests\Common\Providers\Domain\CVE\Schema\TaxonomyRelationProvider;
 use App\Tests\Common\SchemaTest;
 use PHPUnit\Framework\Attributes\DataProvider;
 
@@ -24,11 +23,15 @@ final class TaxonomyRelationTest extends SchemaTest
 
     public static function provideValidRules(): iterable
     {
-        return parent::mapRules(TaxonomyRelationProvider::provideValid());
+        return parent::mapRules(
+            provide_valid_taxonomy_relations(),
+        );
     }
 
     public static function provideInvalidRules(): iterable
     {
-        return parent::mapRules(TaxonomyRelationProvider::provideInvalid());
+        return parent::mapRules(
+            provide_invalid_taxonomy_relations(),
+        );
     }
 }
