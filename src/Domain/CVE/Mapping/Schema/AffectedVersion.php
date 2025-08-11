@@ -9,6 +9,9 @@ use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\AffectionStatus;
 
+/**
+ * @internal
+ */
 final readonly class AffectedVersion
 {
     public function __construct(

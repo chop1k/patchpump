@@ -9,6 +9,9 @@ use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\RecordState;
 
+/**
+ * @internal
+ */
 final readonly class RecordMetadata
 {
     public function __construct(

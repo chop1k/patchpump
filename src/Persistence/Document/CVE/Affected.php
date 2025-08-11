@@ -36,7 +36,7 @@ class Affected
     private ?array $platforms = null;
 
     /**
-     * @var Collection<AffectedVersion>|AffectionStatus|null
+     * @var Collection<non-negative-int, AffectedVersion>|AffectionStatus|null
      */
     #[ODM\EmbedMany]
     private mixed $versions = null;
@@ -108,47 +108,30 @@ class Affected
     }
 
     /**
-     * @return Collection<non-negative-int, AffectedVersion>|AffectionStatus|null
+     * @return AffectedVersions
      */
-    public function getVersions(): mixed
+    public function getVersions(): AffectedVersions
     {
-        if (null === $this->versions) {
-            return null;
-        }
-
-        if (in_array(Collection::class, class_implements($this->versions), true)) {
-            return $this->versions;
-        }
-
-        if ($this->versions instanceof AffectionStatus) {
-            return $this->versions;
-        }
-
-        return null;
+        return new AffectedVersions($this->versions);
     }
 
     /**
-     * @param Collection<non-negative-int, AffectedVersion>|AffectionStatus|null $versions
+     * @param AffectedVersions $versions
      */
-    public function setVersions(mixed $versions): self
+    public function setVersions(AffectedVersions $versions): self
     {
-        if (null === $this->versions) {
-            $this->versions = null;
+        try {
+            $this->versions = $versions->versions();
 
             return $this;
+        } catch (\InvalidArgumentException) {
+            try {
+                $this->versions = $versions->status();
+
+                return $this;
+            } catch (\InvalidArgumentException) {
+                throw new \LogicException('123');
+            }
         }
-        if (in_array(Collection::class, class_implements($this->versions), true)) {
-            $this->versions = $versions;
-
-            return $this;
-        }
-
-        if ($this->versions instanceof AffectionStatus) {
-            $this->versions = $versions;
-
-            return $this;
-        }
-
-        throw new \InvalidArgumentException('123');
     }
 }

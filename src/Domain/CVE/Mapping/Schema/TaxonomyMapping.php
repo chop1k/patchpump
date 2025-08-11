@@ -8,6 +8,9 @@ use App\Domain\CVE\Mapping\Common\ChaoticCollection;
 use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 
+/**
+ * @internal
+ */
 final readonly class TaxonomyMapping
 {
     public function __construct(

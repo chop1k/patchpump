@@ -7,6 +7,9 @@ namespace App\Domain\CVE\Mapping\Schema;
 use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 
+/**
+ * @internal
+ */
 final readonly class MetricOther
 {
     public function __construct(

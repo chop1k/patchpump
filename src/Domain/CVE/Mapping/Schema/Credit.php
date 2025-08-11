@@ -8,6 +8,9 @@ use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\CreditType;
 
+/**
+ * @internal
+ */
 final readonly class Credit
 {
     public function __construct(

@@ -9,6 +9,9 @@ use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\ApplicabilityOperator;
 
+/**
+ * @internal
+ */
 final readonly class CPENode
 {
     public function __construct(

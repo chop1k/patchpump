@@ -11,6 +11,9 @@ use App\Persistence\Document\CVE as Persistence;
 use App\Persistence\Enum\CVE\DescriptionType;
 use Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @internal
+ */
 final readonly class RecordContainers
 {
     public function __construct(
@@ -142,27 +145,17 @@ final readonly class RecordContainers
         }
 
         if (null !== $this->schema->problemTypes) {
-//            $filtered = array_filter(
-//                $schema->problemTypes,
-//                static fn (mixed $cpe) => is_object($cpe) && Schema\ProblemType::class === get_class($cpe),
-//            );
-//
-//            $problems = array_map(ProblemMapper::mapSchemaToPersistence(...), $filtered);
-//
-//            $persistence->setProblems(
-//                new ArrayCollection(
-//                    array_merge(
-//                        ...array_map(
-//                            fn (int $index, array $descriptions) => array_map(
-//                                fn (Persistence\Problem $problem) => $problem->setIndex($index),
-//                                $descriptions,
-//                            ),
-//                            array_keys($problems),
-//                            array_values($problems),
-//                        )
-//                    )
-//                )
-//            );
+            $problems = new ChaoticCollection(
+                $this->schema->problemTypes,
+                $this->mapProblem(...),
+            );
+
+            $problems = $problems
+                ->ensureInstanceOf(Schema\ProblemType::class)
+                ->map()
+                ->toArrayCollection();
+
+            $persistence->setProblems($problems);
         }
 
         if (null !== $this->schema->references) {
@@ -306,6 +299,13 @@ final readonly class RecordContainers
         }
 
         return $persistence;
+    }
+
+    private function mapProblem(Schema\ProblemType $problem): Persistence\ProblemType
+    {
+        $mapping = new Problem($problem);
+
+        return $mapping->toPersistence();
     }
 
     private function mapMetric(Schema\Metric $metric): Persistence\Metric

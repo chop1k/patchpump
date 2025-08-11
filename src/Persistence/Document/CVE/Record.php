@@ -16,7 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class Record
 {
     #[ODM\Id(strategy: 'NONE')]
-    private ?string $id = null;
+    private string $id;
 
     #[ODM\EmbedOne]
     private ?RecordMetadata $metadata = null;
@@ -36,16 +36,15 @@ class Record
     #[ODM\EmbedMany]
     private ?Collection $adp = null;
 
-    public function getId(): ?string
-    {
-        return $this->id;
+    public function __construct(
+        string $id,
+    ) {
+        $this->id = $id;
     }
 
-    public function setId(?string $id): self
+    public function getId(): string
     {
-        $this->id = $id;
-
-        return $this;
+        return $this->id;
     }
 
     public function getMetadata(): ?RecordMetadata
