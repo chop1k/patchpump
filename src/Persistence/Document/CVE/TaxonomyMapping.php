@@ -20,7 +20,7 @@ class TaxonomyMapping
     private ?string $version = null;
 
     /**
-     * @var Collection<TaxonomyRelation>|null
+     * @var Collection<non-negative-int, TaxonomyRelation>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $relations = null;
@@ -49,11 +49,17 @@ class TaxonomyMapping
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, TaxonomyRelation>|null
+     */
     public function getRelations(): ?Collection
     {
         return $this->relations;
     }
 
+    /**
+     * @param Collection<non-negative-int, TaxonomyRelation>|null $relations
+     */
     public function setRelations(?Collection $relations): self
     {
         $this->relations = $relations;

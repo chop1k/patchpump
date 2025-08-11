@@ -24,7 +24,7 @@ class Description
     private ?string $content = null;
 
     /**
-     * @var Collection<DescriptionMedia>|null
+     * @var Collection<non-negative-int, DescriptionMedia>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $media = null;
@@ -71,11 +71,17 @@ class Description
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, DescriptionMedia>|null
+     */
     public function getMedia(): ?Collection
     {
         return $this->media;
     }
 
+    /**
+     * @param Collection<non-negative-int, DescriptionMedia>|null $media
+     */
     public function setMedia(?Collection $media): self
     {
         $this->media = $media;

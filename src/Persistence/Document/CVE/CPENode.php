@@ -21,7 +21,7 @@ class CPENode
     public ?bool $negate = null;
 
     /**
-     * @var Collection<CPEMatch>|null
+     * @var Collection<non-negative-int, CPEMatch>|null
      */
     #[ODM\EmbedMany]
     public ?Collection $matches = null;
@@ -56,11 +56,17 @@ class CPENode
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, CPEMatch>|null
+     */
     public function getMatches(): ?Collection
     {
         return $this->matches;
     }
 
+    /**
+     * @param Collection<non-negative-int, CPEMatch>|null $matches
+     */
     public function setMatches(?Collection $matches): self
     {
         $this->matches = $matches;

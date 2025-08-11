@@ -30,7 +30,7 @@ class AffectedVersion
     private ?string $lessThanOrEqual = null;
 
     /**
-     * @var Collection<AffectedVersionChange>|null
+     * @var Collection<non-negative-int, AffectedVersionChange>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $changes = null;
@@ -101,11 +101,17 @@ class AffectedVersion
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, AffectedVersionChange>|null
+     */
     public function getChanges(): ?Collection
     {
         return $this->changes;
     }
 
+    /**
+     * @param Collection<non-negative-int, AffectedVersionChange>|null $changes
+     */
     public function setChanges(?Collection $changes): self
     {
         $this->changes = $changes;

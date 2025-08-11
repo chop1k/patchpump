@@ -108,7 +108,7 @@ class Affected
     }
 
     /**
-     * @return Collection<AffectedVersion>|AffectionStatus|null
+     * @return Collection<non-negative-int, AffectedVersion>|AffectionStatus|null
      */
     public function getVersions(): mixed
     {
@@ -128,7 +128,7 @@ class Affected
     }
 
     /**
-     * @param Collection<AffectedVersion>|AffectionStatus|null $versions
+     * @param Collection<non-negative-int, AffectedVersion>|AffectionStatus|null $versions
      */
     public function setVersions(mixed $versions): self
     {

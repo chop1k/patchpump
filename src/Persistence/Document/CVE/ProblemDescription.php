@@ -11,11 +11,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @final
  */
 #[ODM\EmbeddedDocument]
-class Problem
+class ProblemDescription
 {
-    #[ODM\Field]
-    private ?int $index = null;
-
     #[ODM\Field]
     private ?string $language = null;
 
@@ -29,22 +26,10 @@ class Problem
     private ?string $type = null;
 
     /**
-     * @var Collection<Reference>|null
+     * @var Collection<non-negative-int, Reference>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $references = null;
-
-    public function getIndex(): ?int
-    {
-        return $this->index;
-    }
-
-    public function setIndex(?int $index): self
-    {
-        $this->index = $index;
-
-        return $this;
-    }
 
     public function getLanguage(): ?string
     {
@@ -94,11 +79,17 @@ class Problem
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, Reference>|null
+     */
     public function getReferences(): ?Collection
     {
         return $this->references;
     }
 
+    /**
+     * @param Collection<non-negative-int, Reference>|null $references
+     */
     public function setReferences(?Collection $references): self
     {
         $this->references = $references;

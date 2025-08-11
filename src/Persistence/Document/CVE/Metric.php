@@ -23,7 +23,7 @@ class Metric
     private ?MetricOther $other = null;
 
     /**
-     * @var Collection<MetricScenario>|null
+     * @var Collection<non-negative-int, MetricScenario>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $scenarios = null;
@@ -58,11 +58,17 @@ class Metric
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, MetricScenario>|null
+     */
     public function getScenarios(): ?Collection
     {
         return $this->scenarios;
     }
 
+    /**
+     * @param Collection<non-negative-int, MetricScenario>|null $scenarios
+     */
     public function setScenarios(?Collection $scenarios): self
     {
         $this->scenarios = $scenarios;

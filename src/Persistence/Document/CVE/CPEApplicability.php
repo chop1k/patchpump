@@ -21,7 +21,7 @@ class CPEApplicability
     private ?bool $negate = null;
 
     /**
-     * @var Collection<CPENode>|null
+     * @var Collection<non-negative-int, CPENode>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $nodes = null;
@@ -56,11 +56,17 @@ class CPEApplicability
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, CPENode>|null
+     */
     public function getNodes(): ?Collection
     {
         return $this->nodes;
     }
 
+    /**
+     * @param Collection<non-negative-int, CPENode>|null $nodes
+     */
     public function setNodes(?Collection $nodes): self
     {
         $this->nodes = $nodes;

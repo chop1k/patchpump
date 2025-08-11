@@ -20,49 +20,49 @@ class PublishedCNA
     private ?ContainerProvider $provider = null;
 
     /**
-     * @var Collection<Description>|null
+     * @var Collection<non-negative-int, Description>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $descriptions = null;
 
     /**
-     * @var Collection<Affected>|null
+     * @var Collection<non-negative-int, Affected>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $affected = null;
 
     /**
-     * @var Collection<CPEApplicability>|null
+     * @var Collection<non-negative-int, CPEApplicability>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $cpeApplicability = null;
 
     /**
-     * @var Collection<Problem>|null
+     * @var Collection<non-negative-int, ProblemType>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $problems = null;
 
     /**
-     * @var Collection<Reference>|null
+     * @var Collection<non-negative-int, Reference>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $references = null;
 
     /**
-     * @var Collection<Metric>|null
+     * @var Collection<non-negative-int, Metric>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $metrics = null;
 
     /**
-     * @var Collection<Timeline>|null
+     * @var Collection<non-negative-int, Timeline>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $timeline = null;
 
     /**
-     * @var Collection<Credit>|null
+     * @var Collection<non-negative-int, Credit>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $credits = null;
@@ -77,7 +77,7 @@ class PublishedCNA
     private ?array $tags = null;
 
     /**
-     * @var Collection<int, TaxonomyMapping>|null
+     * @var Collection<non-negative-int, TaxonomyMapping>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $taxonomyMappings = null;
@@ -113,13 +113,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Description>|null
+     * @return Collection<non-negative-int, Description>|null
      */
     public function getDescriptions(): ?Collection
     {
         return $this->descriptions;
     }
 
+    /**
+     * @param Collection<non-negative-int, Description>|null $descriptions
+     */
     public function setDescriptions(?Collection $descriptions): self
     {
         $this->descriptions = $descriptions;
@@ -128,13 +131,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Affected>|null
+     * @return Collection<non-negative-int, Affected>|null
      */
     public function getAffected(): ?Collection
     {
         return $this->affected;
     }
 
+    /**
+     * @param Collection<non-negative-int, Affected>|null $affected
+     */
     public function setAffected(?Collection $affected): self
     {
         $this->affected = $affected;
@@ -143,13 +149,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<CPEApplicability>|null
+     * @return Collection<non-negative-int, CPEApplicability>|null
      */
     public function getCpeApplicability(): ?Collection
     {
         return $this->cpeApplicability;
     }
 
+    /**
+     * @param Collection<non-negative-int, CPEApplicability>|null $cpeApplicability
+     */
     public function setCpeApplicability(?Collection $cpeApplicability): self
     {
         $this->cpeApplicability = $cpeApplicability;
@@ -158,13 +167,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Problem>|null
+     * @return Collection<non-negative-int, ProblemDescription>|null
      */
     public function getProblems(): ?Collection
     {
         return $this->problems;
     }
 
+    /**
+     * @param Collection<non-negative-int, ProblemDescription>|null $problems
+     */
     public function setProblems(?Collection $problems): self
     {
         $this->problems = $problems;
@@ -173,13 +185,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Reference>|null
+     * @return Collection<non-negative-int, Reference>|null
      */
     public function getReferences(): ?Collection
     {
         return $this->references;
     }
 
+    /**
+     * @param Collection<non-negative-int, Reference>|null $references
+     */
     public function setReferences(?Collection $references): self
     {
         $this->references = $references;
@@ -188,13 +203,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Metric>|null
+     * @return Collection<non-negative-int, Metric>|null
      */
     public function getMetrics(): ?Collection
     {
         return $this->metrics;
     }
 
+    /**
+     * @param Collection<non-negative-int, Metric>|null $metrics
+     */
     public function setMetrics(?Collection $metrics): self
     {
         $this->metrics = $metrics;
@@ -203,13 +221,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Timeline>|null
+     * @return Collection<non-negative-int, Timeline>|null
      */
     public function getTimeline(): ?Collection
     {
         return $this->timeline;
     }
 
+    /**
+     * @param Collection<non-negative-int, Timeline>|null $timeline
+     */
     public function setTimeline(?Collection $timeline): self
     {
         $this->timeline = $timeline;
@@ -218,13 +239,16 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<Credit>|null
+     * @return Collection<non-negative-int, Credit>|null
      */
     public function getCredits(): ?Collection
     {
         return $this->credits;
     }
 
+    /**
+     * @param Collection<non-negative-int, Credit>|null $credits
+     */
     public function setCredits(?Collection $credits): self
     {
         $this->credits = $credits;
@@ -232,11 +256,17 @@ class PublishedCNA
         return $this;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
     public function getSource(): ?array
     {
         return $this->source;
     }
 
+    /**
+     * @param array<string, mixed>|null $source
+     */
     public function setSource(?array $source): self
     {
         if (empty($source)) {
@@ -251,7 +281,7 @@ class PublishedCNA
     }
 
     /**
-     * @return Collection<string>|null
+     * @return string[]|null
      */
     public function getTags(): ?array
     {
@@ -282,6 +312,9 @@ class PublishedCNA
         return $this->taxonomyMappings;
     }
 
+    /**
+     * @param Collection<non-negative-int, TaxonomyMapping>|null $taxonomyMappings
+     */
     public function setTaxonomyMappings(?Collection $taxonomyMappings): self
     {
         $this->taxonomyMappings = $taxonomyMappings;

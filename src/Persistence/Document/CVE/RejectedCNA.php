@@ -23,7 +23,7 @@ class RejectedCNA
     private ?array $replacedBy = null;
 
     /**
-     * @var Collection<Description>|null
+     * @var Collection<non-negative-int, Description>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $reasons = null;
@@ -48,9 +48,6 @@ class RejectedCNA
         return $this->replacedBy;
     }
 
-    /**
-     * @return $this
-     */
     public function setReplacedBy(?array $replacedBy): self
     {
         $this->replacedBy = $replacedBy;
@@ -59,7 +56,7 @@ class RejectedCNA
     }
 
     /**
-     * @return Collection<Description>|null
+     * @return Collection<non-negative-int, Description>|null
      */
     public function getReasons(): ?Collection
     {
@@ -67,9 +64,7 @@ class RejectedCNA
     }
 
     /**
-     * @param Collection<Description>|null $reasons
-     *
-     * @return $this
+     * @param Collection<non-negative-int, Description>|null $reasons
      */
     public function setReasons(?Collection $reasons): self
     {

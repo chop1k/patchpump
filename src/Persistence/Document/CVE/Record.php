@@ -31,7 +31,7 @@ class Record
     private ?PublishedCNA $publishedCNA = null;
 
     /**
-     * @var Collection<ADP>|null
+     * @var Collection<non-negative-int, ADP>|null
      */
     #[ODM\EmbedMany]
     private ?Collection $adp = null;
@@ -96,11 +96,17 @@ class Record
         return $this;
     }
 
+    /**
+     * @return Collection<non-negative-int, ADP>|null
+     */
     public function getAdp(): ?Collection
     {
         return $this->adp;
     }
 
+    /**
+     * @param Collection<non-negative-int, ADP>|null $adp
+     */
     public function setAdp(?Collection $adp): self
     {
         $this->adp = $adp;
