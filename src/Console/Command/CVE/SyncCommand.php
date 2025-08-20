@@ -53,6 +53,7 @@ final class SyncCommand extends Command
             $this->serializer,
             $this->validator,
             $this->documentManager,
+            $input,
         );
 
         /**
@@ -60,10 +61,7 @@ final class SyncCommand extends Command
          */
         $process = new Process(
             $this->eventDispatcher,
-            $factory->source(
-                $input->sourceType(),
-                $input->records(),
-            ),
+            $factory->source(),
             $factory->persistence(),
             $factory->comparator(),
         );

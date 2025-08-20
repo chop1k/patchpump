@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Factory\CVE;
 
-use App\Console\Enum\CVE\SourceType;
+use App\Console\Input\CVE\SyncInput;
 use App\Domain\CVE\Synchronization\Comparator\DateComparator;
 use App\Domain\CVE\Synchronization\Persistence\DocumentPersistence;
 use App\Domain\CVE\Synchronization\Source\DirectorySource;
@@ -27,24 +27,36 @@ final readonly class SyncFactory
         private SerializerInterface $serializer,
         private ValidatorInterface $validator,
         private ObjectManager $documentManager,
+        private SyncInput $input,
     ) {
     }
 
     /**
-     * @param string[] $records
-     *
      * @return SourceInterface<Record>
      *
      * @throws \InvalidArgumentException
      */
-    public function source(SourceType $type, array $records): SourceInterface
+    public function source(): SourceInterface
     {
-        return match ($type) {
-            SourceType::Directory => $this->directorySource($records),
-            SourceType::Repository => $this->repositorySource(),
-            SourceType::Stdin => $this->stdinSource(),
-            SourceType::File => $this->fileSource($records),
-        };
+        $source = $this->input->source();
+
+        if (true === $source->directorySelected()) {
+            return $this->directorySource();
+        }
+
+        if (true === $source->repositorySelected()) {
+            return $this->repositorySource();
+        }
+
+        if (true === $source->fileSelected()) {
+            return $this->fileSource();
+        }
+
+        if (true === $source->stdinSelected()) {
+            return $this->stdinSource();
+        }
+
+        throw new \InvalidArgumentException();
     }
 
     private function rootFilesystem(): Filesystem
@@ -54,13 +66,13 @@ final readonly class SyncFactory
         );
     }
 
-    private function directorySource(array $paths): DirectorySource
+    private function directorySource(): DirectorySource
     {
         return new DirectorySource(
             $this->serializer,
             $this->validator,
             $this->rootFilesystem(),
-            $paths,
+            $this->input->records(),
         );
     }
 
@@ -68,13 +80,13 @@ final readonly class SyncFactory
     {
     }
 
-    private function fileSource(array $paths): FileSource
+    private function fileSource(): FileSource
     {
         return new FileSource(
             $this->serializer,
             $this->validator,
             $this->rootFilesystem(),
-            $paths,
+            $this->input->records(),
         );
     }
 

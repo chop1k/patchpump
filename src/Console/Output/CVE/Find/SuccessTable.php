@@ -11,7 +11,7 @@ final readonly class SuccessTable
 {
     public function __construct(
         private OutputInterface $output,
-        private Record          $record,
+        private Record $record,
     ) {
     }
 

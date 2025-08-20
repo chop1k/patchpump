@@ -49,7 +49,6 @@ final readonly class RemoveOutput
             $this->output,
             $this->paragraph,
             $notFound,
-            count($notFound),
         );
 
         $header->render();
@@ -72,7 +71,6 @@ final readonly class RemoveOutput
             $this->output,
             $this->paragraph,
             $removed,
-            count($removed),
         );
 
         $header->render();
