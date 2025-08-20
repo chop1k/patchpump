@@ -49,7 +49,7 @@ final readonly class FileSource implements SourceInterface
                 ->validate()
                 ->toPersistence();
 
-            yield $record->getId() => $record;
+            yield $record->id() => $record;
         }
     }
 }

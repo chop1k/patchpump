@@ -64,7 +64,7 @@ final readonly class DirectorySource implements SourceInterface
                 ->validate()
                 ->toPersistence();
 
-            yield $record->getId() => $record;
+            yield $record->id() => $record;
         }
     }
 }

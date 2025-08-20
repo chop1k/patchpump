@@ -19,13 +19,13 @@ final class DateComparator implements ComparatorInterface
      */
     public function newer(mixed $old, mixed $new): bool
     {
-        $oldUpdatedAt = $old->getMetadata()?->getUpdatedAt();
+        $oldUpdatedAt = $old->metadata()->updatedAt();
 
         if (null === $oldUpdatedAt) {
             return true;
         }
 
-        $newUpdatedAt = $new->getMetadata()?->getUpdatedAt();
+        $newUpdatedAt = $new->metadata()->updatedAt();
 
         if (null === $newUpdatedAt) {
             return false;

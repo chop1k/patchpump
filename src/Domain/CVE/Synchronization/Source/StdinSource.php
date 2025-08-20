@@ -40,6 +40,6 @@ final readonly class StdinSource implements SourceInterface
             ->validate()
             ->toPersistence();
 
-        yield $record->getId() => $record;
+        yield $record->id() => $record;
     }
 }

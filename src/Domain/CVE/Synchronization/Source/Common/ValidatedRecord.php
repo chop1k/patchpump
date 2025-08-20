@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Synchronization\Source\Common;
 
 use App\Domain\CVE\Mapping\RecordMapping;
-use App\Domain\CVE\Schema\Record;
+use App\Domain\CVE\Schema;
+use App\Persistence\Document\CVE as Persistence;
 
 /**
  * @internal
@@ -13,11 +14,11 @@ use App\Domain\CVE\Schema\Record;
 final readonly class ValidatedRecord
 {
     public function __construct(
-        private Record $record,
+        private Schema\Record $record,
     ) {
     }
 
-    public function toPersistence(): \App\Persistence\Document\CVE\Record
+    public function toPersistence(): Persistence\Record
     {
         $mapping = new RecordMapping();
 
