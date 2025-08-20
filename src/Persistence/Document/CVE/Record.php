@@ -4,112 +4,102 @@ declare(strict_types=1);
 
 namespace App\Persistence\Document\CVE;
 
-use Doctrine\Common\Collections\Collection;
+use App\Persistence\Document\CVE\Record\Data;
+use App\Persistence\Document\CVE\Record\Metadata;
+use App\Persistence\Document\CVE\Record\Metadata\Assigner;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
- * @todo change collection name
- *
- * @final
+ * @template MetadataT
+ * @template AssignerT
+ * @template DataT
  */
-#[ODM\Document]
+#[ODM\Document(
+    collection: 'records'
+)]
 class Record
 {
-    #[ODM\Id(strategy: 'NONE')]
-    private string $id;
-
-    #[ODM\EmbedOne]
-    private ?RecordMetadata $metadata = null;
-
-    #[ODM\EmbedOne]
-    private ?RecordAssigner $assigner = null;
-
-    #[ODM\EmbedOne]
-    private ?RejectedCNA $rejectedCNA = null;
-
-    #[ODM\EmbedOne]
-    private ?PublishedCNA $publishedCNA = null;
-
-    /**
-     * @var Collection<non-negative-int, ADP>|null
-     */
-    #[ODM\EmbedMany]
-    private ?Collection $adp = null;
-
     public function __construct(
-        string $id,
+        #[ODM\Id(strategy: 'NONE')]
+        private string $id,
+
+        #[ODM\Field]
+        private string $type,
+
+        /**
+         * @var MetadataT $metadata
+         */
+        #[ODM\EmbedOne(
+            discriminatorField: '_type',
+            discriminatorMap: [
+                'PUBLISHED' => Metadata\Published::class,
+                'REJECTED' => Metadata\Rejected::class,
+            ]
+        )]
+        private mixed $metadata,
+
+        /**
+         * @var AssignerT $assigner
+         */
+        #[ODM\EmbedOne(
+            discriminatorField: '_type',
+            discriminatorMap: [
+                'PUBLISHED' => Assigner\Published::class,
+                'REJECTED' => Assigner\Rejected::class,
+            ]
+        )]
+        private mixed $assigner,
+
+        /**
+         * @var DataT $data
+         */
+        #[ODM\EmbedOne(
+            discriminatorField: '_type',
+            discriminatorMap: [
+                'PUBLISHED' => Data\Published::class,
+                'REJECTED' => Data\Rejected::class,
+            ]
+        )]
+        private mixed $data,
     ) {
-        $this->id = $id;
     }
 
-    public function getId(): string
+    public function id(): string
     {
         return $this->id;
     }
 
-    public function getMetadata(): ?RecordMetadata
+    public function published(): bool
+    {
+        return $this->type === 'PUBLISHED';
+    }
+
+    public function rejected(): bool
+    {
+        return $this->type === 'REJECTED';
+    }
+
+    /**
+     * @return MetadataT
+     */
+    public function metadata(): mixed
     {
         return $this->metadata;
     }
 
-    public function setMetadata(?RecordMetadata $metadata): self
-    {
-        $this->metadata = $metadata;
-
-        return $this;
-    }
-
-    public function getAssigner(): ?RecordAssigner
+    /**
+     * @return AssignerT
+     */
+    public function assigner(): mixed
     {
         return $this->assigner;
     }
 
-    public function setAssigner(?RecordAssigner $assigner): self
-    {
-        $this->assigner = $assigner;
-
-        return $this;
-    }
-
-    public function getRejectedCNA(): ?RejectedCNA
-    {
-        return $this->rejectedCNA;
-    }
-
-    public function setRejectedCNA(?RejectedCNA $rejectedCNA): self
-    {
-        $this->rejectedCNA = $rejectedCNA;
-
-        return $this;
-    }
-
-    public function getPublishedCNA(): ?PublishedCNA
-    {
-        return $this->publishedCNA;
-    }
-
-    public function setPublishedCNA(?PublishedCNA $publishedCNA): self
-    {
-        $this->publishedCNA = $publishedCNA;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<non-negative-int, ADP>|null
+     * @return DataT
      */
-    public function getAdp(): ?Collection
+    public function data(): mixed
     {
-        return $this->adp;
-    }
-
-    /**
-     * @param Collection<non-negative-int, ADP>|null $adp
-     */
-    public function setAdp(?Collection $adp): self
-    {
-        $this->adp = $adp;
-
-        return $this;
+        return $this->data;
     }
 }
