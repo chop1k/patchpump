@@ -28,7 +28,7 @@ final readonly class Process
         $notFound = [];
 
         foreach ($results as $record) {
-            $notFound[] = $record->getId();
+            $notFound[] = $record->id();
         }
 
         return new SearchResult(

@@ -11,12 +11,12 @@ final readonly class SuccessTable
 {
     public function __construct(
         private OutputInterface $output,
-        private Record $record,
+        private Record          $record,
     ) {
     }
 
     public function render(): void
     {
-        $this->output->writeln($this->record->getId());
+        $this->output->writeln($this->record->id());
     }
 }
