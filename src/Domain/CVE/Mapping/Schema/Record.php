@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping\Schema;
 
-use App\Domain\CVE\Mapping\Common\ChaoticCollection;
+use App\Domain\CVE\Mapping\Schema\Record\Data;
+use App\Domain\CVE\Mapping\Schema\Record\Metadata;
 use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
 
@@ -18,56 +19,73 @@ final readonly class Record
     ) {
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     */
     public function toPersistence(): Persistence\Record
     {
-        $persistence = new Persistence\Record();
-
-        $persistence->setId($this->schema->cveMetadata?->cveId);
-
-        if (null !== $this->schema->cveMetadata) {
-            $mapping = new RecordMetadata($this->schema->cveMetadata);
-
-            $persistence->setMetadata($mapping->toPersistenceMetadata());
-            $persistence->setAssigner($mapping->toPersistenceAssigner());
+        if (null === $this->schema->cveMetadata?->cveId) {
+            throw new \InvalidArgumentException();
         }
 
-        if (null === $this->schema->containers) {
-            return $persistence;
-        }
+        $state = $this->schema->cveMetadata?->state;
 
-        if (null !== $this->schema->containers->cna) {
-            $mapping = new RecordContainers($this->schema->containers->cna);
-
-            if (RecordState::Published === $persistence->getMetadata()?->getState()) {
-                $persistence->setPublishedCNA($mapping->toPersistencePublishedCNA());
-            }
-
-            if (RecordState::Rejected === $persistence->getMetadata()?->getState()) {
-                $persistence->setRejectedCNA($mapping->toPersistenceRejectedCNA());
-            }
-        }
-
-        if (null !== $this->schema->containers->adp) {
-            $adp = new ChaoticCollection(
-                $this->schema->containers->adp,
-                $this->mapADP(...),
-            );
-
-            $adp = $adp
-                ->ensureInstanceOf(Schema\CNA::class)
-                ->map()
-                ->toArrayCollection();
-
-            $persistence->setAdp($adp);
-        }
-
-        return $persistence;
+        return match ($state) {
+            'PUBLISHED' => $this->published(),
+            'REJECTED' => $this->rejected(),
+            default => throw new \InvalidArgumentException(),
+        };
     }
 
-    private function mapADP(Schema\CNA $adp): Persistence\ADP
+    private function published(): Persistence\Record
     {
-        $mapping = new RecordContainers($adp);
+        return new Persistence\Record(
+            $this->schema->cveMetadata->cveId,
+            $this->schema->cveMetadata->state,
+            $this->publishedMetadata(),
+            $this->publishedAssigner(),
+            $this->publishedData(),
+        );
+    }
 
-        return $mapping->toPersistenceADP();
+    private function rejected(): Persistence\Record
+    {
+        return new Persistence\Record(
+            $this->schema->cveMetadata->cveId,
+            $this->schema->cveMetadata->state,
+            $this->rejectedMetadata(),
+            $this->rejectedAssigner(),
+            $this->rejectedData(),
+        );
+    }
+
+    private function publishedMetadata(): Persistence\Record\Metadata\Published
+    {
+        return (new Metadata\Published($this->schema->cveMetadata))->toPersistence();
+    }
+
+    private function rejectedMetadata(): Persistence\Record\Metadata\Rejected
+    {
+        return (new Metadata\Rejected($this->schema->cveMetadata))->toPersistence();
+    }
+
+    private function publishedAssigner(): Persistence\Record\Metadata\Assigner\Published
+    {
+        return (new Metadata\Assigner\Published($this->schema->cveMetadata))->toPersistence();
+    }
+
+    private function rejectedAssigner(): Persistence\Record\Metadata\Assigner\Rejected
+    {
+        return (new Metadata\Assigner\Rejected($this->schema->cveMetadata))->toPersistence();
+    }
+
+    private function publishedData(): Persistence\Record\Data\Published
+    {
+        return (new Data\Published($this->schema->containers))->toPersistence();
+    }
+
+    private function rejectedData(): Persistence\Record\Data\Rejected
+    {
+        return (new Data\Rejected($this->schema->containers->cna))->toPersistence();
     }
 }
