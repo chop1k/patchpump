@@ -69,7 +69,7 @@ class Record
     }
 
     /**
-     * @return self<Metadata\Published, Metadata\Assigner\Published, Data\Published>
+     * @return self<Metadata\Published, Assigner\Published, Data\Published>
      */
     public static function withPublished(
         string $id,
@@ -81,7 +81,7 @@ class Record
     }
 
     /**
-     * @return self<Metadata\Rejected, Metadata\Assigner\Rejected, Data\Rejected>
+     * @return self<Metadata\Rejected, Assigner\Rejected, Data\Rejected>
      */
     public static function withRejected(
         string $id,
