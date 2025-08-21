@@ -116,8 +116,6 @@ final readonly class Summary
     {
         $elements = [];
 
-        dump($this->problemsProviders());
-
         foreach ($this->problemsProviders() as $providedBy => $problems) {
             foreach ($problems as $problem) {
                 $elements[] = (new Wrappers\Problem($providedBy, $problem))->toPersistence();
