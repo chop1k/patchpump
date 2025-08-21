@@ -21,6 +21,9 @@ final class Other
     #[Assert\Length(min: 1, max: 128)]
     public ?string $type = null;
 
+    /**
+     * @var array<string, mixed>|null $content
+     */
     #[Assert\NotNull]
     #[Assert\NotBlank]
     public ?array $content = null;

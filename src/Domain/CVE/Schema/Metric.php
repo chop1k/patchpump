@@ -25,7 +25,7 @@ final class Metric
     public ?string $format = null;
 
     /**
-     * @var MetricScenario[]|null
+     * @var MetricScenario[]|null $scenarios
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

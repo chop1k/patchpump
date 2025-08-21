@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class ProblemType
 {
     /**
-     * @var ProblemDescription[]|null
+     * @var ProblemDescription[]|null $descriptions
      */
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]

@@ -32,7 +32,7 @@ final class CNA
     public ?string $title = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $descriptions
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -43,7 +43,7 @@ final class CNA
     public ?array $descriptions = null;
 
     /**
-     * @var Affected[]|null
+     * @var Affected[]|null $affected
      */
     #[Assert\Count(min: 1)]
     #[Assert\All([
@@ -53,7 +53,7 @@ final class CNA
     public ?array $affected = null;
 
     /**
-     * @var CPEApplicability[]|null
+     * @var CPEApplicability[]|null $cpeApplicability
      */
     #[Assert\All([
         new Assert\NotNull(),
@@ -62,7 +62,7 @@ final class CNA
     public ?array $cpeApplicability = null;
 
     /**
-     * @var ProblemType[]|null
+     * @var ProblemType[]|null $problemTypes
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -73,7 +73,7 @@ final class CNA
     public ?array $problemTypes = null;
 
     /**
-     * @var Reference[]|null
+     * @var Reference[]|null $references
      */
     #[Assert\Count(min: 1, max: 512)]
     #[Assert\Unique]
@@ -84,7 +84,7 @@ final class CNA
     public ?array $references = null;
 
     /**
-     * @var Impact[]|null
+     * @var Impact[]|null $impacts
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -95,7 +95,7 @@ final class CNA
     public ?array $impacts = null;
 
     /**
-     * @var Metric[]|null
+     * @var Metric[]|null $metrics
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -106,7 +106,7 @@ final class CNA
     public ?array $metrics = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $configurations
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -117,7 +117,7 @@ final class CNA
     public ?array $configurations = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $workarounds
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -128,7 +128,7 @@ final class CNA
     public ?array $workarounds = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $solutions
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -139,7 +139,7 @@ final class CNA
     public ?array $solutions = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $exploits
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -150,7 +150,7 @@ final class CNA
     public ?array $exploits = null;
 
     /**
-     * @var Timeline[]|null
+     * @var Timeline[]|null $timeline
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -161,7 +161,7 @@ final class CNA
     public ?array $timeline = null;
 
     /**
-     * @var Credit[]|null
+     * @var Credit[]|null $credits
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -175,7 +175,7 @@ final class CNA
     public ?array $source = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $tags
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -201,7 +201,7 @@ final class CNA
     public ?array $tags = null;
 
     /**
-     * @var TaxonomyMapping[]|null
+     * @var TaxonomyMapping[]|null $taxonomyMappings
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -224,7 +224,7 @@ final class CNA
     public ?string $datePublic = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $rejectedReasons
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -235,7 +235,7 @@ final class CNA
     public ?array $rejectedReasons = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $replacedBy
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

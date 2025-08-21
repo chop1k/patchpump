@@ -41,7 +41,7 @@ final class Affected
     public ?string $packageName = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $cpes
      */
     #[Assert\Unique]
     #[Assert\All(
@@ -55,7 +55,7 @@ final class Affected
     public ?array $cpes = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $modules
      */
     #[Assert\Unique]
     #[Assert\All(
@@ -68,7 +68,7 @@ final class Affected
     public ?array $modules = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $programFiles
      */
     #[Assert\Unique]
     #[Assert\All(
@@ -81,7 +81,7 @@ final class Affected
     public ?array $programFiles = null;
 
     /**
-     * @var AffectedRoutine[]|null
+     * @var AffectedRoutine[]|null $programRoutines
      */
     #[Assert\Unique]
     #[Assert\All(
@@ -93,7 +93,7 @@ final class Affected
     public ?array $programRoutines = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $platforms
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -113,7 +113,7 @@ final class Affected
     public ?string $defaultStatus = null;
 
     /**
-     * @var AffectedVersion[]|null
+     * @var AffectedVersion[]|null $versions
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

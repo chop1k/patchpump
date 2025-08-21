@@ -27,7 +27,7 @@ final class Description
     public ?string $value = null;
 
     /**
-     * @var DescriptionMedia[]|null
+     * @var DescriptionMedia[]|null $supportingMedia
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

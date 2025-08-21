@@ -48,7 +48,7 @@ final class AffectedVersion
     public ?string $lessThanOrEqual = null;
 
     /**
-     * @var AffectedVersionChange[]|null
+     * @var AffectedVersionChange[]|null $changes
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

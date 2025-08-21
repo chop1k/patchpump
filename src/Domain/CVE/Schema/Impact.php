@@ -23,7 +23,7 @@ final class Impact
     public ?string $capecId = null;
 
     /**
-     * @var Description[]|null
+     * @var Description[]|null $descriptions
      */
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]

@@ -26,7 +26,7 @@ final class TaxonomyMapping
     public ?string $taxonomyVersion = null;
 
     /**
-     * @var TaxonomyRelation[]|null
+     * @var TaxonomyRelation[]|null $taxonomyRelations
      */
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]

@@ -24,7 +24,7 @@ final class CPEApplicability
     public ?bool $negate = null;
 
     /**
-     * @var CPENode[]|null
+     * @var CPENode[]|null $nodes
      */
     #[Assert\NotNull]
     #[Assert\All([

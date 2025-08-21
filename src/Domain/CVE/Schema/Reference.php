@@ -24,7 +24,7 @@ final class Reference
     public ?string $name = null;
 
     /**
-     * @var string[]|null
+     * @var string[]|null $tags
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

@@ -25,7 +25,7 @@ final class CPENode
     public ?bool $negate = null;
 
     /**
-     * @var CPEMatch[]|null
+     * @var CPEMatch[]|null $cpeMatch
      */
     #[Assert\NotNull]
     #[Assert\All([

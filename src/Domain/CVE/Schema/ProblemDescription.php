@@ -34,7 +34,7 @@ final class ProblemDescription
     public ?string $type = null;
 
     /**
-     * @var Reference[]|null
+     * @var Reference[]|null $references
      */
     #[Assert\Count(min: 1, max: 512)]
     #[Assert\Unique]
