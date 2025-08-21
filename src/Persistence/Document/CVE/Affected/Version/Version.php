@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Persistence\Document\CVE\Affected\Version;
 
-use App\Persistence\Document\CVE\Affected\Affection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -21,7 +20,7 @@ class Version
         private string $version,
 
         #[ODM\Field]
-        private Affection $status,
+        private int $status,
 
         #[ODM\Field]
         private ?string $type,
@@ -45,14 +44,58 @@ class Version
     ) {
     }
 
+    /**
+     * @param Collection<non-negative-int, Change>|null $changes
+     */
+    public static function withAffected(
+        string $version,
+        ?string $type,
+        ?string $lessThan,
+        ?string $lessThanOrEqual,
+        ?Collection $changes,
+    ): self {
+        return new self($version, 1, $type, $lessThan, $lessThanOrEqual, $changes);
+    }
+
+    /**
+     * @param Collection<non-negative-int, Change>|null $changes
+     */
+    public static function withUnaffected(
+        string $version,
+        ?string $type,
+        ?string $lessThan,
+        ?string $lessThanOrEqual,
+        ?Collection $changes,
+    ): self {
+        return new self($version, 2, $type, $lessThan, $lessThanOrEqual, $changes);
+    }
+
+    /**
+     * @param Collection<non-negative-int, Change>|null $changes
+     */
+    public static function withUnknown(
+        string $version,
+        ?string $type,
+        ?string $lessThan,
+        ?string $lessThanOrEqual,
+        ?Collection $changes,
+    ): self {
+        return new self($version, 0, $type, $lessThan, $lessThanOrEqual, $changes);
+    }
+
     public function version(): string
     {
         return $this->version;
     }
 
-    public function status(): Affection
+    public function affected(): bool
     {
-        return $this->status;
+        return 1 === $this->status;
+    }
+
+    public function unaffected(): bool
+    {
+        return 2 === $this->status;
     }
 
     public function type(): ?string

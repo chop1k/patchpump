@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Persistence\Document\CVE\Affected\Version;
 
-use App\Persistence\Document\CVE\Affected\Affection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -15,13 +14,28 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 #[ODM\EmbeddedDocument]
 class Change
 {
-    public function __construct(
+    private function __construct(
         #[ODM\Field]
         private string $at,
 
         #[ODM\Field]
-        private Affection $status,
+        private int $status,
     ) {
+    }
+
+    public static function withAffected(string $at): self
+    {
+        return new self($at, 1);
+    }
+
+    public static function withUnaffected(string $at): self
+    {
+        return new self($at, 2);
+    }
+
+    public static function withUnknown(string $at): self
+    {
+        return new self($at, 0);
     }
 
     public function at(): string
@@ -29,8 +43,13 @@ class Change
         return $this->at;
     }
 
-    public function status(): Affection
+    public function affected(): bool
     {
-        return $this->status;
+        return 1 === $this->status;
+    }
+
+    public function unaffected(): bool
+    {
+        return 2 === $this->status;
     }
 }

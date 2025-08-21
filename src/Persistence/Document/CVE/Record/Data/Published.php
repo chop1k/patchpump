@@ -7,6 +7,7 @@ namespace App\Persistence\Document\CVE\Record\Data;
 use App\Persistence\Document\CVE\Record\Data\Containers\Applicability;
 use App\Persistence\Document\CVE\Record\Data\Containers\Classification;
 use App\Persistence\Document\CVE\Record\Data\Containers\History;
+use App\Persistence\Document\CVE\Record\Data\Containers\Metrics;
 use App\Persistence\Document\CVE\Record\Data\Containers\Summary;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
@@ -53,7 +54,7 @@ class Published
                 'history' => History::class,
             ]
         )]
-        private History $history,
+        private ?History $history,
 
         #[ODM\EmbedOne(
             discriminatorField: '_type',
@@ -61,18 +62,15 @@ class Published
                 'classification' => Classification::class,
             ]
         )]
-        private Classification $classification,
+        private ?Classification $classification,
 
-        /**
-         * @var Collection<non-negative-int, Wrappers\Metric>|null $metrics
-         */
-        #[ODM\EmbedMany(
+        #[ODM\EmbedOne(
             discriminatorField: '_type',
             discriminatorMap: [
-                'metric' => Wrappers\Metric::class,
+                'metrics' => Metrics::class,
             ]
         )]
-        private ?Collection $metrics,
+        private ?Metrics $metrics,
     ) {
     }
 
@@ -91,20 +89,17 @@ class Published
         return $this->applicability;
     }
 
-    public function history(): History
+    public function history(): ?History
     {
         return $this->history;
     }
 
-    public function classification(): Classification
+    public function classification(): ?Classification
     {
         return $this->classification;
     }
 
-    /**
-     * @return Collection<non-negative-int, Wrappers\Metric>|null
-     */
-    public function metrics(): ?Collection
+    public function metrics(): ?Metrics
     {
         return $this->metrics;
     }

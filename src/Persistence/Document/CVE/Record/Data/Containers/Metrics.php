@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Persistence\Document\CVE\Problem;
+namespace App\Persistence\Document\CVE\Record\Data\Containers;
 
+use App\Persistence\Document\CVE\Record\Data\Wrappers;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
@@ -13,27 +14,24 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @readonly
  */
 #[ODM\EmbeddedDocument]
-class Type
+class Metrics
 {
     public function __construct(
         /**
-         * @var Collection<non-negative-int, Description> $descriptions
+         * @var Collection<non-negative-int, Wrappers\Metric> $metrics
          */
         #[ODM\EmbedMany(
             discriminatorField: '_type',
             discriminatorMap: [
-                'description' => Description::class,
+                'metric' => Wrappers\Metric::class,
             ]
         )]
-        private Collection $descriptions,
+        private Collection $metrics,
     ) {
     }
 
-    /**
-     * @return Collection<non-negative-int, Description>
-     */
-    public function descriptions(): Collection
+    public function metrics(): Collection
     {
-        return $this->descriptions;
+        return $this->metrics;
     }
 }

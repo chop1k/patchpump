@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Persistence\Document\CVE\Affected\Version;
 
-use App\Persistence\Document\CVE\Affected\Affection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
@@ -15,14 +14,34 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 #[ODM\EmbeddedDocument]
 class Status
 {
-    public function __construct(
+    private function __construct(
         #[ODM\Field]
-        protected Affection $status,
+        protected int $status,
     ) {
     }
 
-    public function status(): Affection
+    public static function withAffected(): self
     {
-        return $this->status;
+        return new self(1);
+    }
+
+    public static function withUnaffected(): self
+    {
+        return new self(2);
+    }
+
+    public static function withUnknown(): self
+    {
+        return new self(0);
+    }
+
+    public function affected(): bool
+    {
+        return 1 === $this->status;
+    }
+
+    public function unaffected(): bool
+    {
+        return 2 === $this->status;
     }
 }

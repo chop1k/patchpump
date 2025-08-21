@@ -10,6 +10,10 @@ use App\Persistence\Document\CVE\Record\Metadata\Assigner;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 /**
+ * @final
+ *
+ * @readonly
+ *
  * @template MetadataT
  * @template AssignerT
  * @template DataT
@@ -19,7 +23,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 )]
 class Record
 {
-    public function __construct(
+    private function __construct(
         #[ODM\Id(strategy: 'NONE')]
         private string $id,
 
@@ -64,6 +68,30 @@ class Record
     ) {
     }
 
+    /**
+     * @return self<Metadata\Published, Metadata\Assigner\Published, Data\Published>
+     */
+    public static function withPublished(
+        string $id,
+        Metadata\Published $metadata,
+        Assigner\Published $assigner,
+        Data\Published $data,
+    ): self {
+        return new self($id, 'PUBLISHED', $metadata, $assigner, $data);
+    }
+
+    /**
+     * @return self<Metadata\Rejected, Metadata\Assigner\Rejected, Data\Rejected>
+     */
+    public static function withRejected(
+        string $id,
+        Metadata\Rejected $metadata,
+        Assigner\Rejected $assigner,
+        Data\Rejected $data,
+    ): self {
+        return new self($id, 'REJECTED', $metadata, $assigner, $data);
+    }
+
     public function id(): string
     {
         return $this->id;
@@ -71,12 +99,12 @@ class Record
 
     public function published(): bool
     {
-        return $this->type === 'PUBLISHED';
+        return 'PUBLISHED' === $this->type;
     }
 
     public function rejected(): bool
     {
-        return $this->type === 'REJECTED';
+        return 'REJECTED' === $this->type;
     }
 
     /**

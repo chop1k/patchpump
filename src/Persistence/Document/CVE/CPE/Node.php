@@ -15,9 +15,9 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 #[ODM\EmbeddedDocument]
 class Node
 {
-    public function __construct(
+    private function __construct(
         #[ODM\Field]
-        private Operator $operator,
+        private int $operator,
 
         /**
          * @var Collection<non-negative-int, _Match> $matches
@@ -35,9 +35,30 @@ class Node
     ) {
     }
 
-    public function operator(): Operator
+    /**
+     * @param Collection<non-negative-int, _Match> $matches
+     */
+    public static function withAnd(Collection $matches, ?bool $negate): self
     {
-        return $this->operator;
+        return new self(1, $matches, $negate);
+    }
+
+    /**
+     * @param Collection<non-negative-int, _Match> $matches
+     */
+    public static function withOr(Collection $matches, ?bool $negate): self
+    {
+        return new self(2, $matches, $negate);
+    }
+
+    public function and(): bool
+    {
+        return 1 === $this->operator;
+    }
+
+    public function or(): bool
+    {
+        return 2 === $this->operator;
     }
 
     /**
