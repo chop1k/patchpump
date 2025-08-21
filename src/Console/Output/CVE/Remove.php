@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Output\CVE;
 
+use App\Console\Output\Common\Separator;
 use App\Console\Output\CVE\Remove\NothingChangedHeader;
 use App\Console\Output\CVE\Remove\NothingChangedTable;
 use App\Console\Output\CVE\Remove\SuccessHeader;
 use App\Console\Output\CVE\Remove\SuccessTable;
-use App\Console\Output\Style\Paragraph\ParagraphStyle;
-use App\Console\Output\Style\Separator\SectionSeparator;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -26,36 +25,18 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 final readonly class Remove
 {
-    private ParagraphStyle $paragraph;
-
     public function __construct(
         private OutputInterface $output,
     ) {
-        $separator = new SectionSeparator(80, '+');
-
-        $this->paragraph = new ParagraphStyle(
-            $separator,
-            $this->output,
-        );
     }
 
     public function nothingToRemove(array $notFound): void
     {
-        $header = new NothingChangedHeader(
-            $this->paragraph,
-            count($notFound),
-        );
-        $table = new NothingChangedTable(
-            $this->output,
-            $this->paragraph,
-            $notFound,
-        );
-
-        $header->render();
-
-        $this->output->writeln('');
-
-        $table->render();
+        $this->separator()->render();
+        $this->nothingHeader($notFound)->render();
+        $this->separator()->render();
+        $this->nothingTable($notFound)->render();
+        $this->separator()->render();
     }
 
     /**
@@ -63,20 +44,47 @@ final readonly class Remove
      */
     public function success(array $removed): void
     {
-        $header = new SuccessHeader(
-            $this->paragraph,
+        $this->separator()->render();
+        $this->successHeader($removed)->render();
+        $this->separator()->render();
+        $this->successTable($removed)->render();
+        $this->separator()->render();
+    }
+
+    private function separator(): Separator
+    {
+        return new Separator($this->output, 80, '+');
+    }
+
+    private function nothingHeader(array $notFound): NothingChangedHeader
+    {
+        return new NothingChangedHeader(
+            $this->output,
+            count($notFound),
+        );
+    }
+
+    private function nothingTable(array $notFound): NothingChangedTable
+    {
+        return new NothingChangedTable(
+            $this->output,
+            $notFound,
+        );
+    }
+
+    private function successHeader(array $removed): SuccessHeader
+    {
+        return new SuccessHeader(
+            $this->output,
             count($removed),
         );
-        $table = new SuccessTable(
+    }
+
+    private function successTable(array $removed): SuccessTable
+    {
+        return new SuccessTable(
             $this->output,
-            $this->paragraph,
             $removed,
         );
-
-        $header->render();
-
-        $this->output->writeln('');
-
-        $table->render();
     }
 }

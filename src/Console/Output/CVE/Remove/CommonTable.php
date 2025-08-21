@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Output\CVE\Remove;
 
-use App\Console\Output\Style\Paragraph\ParagraphStyle;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -16,7 +15,6 @@ abstract class CommonTable
 
     public function __construct(
         protected readonly OutputInterface $output,
-        protected readonly ParagraphStyle $paragraph,
         /**
          * @var string[] $items
          */
@@ -25,15 +23,6 @@ abstract class CommonTable
     }
 
     public function render(): void
-    {
-        $this->paragraph->startSection();
-
-        $this->renderTable();
-
-        $this->paragraph->endSection();
-    }
-
-    private function renderTable(): void
     {
         $table = new Table($this->output);
 

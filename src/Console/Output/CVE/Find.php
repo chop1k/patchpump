@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Output\CVE;
 
+use App\Console\Output\Common\Separator;
 use App\Console\Output\CVE\Find\NothingFoundHeader;
 use App\Console\Output\CVE\Find\SuccessHeader;
 use App\Console\Output\CVE\Find\SuccessTable;
 use App\Console\Output\Style\Paragraph\ParagraphStyle;
-use App\Console\Output\Style\Separator\SectionSeparator;
 use App\Persistence\Document\CVE\Record;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -44,7 +44,7 @@ final readonly class Find
     public function __construct(
         private OutputInterface $output,
     ) {
-        $separator = new SectionSeparator(80, '+');
+        $separator = new Separator(80, '+');
 
         $this->paragraph = new ParagraphStyle(
             $separator,

@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Console\Output\CVE\Remove;
 
-use App\Console\Output\Style\Paragraph\ParagraphStyle;
+use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class CommonHeader
 {
     protected string $format;
 
     public function __construct(
-        private readonly ParagraphStyle $paragraph,
+        protected readonly OutputInterface $output,
         /**
          * @var non-negative-int $count
          */
-        private readonly int $count,
+        protected readonly int $count,
     ) {
     }
 
@@ -26,7 +26,7 @@ abstract class CommonHeader
 
     public function render(): void
     {
-        $this->paragraph->comment(
+        $this->output->writeln(
             $this->text(),
         );
     }

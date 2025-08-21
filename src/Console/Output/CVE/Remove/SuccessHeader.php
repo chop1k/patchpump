@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Output\CVE\Remove;
 
-final class SuccessHeader extends CommonHeader
+final class SuccessHeader extends SpacedCommonHeader
 {
-    protected string $format = 'Successfully removed %d records';
+    protected string $format = '<info>Successfully removed %d records.</info>';
 }
