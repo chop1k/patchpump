@@ -20,13 +20,23 @@ final readonly class _Match
     public function toPersistence(): Persistence\CPE\_Match
     {
         return new Persistence\CPE\_Match(
-            $this->schema->vulnerable,
-            $this->schema->criteria,
+            $this->vulnerable(),
+            $this->criteria(),
             $this->schema->matchCriteriaId,
             $this->schema->versionStartIncluding,
             $this->schema->versionStartExcluding,
             $this->schema->versionEndIncluding,
             $this->schema->versionEndExcluding
         );
+    }
+
+    private function vulnerable(): bool
+    {
+        return $this->schema->vulnerable ?? throw new \InvalidArgumentException();
+    }
+
+    private function criteria(): string
+    {
+        return $this->schema->criteria ?? throw new \InvalidArgumentException();
     }
 }

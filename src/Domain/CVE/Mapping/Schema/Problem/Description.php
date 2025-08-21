@@ -22,12 +22,22 @@ final readonly class Description
     public function toPersistence(): Persistence\Problem\Description
     {
         return new Persistence\Problem\Description(
-            $this->schema->lang,
-            $this->schema->description,
+            $this->language(),
+            $this->content(),
             $this->schema->cweId,
             $this->schema->type,
             $this->references(),
         );
+    }
+
+    private function language(): string
+    {
+        return $this->schema->lang ?? throw new \InvalidArgumentException();
+    }
+
+    private function content(): string
+    {
+        return $this->schema->description ?? throw new \InvalidArgumentException();
     }
 
     /**
@@ -41,7 +51,7 @@ final readonly class Description
 
         $elements = array_map(
             static fn (Schema\Reference $node) => (new Reference($node))->toPersistence(),
-            $this->schema->references,
+            array_values($this->schema->references),
         );
 
         return new ArrayCollection($elements);

@@ -17,8 +17,13 @@ final readonly class Rejected
     public function toPersistence(): Persistence\Record\Metadata\Assigner\Rejected
     {
         return new Persistence\Record\Metadata\Assigner\Rejected(
-            $this->schema->assignerOrgId,
+            $this->id(),
             $this->schema->assignerShortName,
         );
+    }
+
+    private function id(): string
+    {
+        return $this->schema->assignerOrgId ?? throw new \InvalidArgumentException();
     }
 }

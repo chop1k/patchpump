@@ -20,22 +20,29 @@ final readonly class Node
 
     public function toPersistence(): Persistence\CPE\Node
     {
-        return new Persistence\CPE\Node(
-            $this->operator(),
+        $operator = strtolower($this->schema->operator ?? '');
+
+        return match ($operator) {
+            'and' => $this->and(),
+            'or' => $this->or(),
+            default => throw new \InvalidArgumentException(),
+        };
+    }
+
+    private function and(): Persistence\CPE\Node
+    {
+        return Persistence\CPE\Node::withAnd(
             $this->matches(),
             $this->schema->negate,
         );
     }
 
-    private function operator(): Persistence\CPE\Operator
+    private function or(): Persistence\CPE\Node
     {
-        $operator = strtolower($this->schema->operator ?? '');
-
-        return match ($operator) {
-            'and' => Persistence\CPE\Operator::And,
-            'or' => Persistence\CPE\Operator::Or,
-            default => throw new \InvalidArgumentException(),
-        };
+        return Persistence\CPE\Node::withOr(
+            $this->matches(),
+            $this->schema->negate,
+        );
     }
 
     /**
@@ -43,9 +50,13 @@ final readonly class Node
      */
     private function matches(): ArrayCollection
     {
+        if (null === $this->schema->cpeMatch) {
+            throw new \InvalidArgumentException();
+        }
+
         $elements = array_map(
             static fn (Schema\CPEMatch $node) => (new _Match($node))->toPersistence(),
-            $this->schema->cpeMatch,
+            array_values($this->schema->cpeMatch),
         );
 
         return new ArrayCollection($elements);

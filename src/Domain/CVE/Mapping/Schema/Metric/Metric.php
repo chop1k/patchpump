@@ -29,62 +29,41 @@ final readonly class Metric
     private function value(): mixed
     {
         if (null !== $this->schema->cvssV2_0) {
-            return $this->cvss20();
+            return (new Value\CVSS20($this->schema->cvssV2_0))->toPersistence();
         }
 
         if (null !== $this->schema->cvssV3_0) {
-            return $this->cvss30();
+            return (new Value\CVSS30($this->schema->cvssV3_0))->toPersistence();
         }
 
         if (null !== $this->schema->cvssV3_1) {
-            return $this->cvss31();
+            return (new Value\CVSS31($this->schema->cvssV3_1))->toPersistence();
         }
 
         if (null !== $this->schema->cvssV4_0) {
-            return $this->cvss40();
+            return (new Value\CVSS40($this->schema->cvssV4_0))->toPersistence();
         }
 
         if (null !== $this->schema->other) {
-            return $this->other();
+            return (new Value\Other($this->schema->other))->toPersistence();
         }
 
         throw new \InvalidArgumentException();
     }
 
-    private function cvss20(): Persistence\Metric\Value\CVSS20
-    {
-        return (new Value\CVSS20($this->schema->cvssV2_0))->toPersistence();
-    }
-
-    private function cvss30(): Persistence\Metric\Value\CVSS30
-    {
-        return (new Value\CVSS30($this->schema->cvssV3_0))->toPersistence();
-    }
-
-    private function cvss31(): Persistence\Metric\Value\CVSS31
-    {
-        return (new Value\CVSS31($this->schema->cvssV3_1))->toPersistence();
-    }
-
-    private function cvss40(): Persistence\Metric\Value\CVSS40
-    {
-        return (new Value\CVSS40($this->schema->cvssV4_0))->toPersistence();
-    }
-
-    private function other(): Persistence\Metric\Value\Other
-    {
-        return (new Value\Other($this->schema->other))->toPersistence();
-    }
-
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Metric\Scenario>
+     * @return ArrayCollection<non-negative-int, Persistence\Metric\Scenario>|null
      */
-    private function scenarios(): ArrayCollection
+    private function scenarios(): ?ArrayCollection
     {
         $elements = array_map(
             static fn (Schema\MetricScenario $node) => (new Scenario($node))->toPersistence(),
-            $this->schema->scenarios,
+            array_values($this->schema->scenarios),
         );
+
+        if (count($elements) <= 0) {
+            return null;
+        }
 
         return new ArrayCollection($elements);
     }

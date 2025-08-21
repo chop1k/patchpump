@@ -17,9 +17,14 @@ final readonly class Published
     public function toPersistence(): Persistence\Record\Metadata\Assigner\Published
     {
         return new Persistence\Record\Metadata\Assigner\Published(
-            $this->schema->assignerOrgId,
+            $this->id(),
             $this->schema->assignerShortName,
             $this->schema->requesterUserId,
         );
+    }
+
+    private function id(): string
+    {
+        return $this->schema->assignerOrgId ?? throw new \InvalidArgumentException();
     }
 }

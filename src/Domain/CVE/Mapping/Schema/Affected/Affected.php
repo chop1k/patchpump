@@ -33,6 +33,10 @@ final readonly class Affected
 
     private function product(): Persistence\Affected\Product
     {
+        if (null === $this->schema->vendor || null === $this->schema->product) {
+            throw new \InvalidArgumentException();
+        }
+
         return new Persistence\Affected\Product(
             new Persistence\Affected\Subject\Product(
                 $this->schema->vendor,
@@ -47,6 +51,10 @@ final readonly class Affected
 
     private function package(): Persistence\Affected\Package
     {
+        if (null === $this->schema->packageName || null === $this->schema->collectionURL) {
+            throw new \InvalidArgumentException();
+        }
+
         return new Persistence\Affected\Package(
             new Persistence\Affected\Subject\Package(
                 $this->schema->collectionURL,
@@ -61,12 +69,7 @@ final readonly class Affected
 
     private function source(): Persistence\Affected\Source
     {
-        return new Persistence\Affected\Source(
-            $this->schema->repo,
-            $this->schema->modules,
-            $this->schema->programFiles,
-            $this->schema->programRoutines,
-        );
+        return (new Source($this->schema))->toPersistence();
     }
 
     private function enumeration(): Persistence\Affected\Enumeration
@@ -98,14 +101,12 @@ final readonly class Affected
     {
         $status = strtolower($this->schema->defaultStatus ?? '');
 
-        return new Persistence\Affected\Version\Status(
-            match ($status) {
-                'affected' => Persistence\Affected\Affection::Affected,
-                'unaffected' => Persistence\Affected\Affection::Unaffected,
-                'unknown' => Persistence\Affected\Affection::Unknown,
-                default => throw new \InvalidArgumentException(),
-            }
-        );
+        return match ($status) {
+            'affected' => Persistence\Affected\Version\Status::withAffected(),
+            'unaffected' => Persistence\Affected\Version\Status::withUnaffected(),
+            'unknown' => Persistence\Affected\Version\Status::withUnknown(),
+            default => throw new \InvalidArgumentException(),
+        };
     }
 
     private function _list(): Persistence\Affected\Version\_List
@@ -120,9 +121,13 @@ final readonly class Affected
      */
     private function versions(): ArrayCollection
     {
+        if (null === $this->schema->versions) {
+            throw new \InvalidArgumentException();
+        }
+
         $elements = array_map(
             static fn (Schema\AffectedVersion $node) => (new Version($node))->toPersistence(),
-            $this->schema->versions,
+            array_values($this->schema->versions),
         );
 
         return new ArrayCollection($elements);

@@ -32,7 +32,7 @@ final readonly class Type
     {
         $elements = array_map(
             static fn (Schema\ProblemDescription $node) => (new Description($node))->toPersistence(),
-            $this->schema->descriptions,
+            array_values($this->schema->descriptions),
         );
 
         return new ArrayCollection($elements);

@@ -20,9 +20,14 @@ final readonly class Change
     public function toPersistence(): Persistence\Affected\Version\Change
     {
         return new Persistence\Affected\Version\Change(
-            $this->schema->at,
+            $this->at(),
             $this->status(),
         );
+    }
+
+    private function at(): string
+    {
+        return $this->schema->at ?? throw new \InvalidArgumentException();
     }
 
     private function status(): Persistence\Affected\Affection
@@ -33,7 +38,7 @@ final readonly class Change
             'unknown' => Persistence\Affected\Affection::Unknown,
             'affected' => Persistence\Affected\Affection::Affected,
             'unaffected' => Persistence\Affected\Affection::Unaffected,
-            default => null,
+            default => throw new \InvalidArgumentException(),
         };
     }
 }

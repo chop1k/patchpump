@@ -20,9 +20,20 @@ final readonly class Version
 
     public function toPersistence(): Persistence\Affected\Version\Version
     {
-        return new Persistence\Affected\Version\Version(
-            $this->schema->version,
-            $this->status(),
+        $status = strtolower($this->schema->status ?? '');
+
+        return match ($status) {
+            'unknown' => $this->unknown(),
+            'affected' => $this->affected(),
+            'unaffected' => $this->unaffected(),
+            default => throw new \InvalidArgumentException(),
+        };
+    }
+
+    private function affected(): Persistence\Affected\Version\Version
+    {
+        return Persistence\Affected\Version\Version::withAffected(
+            $this->version(),
             $this->schema->versionType,
             $this->schema->lessThan,
             $this->schema->lessThanOrEqual,
@@ -30,16 +41,31 @@ final readonly class Version
         );
     }
 
-    private function status(): Persistence\Affected\Affection
+    private function unaffected(): Persistence\Affected\Version\Version
     {
-        $status = strtolower($this->schema->status ?? '');
+        return Persistence\Affected\Version\Version::withUnaffected(
+            $this->version(),
+            $this->schema->versionType,
+            $this->schema->lessThan,
+            $this->schema->lessThanOrEqual,
+            $this->changes(),
+        );
+    }
 
-        return match ($status) {
-            'unknown' => Persistence\Affected\Affection::Unknown,
-            'affected' => Persistence\Affected\Affection::Affected,
-            'unaffected' => Persistence\Affected\Affection::Unaffected,
-            default => null,
-        };
+    private function unknown(): Persistence\Affected\Version\Version
+    {
+        return Persistence\Affected\Version\Version::withUnknown(
+            $this->version(),
+            $this->schema->versionType,
+            $this->schema->lessThan,
+            $this->schema->lessThanOrEqual,
+            $this->changes(),
+        );
+    }
+
+    private function version(): string
+    {
+        return $this->schema->version ?? throw new \InvalidArgumentException();
     }
 
     /**
@@ -53,7 +79,7 @@ final readonly class Version
 
         $elements = array_map(
             static fn (Schema\AffectedVersionChange $node) => (new Version\Change($node))->toPersistence(),
-            $this->schema->changes,
+            array_values($this->schema->changes),
         );
 
         return new ArrayCollection($elements);

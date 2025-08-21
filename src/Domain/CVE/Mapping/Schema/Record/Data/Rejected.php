@@ -27,6 +27,10 @@ final readonly class Rejected
 
     private function provider(): Persistence\Record\Data\Provider\Rejected
     {
+        if (null === $this->schema->providerMetadata) {
+            throw new \InvalidArgumentException();
+        }
+
         return (new Provider\Rejected($this->schema->providerMetadata))->toPersistence();
     }
 
@@ -35,9 +39,13 @@ final readonly class Rejected
      */
     private function reasons(): ArrayCollection
     {
+        if (null === $this->schema->rejectedReasons) {
+            throw new \InvalidArgumentException();
+        }
+
         $elements = array_map(
             static fn (Schema\Description $node) => (new Description($node))->toPersistence(),
-            $this->schema->rejectedReasons,
+            array_values($this->schema->rejectedReasons),
         );
 
         return new ArrayCollection($elements);

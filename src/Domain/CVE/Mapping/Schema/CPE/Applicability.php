@@ -20,9 +20,35 @@ final readonly class Applicability
 
     public function toPersistence(): Persistence\CPE\Applicability
     {
-        return new Persistence\CPE\Applicability(
+        $operator = strtolower($this->schema->operator ?? '');
+
+        return match ($operator) {
+            'and' => $this->and(),
+            'or' => $this->or(),
+            default => $this->null(),
+        };
+    }
+
+    private function and(): Persistence\CPE\Applicability
+    {
+        return Persistence\CPE\Applicability::withAnd(
             $this->nodes(),
-            $this->operator(),
+            $this->schema->negate,
+        );
+    }
+
+    private function or(): Persistence\CPE\Applicability
+    {
+        return Persistence\CPE\Applicability::withOr(
+            $this->nodes(),
+            $this->schema->negate,
+        );
+    }
+
+    private function null(): Persistence\CPE\Applicability
+    {
+        return Persistence\CPE\Applicability::withNull(
+            $this->nodes(),
             $this->schema->negate,
         );
     }
@@ -34,20 +60,9 @@ final readonly class Applicability
     {
         $elements = array_map(
             static fn (Schema\CPENode $node) => (new Node($node))->toPersistence(),
-            $this->schema->nodes,
+            array_values($this->schema->nodes),
         );
 
         return new ArrayCollection($elements);
-    }
-
-    private function operator(): Persistence\CPE\Operator
-    {
-        $operator = strtolower($this->schema->operator ?? '');
-
-        return match ($operator) {
-            'and' => Persistence\CPE\Operator::And,
-            'or' => Persistence\CPE\Operator::Or,
-            default => null,
-        };
     }
 }

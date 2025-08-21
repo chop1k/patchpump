@@ -20,9 +20,14 @@ final readonly class Reference
     public function toPersistence(): Persistence\Common\Reference
     {
         return new Persistence\Common\Reference(
-            $this->schema->url,
+            $this->url(),
             $this->schema->name,
             $this->schema->tags,
         );
+    }
+
+    private function url(): string
+    {
+        return $this->schema->url ?? throw new \InvalidArgumentException();
     }
 }

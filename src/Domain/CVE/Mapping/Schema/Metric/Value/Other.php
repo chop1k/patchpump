@@ -17,8 +17,18 @@ final readonly class Other
     public function toPersistence(): Persistence\Metric\Value\Other
     {
         return new Persistence\Metric\Value\Other(
-            $this->schema->type,
-            $this->schema->content,
+            $this->type(),
+            $this->content(),
         );
+    }
+
+    private function type(): string
+    {
+        return $this->schema->type ?? throw new \InvalidArgumentException();
+    }
+
+    private function content(): array
+    {
+        return $this->schema->content ?? throw new \InvalidArgumentException();
     }
 }

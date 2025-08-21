@@ -98,22 +98,15 @@ final readonly class Summary
     private function referencesProviders(): array
     {
         if (null === $this->schema->cna?->references) {
-            $providers = [];
-        } else {
-            $providers = [
-                $this->schema->cna->providerMetadata->orgId => $this->schema->cna->references,
-            ];
+            return [];
         }
 
-        foreach ($this->schema->adp ?? [] as $adp) {
-            if (null === $adp->references) {
-                continue;
-            }
+        $collection = new Common\ProviderCollection(
+            $this->schema,
+            static fn (Schema\CNA $cna) => $cna->references
+        );
 
-            $providers[$adp->providerMetadata->orgId] = $adp->references;
-        }
-
-        return $providers;
+        return $collection->toArray();
     }
 
     /**
@@ -122,6 +115,8 @@ final readonly class Summary
     private function problems(): ?ArrayCollection
     {
         $elements = [];
+
+        dump($this->problemsProviders());
 
         foreach ($this->problemsProviders() as $providedBy => $problems) {
             foreach ($problems as $problem) {
@@ -142,21 +137,14 @@ final readonly class Summary
     private function problemsProviders(): array
     {
         if (null === $this->schema->cna?->problemTypes) {
-            $providers = [];
-        } else {
-            $providers = [
-                $this->schema->cna->providerMetadata->orgId => $this->schema->cna->problemTypes,
-            ];
+            return [];
         }
 
-        foreach ($this->schema->adp ?? [] as $adp) {
-            if (null === $adp->problemTypes) {
-                continue;
-            }
+        $collection = new Common\ProviderCollection(
+            $this->schema,
+            static fn (Schema\CNA $cna) => $cna->problemTypes
+        );
 
-            $providers[$adp->providerMetadata->orgId] = $adp->problemTypes;
-        }
-
-        return $providers;
+        return $collection->toArray();
     }
 }

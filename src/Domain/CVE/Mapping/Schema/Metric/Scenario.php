@@ -20,8 +20,18 @@ final readonly class Scenario
     public function toPersistence(): Persistence\Metric\Scenario
     {
         return new Persistence\Metric\Scenario(
-            $this->schema->lang,
-            $this->schema->value,
+            $this->language(),
+            $this->value(),
         );
+    }
+
+    private function language(): string
+    {
+        return $this->schema->lang ?? throw new \InvalidArgumentException();
+    }
+
+    private function value(): string
+    {
+        return $this->schema->value ?? throw new \InvalidArgumentException();
     }
 }

@@ -21,10 +21,15 @@ final readonly class Mapping
     public function toPersistence(): Persistence\Taxonomy\Mapping
     {
         return new Persistence\Taxonomy\Mapping(
-            $this->schema->taxonomyName,
+            $this->name(),
             $this->relations(),
             $this->schema->taxonomyVersion,
         );
+    }
+
+    private function name(): string
+    {
+        return $this->schema->taxonomyName ?? throw new \InvalidArgumentException();
     }
 
     /**
@@ -32,9 +37,13 @@ final readonly class Mapping
      */
     private function relations(): ArrayCollection
     {
+        if (null === $this->schema->taxonomyRelations) {
+            throw new \InvalidArgumentException();
+        }
+
         $elements = array_map(
             static fn (Schema\TaxonomyRelation $node) => (new Relation($node))->toPersistence(),
-            $this->schema->taxonomyRelations,
+            array_values($this->schema->taxonomyRelations),
         );
 
         return new ArrayCollection($elements);

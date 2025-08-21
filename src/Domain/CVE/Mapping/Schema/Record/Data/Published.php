@@ -53,53 +53,18 @@ final readonly class Published
         return (new Containers\Applicability($this->schema))->toPersistence();
     }
 
-    private function history(): Persistence\Record\Data\Containers\History
+    private function history(): ?Persistence\Record\Data\Containers\History
     {
         return (new Containers\History($this->schema))->toPersistence();
     }
 
-    private function classification(): Persistence\Record\Data\Containers\Classification
+    private function classification(): ?Persistence\Record\Data\Containers\Classification
     {
         return (new Containers\Classification($this->schema))->toPersistence();
     }
 
-    /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Metric>
-     */
-    private function metrics(): ArrayCollection
+    private function metrics(): ?Persistence\Record\Data\Containers\Metrics
     {
-        $elements = [];
-
-        foreach ($this->metricsProviders() as $providedBy => $metrics) {
-            foreach ($metrics as $metric) {
-                $elements[] = (new Wrappers\Metric($providedBy, $metric))->toPersistence();
-            }
-        }
-
-        return new ArrayCollection($elements);
-    }
-
-    /**
-     * @return array<string, Schema\Metric[]>
-     */
-    private function metricsProviders(): array
-    {
-        if (null === $this->schema->cna?->metrics) {
-            $providers = [];
-        } else {
-            $providers = [
-                $this->schema->cna->providerMetadata->orgId => $this->schema->cna->metrics,
-            ];
-        }
-
-        foreach ($this->schema->adp ?? [] as $adp) {
-            if (null === $adp->metrics) {
-                continue;
-            }
-
-            $providers[$adp->providerMetadata->orgId] = $adp->metrics;
-        }
-
-        return $providers;
+        return (new Containers\Metrics($this->schema))->toPersistence();
     }
 }

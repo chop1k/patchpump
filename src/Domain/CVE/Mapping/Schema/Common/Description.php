@@ -21,10 +21,20 @@ final readonly class Description
     public function toPersistence(): Persistence\Common\Description\Description
     {
         return new Persistence\Common\Description\Description(
-            $this->schema->lang,
-            $this->schema->value,
+            $this->language(),
+            $this->value(),
             $this->media(),
         );
+    }
+
+    private function language(): string
+    {
+        return $this->schema->lang ?? throw new \InvalidArgumentException();
+    }
+
+    private function value(): string
+    {
+        return $this->schema->value ?? throw new \InvalidArgumentException();
     }
 
     /**
@@ -38,7 +48,7 @@ final readonly class Description
 
         $elements = array_map(
             static fn (Schema\DescriptionMedia $node) => (new Description\Media($node))->toPersistence(),
-            $this->schema->supportingMedia,
+            array_values($this->schema->supportingMedia),
         );
 
         return new ArrayCollection($elements);

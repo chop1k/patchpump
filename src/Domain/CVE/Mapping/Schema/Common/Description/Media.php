@@ -20,9 +20,19 @@ final readonly class Media
     public function toPersistence(): Persistence\Common\Description\Media
     {
         return new Persistence\Common\Description\Media(
-            $this->schema->type,
-            $this->schema->value,
+            $this->type(),
+            $this->value(),
             $this->schema->base64
         );
+    }
+
+    private function type(): string
+    {
+        return $this->schema->type ?? throw new \InvalidArgumentException();
+    }
+
+    private function value(): string
+    {
+        return $this->schema->value ?? throw new \InvalidArgumentException();
     }
 }
