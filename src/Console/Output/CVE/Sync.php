@@ -7,7 +7,7 @@ namespace App\Console\Output\CVE;
 use App\Persistence\Document\CVE\Record;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final readonly class SyncOutput
+final readonly class Sync
 {
     public function __construct(
         private SymfonyStyle $style,
@@ -16,21 +16,21 @@ final readonly class SyncOutput
 
     public function nothingChanged(Record $record): void
     {
-        $message = sprintf('Nothing changed for record "%s"', $record->getId());
+        $message = sprintf('Nothing changed for record "%s"', $record->id());
 
         $this->style->block($message);
     }
 
     public function recordCreated(Record $record): void
     {
-        $message = sprintf('Created record "%s"', $record->getId());
+        $message = sprintf('Created record "%s"', $record->id());
 
         $this->style->writeln($message);
     }
 
     public function recordUpdated(Record $record): void
     {
-        $message = sprintf('Updated record "%s"', $record->getId());
+        $message = sprintf('Updated record "%s"', $record->id());
 
         $this->style->writeln($message);
     }

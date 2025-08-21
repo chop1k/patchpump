@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Factory\CVE;
 
-use App\Console\Input\CVE\SyncInput;
-use App\Domain\CVE\Synchronization\Comparator\DateComparator;
-use App\Domain\CVE\Synchronization\Persistence\DocumentPersistence;
-use App\Domain\CVE\Synchronization\Source\DirectorySource;
-use App\Domain\CVE\Synchronization\Source\FileSource;
-use App\Domain\CVE\Synchronization\Source\RepositorySource;
-use App\Domain\CVE\Synchronization\Source\StdinSource;
-use App\Domain\Vulnerabilities\Synchronization\Contracts\ComparatorInterface;
-use App\Domain\Vulnerabilities\Synchronization\Contracts\PersistenceInterface;
-use App\Domain\Vulnerabilities\Synchronization\Contracts\SourceInterface;
+use App\Console\Input\CVE as Input;
+use App\Domain\CVE\Synchronization\Comparator;
+use App\Domain\CVE\Synchronization\Persistence;
+use App\Domain\CVE\Synchronization\Source;
+use App\Domain\Vulnerabilities\Synchronization\Contracts;
 use App\Persistence\Document\CVE\Record;
 use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\Filesystem;
@@ -21,22 +16,22 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class SyncFactory
+final readonly class Sync
 {
     public function __construct(
         private SerializerInterface $serializer,
         private ValidatorInterface $validator,
         private ObjectManager $documentManager,
-        private SyncInput $input,
+        private Input\Sync $input,
     ) {
     }
 
     /**
-     * @return SourceInterface<Record>
+     * @return Contracts\SourceInterface<Record>
      *
      * @throws \InvalidArgumentException
      */
-    public function source(): SourceInterface
+    public function source(): Contracts\SourceInterface
     {
         $source = $this->input->source();
 
@@ -66,9 +61,9 @@ final readonly class SyncFactory
         );
     }
 
-    private function directorySource(): DirectorySource
+    private function directorySource(): Source\DirectorySource
     {
-        return new DirectorySource(
+        return new Source\DirectorySource(
             $this->serializer,
             $this->validator,
             $this->rootFilesystem(),
@@ -76,13 +71,13 @@ final readonly class SyncFactory
         );
     }
 
-    private function repositorySource(): RepositorySource
+    private function repositorySource(): Source\RepositorySource
     {
     }
 
-    private function fileSource(): FileSource
+    private function fileSource(): Source\FileSource
     {
-        return new FileSource(
+        return new Source\FileSource(
             $this->serializer,
             $this->validator,
             $this->rootFilesystem(),
@@ -90,27 +85,27 @@ final readonly class SyncFactory
         );
     }
 
-    private function stdinSource(): StdinSource
+    private function stdinSource(): Source\StdinSource
     {
-        return new StdinSource(
+        return new Source\StdinSource(
             $this->serializer,
             $this->validator,
         );
     }
 
     /**
-     * @return ComparatorInterface<Record>
+     * @return Contracts\ComparatorInterface<Record>
      */
-    public function comparator(): ComparatorInterface
+    public function comparator(): Contracts\ComparatorInterface
     {
-        return new DateComparator();
+        return new Comparator\DateComparator();
     }
 
     /**
-     * @return PersistenceInterface<Record>
+     * @return Contracts\PersistenceInterface<Record>
      */
-    public function persistence(): PersistenceInterface
+    public function persistence(): Contracts\PersistenceInterface
     {
-        return new DocumentPersistence($this->documentManager);
+        return new Persistence\DocumentPersistence($this->documentManager);
     }
 }

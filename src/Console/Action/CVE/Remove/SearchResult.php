@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Command\CVE\Remove;
+namespace App\Console\Action\CVE\Remove;
 
 use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -12,7 +12,7 @@ final readonly class SearchResult
     public function __construct(
         private DocumentManager $documentManager,
         /**
-         * @var string $recordsToRemove
+         * @var string[] $recordsToRemove
          */
         private array $recordsToRemove,
     ) {

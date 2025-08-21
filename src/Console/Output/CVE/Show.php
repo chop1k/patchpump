@@ -8,12 +8,10 @@ use App\Console\Output\Style\Table\CVE\ADPTableStyle;
 use App\Console\Output\Style\Table\CVE\CNAPublishedTableStyle;
 use App\Console\Output\Style\Table\CVE\CNARejectedTableStyle;
 use App\Console\Output\Style\Table\CVE\MetadataTableStyle;
-use App\Persistence\Document\CVE\PublishedCNA;
 use App\Persistence\Document\CVE\Record;
-use App\Persistence\Document\CVE\RejectedCNA;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final readonly class ShowOutput
+final readonly class Show
 {
     private const KeyValueHeaders = [
         'field',

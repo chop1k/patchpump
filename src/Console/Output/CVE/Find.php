@@ -37,7 +37,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * Found total of 2 records.
  * ++++++++++++++++++++++++++++++++++++++++++++++++.
  */
-final readonly class FindOutput
+final readonly class Find
 {
     private ParagraphStyle $paragraph;
 

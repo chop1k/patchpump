@@ -4,28 +4,19 @@ declare(strict_types=1);
 
 namespace App\Console\Input\CVE;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
-final readonly class SyncInput
+final readonly class Sync
 {
-    private Sync\SourceInput $source;
+    private Sync\Source $source;
 
     public function __construct(
         private InputInterface $input,
     ) {
-        $this->source = new Sync\SourceInput($this->input);
+        $this->source = new Sync\Source($this->input);
     }
 
-    public static function configure(Command $command): void
-    {
-        Sync\SourceInput::configure($command);
-
-        $command->addArgument('records', InputArgument::OPTIONAL | InputArgument::IS_ARRAY);
-    }
-
-    public function source(): Sync\SourceInput
+    public function source(): Sync\Source
     {
         return $this->source;
     }

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Console\Input\CVE\ShowInput;
-use App\Console\Output\CVE\ShowOutput;
+use App\Console\Configuration\CVE as Configuration;
+use App\Console\Input\CVE as Input;
+use App\Console\Output\CVE as Output;
 use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -29,7 +30,7 @@ final class ShowCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        ShowInput::configure($this);
+        (new Configuration\Show($this))->configure();
     }
 
     #[\Override]
@@ -37,8 +38,8 @@ final class ShowCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $input = new ShowInput($input);
-        $output = new ShowOutput($io);
+        $input = new Input\Show($input);
+        $output = new Output\Show($io);
 
         $values = $input->values();
 

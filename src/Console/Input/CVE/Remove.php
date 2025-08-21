@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Console\Input\CVE;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
@@ -14,16 +12,11 @@ use Symfony\Component\Console\Input\InputInterface;
  *     CVE-2002-4451
  *     ...
  */
-final readonly class RemoveInput
+final readonly class Remove
 {
     public function __construct(
         private InputInterface $input,
     ) {
-    }
-
-    public static function configure(Command $command): void
-    {
-        $command->addArgument('values', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
     /**

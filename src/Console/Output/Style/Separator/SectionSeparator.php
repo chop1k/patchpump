@@ -14,6 +14,6 @@ final readonly class SectionSeparator implements \Stringable
 
     public function __toString(): string
     {
-        return implode(array_fill(0, $this->length, $this->char));
+        return str_repeat($this->char, $this->length);
     }
 }

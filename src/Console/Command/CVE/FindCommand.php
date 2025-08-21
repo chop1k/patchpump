@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Console\Input\CVE\FindInput;
-use App\Console\Output\CVE\FindOutput;
+use App\Console\Configuration\CVE as Configuration;
+use App\Console\Input\CVE as Input;
+use App\Console\Output\CVE as Output;
 use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -27,13 +28,13 @@ final class FindCommand extends Command
 
     protected function configure(): void
     {
-        FindInput::configure($this);
+        (new Configuration\Find($this))->configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $input = new FindInput($input);
-        $output = new FindOutput($output);
+        $input = new Input\Find($input);
+        $output = new Output\Find($output);
 
         $builder = $this->documentManager->createQueryBuilder(Record::class);
 

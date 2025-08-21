@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  *     ___________________________________________________________
  * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++.
  */
-final readonly class RemoveOutput
+final readonly class Remove
 {
     private ParagraphStyle $paragraph;
 

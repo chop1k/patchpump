@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Console\Command\CVE\Remove;
+namespace App\Console\Action\CVE\Remove;
 
 use App\Persistence\Document\CVE\Record;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -25,15 +25,15 @@ final readonly class Process
             ->getQuery()
             ->execute();
 
-        $notFound = [];
+        $found = [];
 
         foreach ($results as $record) {
-            $notFound[] = $record->id();
+            $found[] = $record->id();
         }
 
         return new SearchResult(
             $this->documentManager,
-            $notFound,
+            $found,
         );
     }
 }

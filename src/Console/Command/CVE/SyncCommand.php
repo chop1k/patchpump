@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Console\Factory\CVE\SyncFactory;
-use App\Console\Input\CVE\SyncInput;
-use App\Console\Output\CVE\SyncOutput;
-use App\Domain\Vulnerabilities\Synchronization\Process;
-use App\Domain\Vulnerabilities\Synchronization\Result;
-use App\Persistence\Document\CVE\Record;
+use App\Console\Action\CVE\Sync;
+use App\Console\Configuration\CVE as Configuration;
+use App\Console\Factory\CVE as Factory;
+use App\Console\Input\CVE as Input;
+use App\Console\Output\CVE as Output;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -38,72 +37,24 @@ final class SyncCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        SyncInput::configure($this);
+        (new Configuration\Sync($this))->configure();
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $io = new SymfonyStyle($input, $output);
-
-        $input = new SyncInput($input);
-        $output = new SyncOutput($io);
-
-        $factory = new SyncFactory(
-            $this->serializer,
-            $this->validator,
-            $this->documentManager,
-            $input,
-        );
-
-        /**
-         * @var Process<Record> $process
-         */
-        $process = new Process(
+        (new Sync(
             $this->eventDispatcher,
-            $factory->source(),
-            $factory->persistence(),
-            $factory->comparator(),
-        );
-
-        $counters = [
-            'created' => 0,
-            'updated' => 0,
-            'nothing' => 0,
-        ];
-
-        /**
-         * По каким-то неведомым мне причинам, IDE считает, что $result является генератором.
-         * Хотя в блоке документации к методу generator() явно указано, что возвращаемый генератор перечисляет экземпляры
-         * класса Result с шаблоном, который должен быть динамически вычислен из аргументов конструктора...
-         *
-         * @var Result<Record> $result
-         */
-        foreach ($process->generator(16) as $result) {
-            $record = $result->record();
-
-            if (true === $result->created()) {
-                ++$counters['created'];
-
-                $output->recordCreated($record);
-
-                continue;
-            }
-
-            if (true === $result->updated()) {
-                ++$counters['updated'];
-
-                $output->recordUpdated($record);
-
-                continue;
-            }
-
-            ++$counters['nothing'];
-
-            $output->nothingChanged($record);
-        }
-
-        $output->done($counters['updated'], $counters['created'], $counters['nothing']);
+            new Output\Sync(
+                new SymfonyStyle($input, $output),
+            ),
+            new Factory\Sync(
+                $this->serializer,
+                $this->validator,
+                $this->documentManager,
+                new Input\Sync($input),
+            ),
+        ))->execute();
 
         return Command::SUCCESS;
     }

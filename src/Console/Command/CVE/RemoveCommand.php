@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Console\Command\CVE;
 
-use App\Console\Command\CVE\Remove\Process;
-use App\Console\Input\CVE\RemoveInput;
-use App\Console\Output\CVE\RemoveOutput;
+use App\Console\Action\CVE\Remove;
+use App\Console\Configuration\CVE as Configuration;
+use App\Console\Input\CVE as Input;
+use App\Console\Output\CVE as Output;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -28,34 +29,17 @@ final class RemoveCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        RemoveInput::configure($this);
+        (new Configuration\Remove($this))->configure();
     }
 
     #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $input = new RemoveInput($input);
-        $output = new RemoveOutput($output);
-
-        $toRemove = $input->values();
-
-        $process = new Process($this->documentManager, $toRemove);
-
-        $removed = $process
-            ->findRecords()
-            ->remove();
-
-        $notFound = array_values(
-            array_diff($toRemove, $removed),
-        );
-
-        if (count($notFound) > 0) {
-            $output->nothingToRemove($notFound);
-        }
-
-        if (count($removed) > 0) {
-            $output->success($removed);
-        }
+        (new Remove(
+            $this->documentManager,
+            new Input\Remove($input),
+            new Output\Remove($output),
+        ))->execute();
 
         return Command::SUCCESS;
     }

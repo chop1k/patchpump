@@ -4,20 +4,13 @@ declare(strict_types=1);
 
 namespace App\Console\Input\CVE;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
-final readonly class ShowInput
+final readonly class Show
 {
     public function __construct(
         private InputInterface $input,
     ) {
-    }
-
-    public static function configure(Command $command): void
-    {
-        $command->addArgument('values', InputArgument::REQUIRED | InputArgument::IS_ARRAY);
     }
 
     /**
