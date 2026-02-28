@@ -1,6 +1,17 @@
-.idea
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Development entries
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/.idea
 
-###> symfony/framework-bundle ###
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Build artifacts
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/dist
+/bin/rr
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PHP + Symfony entries
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -8,19 +19,18 @@
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-
-###> symfony/phpunit-bridge ###
-.phpunit.result.cache
-/phpunit.xml
-###< symfony/phpunit-bridge ###
-###> friendsofphp/php-cs-fixer ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
-###< friendsofphp/php-cs-fixer ###
-
-dist
-###> symfony/asset-mapper ###
 /public/assets/
 /assets/vendor/
-###< symfony/asset-mapper ###
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PHPUnit entries
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/.phpunit.result.cache
+/phpunit.xml
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# PHP dev tools entries
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+
