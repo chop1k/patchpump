@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 #[Assert\Expression(
@@ -25,7 +27,7 @@ final class Metric
     public ?string $format = null;
 
     /**
-     * @var MetricScenario[]|null $scenarios
+     * @var non-empty-array<non-negative-int, MetricScenario>|null $scenarios
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

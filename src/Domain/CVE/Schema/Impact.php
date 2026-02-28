@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 final class Impact
@@ -23,7 +25,7 @@ final class Impact
     public ?string $capecId = null;
 
     /**
-     * @var Description[]|null $descriptions
+     * @var non-empty-array<non-negative-int, Description>|null $descriptions
      */
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]

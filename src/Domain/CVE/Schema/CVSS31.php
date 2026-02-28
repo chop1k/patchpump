@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Metric
+ *
+ * @psalm-api
  */
 final class CVSS31
 {

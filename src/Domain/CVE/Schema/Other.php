@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see Metric
+ *
+ * @psalm-api
  */
 final class Other
 {
@@ -22,7 +24,7 @@ final class Other
     public ?string $type = null;
 
     /**
-     * @var array<string, mixed>|null $content
+     * @var non-empty-array<string, mixed>|null $content
      */
     #[Assert\NotNull]
     #[Assert\NotBlank]

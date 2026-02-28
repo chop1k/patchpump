@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 final class Description
@@ -27,7 +29,7 @@ final class Description
     public ?string $value = null;
 
     /**
-     * @var DescriptionMedia[]|null $supportingMedia
+     * @var non-empty-array<non-negative-int, DescriptionMedia>|null $supportingMedia
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]

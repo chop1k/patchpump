@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CPEApplicability
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 final class CPENode
@@ -25,7 +27,7 @@ final class CPENode
     public ?bool $negate = null;
 
     /**
-     * @var CPEMatch[]|null $cpeMatch
+     * @var non-empty-array<non-negative-int, CPEMatch>|null $cpeMatch
      */
     #[Assert\NotNull]
     #[Assert\All([

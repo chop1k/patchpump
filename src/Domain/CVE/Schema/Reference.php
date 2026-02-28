@@ -14,17 +14,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
+ *
+ * @psalm-api
  */
 final class Reference
 {
     #[Assert\NotNull]
-    public ?string $url = null;
+    public ?string $url = null; // todo: url assertion + tests
 
     #[Assert\Length(min: 1, max: 512)]
     public ?string $name = null;
 
     /**
-     * @var string[]|null $tags
+     * @var non-empty-array<non-negative-int, non-empty-string>|null $tags
      */
     #[Assert\Count(min: 1)]
     #[Assert\Unique]
@@ -34,6 +36,7 @@ final class Reference
                 new Assert\NotNull(),
                 new Assert\Type('string'),
                 new Assert\Length(min: 2, max: 128),
+                // todo: regex + tests
                 //                new Assert\Regex('^x_.*$')
             ]),
             new Assert\Sequentially([

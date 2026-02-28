@@ -14,12 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see CNA
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 final class ProblemType
 {
     /**
-     * @var ProblemDescription[]|null $descriptions
+     * @var non-empty-array<non-negative-int, ProblemDescription>|null $descriptions
      */
     #[Assert\NotNull]
     #[Assert\Count(min: 1)]

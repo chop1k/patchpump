@@ -14,6 +14,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @see https://github.com/CVEProject/cve-schema
  * @see https://github.com/CVEProject/cve-schema/blob/main/schema/docs/CVE_Record_Format_bundled.json
  * @see ProblemType
+ *
+ * @psalm-api
  */
 #[Assert\Cascade]
 final class ProblemDescription
@@ -27,6 +29,7 @@ final class ProblemDescription
     public ?string $description = null;
 
     #[Assert\Length(min: 5, max: 9)]
+    // todo: regex + tests
     //    #[Assert\Regex('^CWE-[1-9][0-9]*$^')]
     public ?string $cweId = null;
 
@@ -34,7 +37,7 @@ final class ProblemDescription
     public ?string $type = null;
 
     /**
-     * @var Reference[]|null $references
+     * @var non-empty-array<non-negative-int, Reference>|null $references
      */
     #[Assert\Count(min: 1, max: 512)]
     #[Assert\Unique]
