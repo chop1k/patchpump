@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Common;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -18,9 +18,9 @@ final readonly class Description
     ) {
     }
 
-    public function toPersistence(): Persistence\Common\Description\Description
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Description\Description
     {
-        return new Persistence\Common\Description\Description(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Description\Description(
             $this->language(),
             $this->value(),
             $this->media(),
@@ -29,16 +29,16 @@ final readonly class Description
 
     private function language(): string
     {
-        return $this->schema->lang ?? throw new \InvalidArgumentException();
+        return $this->schema->lang ?? throw new InvalidArgumentException();
     }
 
     private function value(): string
     {
-        return $this->schema->value ?? throw new \InvalidArgumentException();
+        return $this->schema->value ?? throw new InvalidArgumentException();
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Common\Description\Media>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Description\Media>|null
      */
     private function media(): ?ArrayCollection
     {
@@ -47,7 +47,7 @@ final readonly class Description
         }
 
         $elements = array_map(
-            static fn (Schema\DescriptionMedia $node) => (new Description\Media($node))->toPersistence(),
+            static fn (Schema\DescriptionMedia $node) => new Description\Media($node)->toPersistence(),
             array_values($this->schema->supportingMedia),
         );
 

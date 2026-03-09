@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Schema;
 
+use App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Metric;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Common;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -17,9 +17,9 @@ final readonly class Reference
     ) {
     }
 
-    public function toPersistence(): Persistence\Common\Reference
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Reference
     {
-        return new Persistence\Common\Reference(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Reference(
             $this->url(),
             $this->schema->name,
             $this->schema->tags,
@@ -28,6 +28,6 @@ final readonly class Reference
 
     private function url(): string
     {
-        return $this->schema->url ?? throw new \InvalidArgumentException();
+        return $this->schema->url ?? throw new InvalidArgumentException();
     }
 }

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Affected;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ final readonly class Version
     ) {
     }
 
-    public function toPersistence(): Persistence\Affected\Version\Version
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version
     {
         $status = strtolower($this->schema->status ?? '');
 
@@ -26,13 +26,13 @@ final readonly class Version
             'unknown' => $this->unknown(),
             'affected' => $this->affected(),
             'unaffected' => $this->unaffected(),
-            default => throw new \InvalidArgumentException(),
+            default => throw new InvalidArgumentException(),
         };
     }
 
-    private function affected(): Persistence\Affected\Version\Version
+    private function affected(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version
     {
-        return Persistence\Affected\Version\Version::withAffected(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version::withAffected(
             $this->version(),
             $this->schema->versionType,
             $this->schema->lessThan,
@@ -41,9 +41,9 @@ final readonly class Version
         );
     }
 
-    private function unaffected(): Persistence\Affected\Version\Version
+    private function unaffected(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version
     {
-        return Persistence\Affected\Version\Version::withUnaffected(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version::withUnaffected(
             $this->version(),
             $this->schema->versionType,
             $this->schema->lessThan,
@@ -52,9 +52,9 @@ final readonly class Version
         );
     }
 
-    private function unknown(): Persistence\Affected\Version\Version
+    private function unknown(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version
     {
-        return Persistence\Affected\Version\Version::withUnknown(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version::withUnknown(
             $this->version(),
             $this->schema->versionType,
             $this->schema->lessThan,
@@ -65,11 +65,11 @@ final readonly class Version
 
     private function version(): string
     {
-        return $this->schema->version ?? throw new \InvalidArgumentException();
+        return $this->schema->version ?? throw new InvalidArgumentException();
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Affected\Version\Change>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Change>|null
      */
     private function changes(): ?ArrayCollection
     {
@@ -78,7 +78,7 @@ final readonly class Version
         }
 
         $elements = array_map(
-            static fn (Schema\AffectedVersionChange $node) => (new Version\Change($node))->toPersistence(),
+            static fn (Schema\AffectedVersionChange $node) => new Version\Change($node)->toPersistence(),
             array_values($this->schema->changes),
         );
 

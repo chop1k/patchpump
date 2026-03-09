@@ -7,7 +7,7 @@ namespace App\Domain\CVE\Mapping\Schema;
 use App\Domain\CVE\Mapping\Schema\Record\Data;
 use App\Domain\CVE\Mapping\Schema\Record\Metadata;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -20,104 +20,98 @@ final readonly class Record
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function toPersistence(): Persistence\Record
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\AbstractRecord
     {
         $state = $this->schema->cveMetadata?->state;
 
         return match ($state) {
             'PUBLISHED' => $this->published(),
             'REJECTED' => $this->rejected(),
-            default => throw new \InvalidArgumentException(),
+            default => throw new InvalidArgumentException(),
         };
     }
 
-    /**
-     * @return Persistence\Record<Metadata\Published, Metadata\Assigner\Published, Data\Published>
-     */
-    private function published(): Persistence\Record
+    private function published(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Published
     {
         if (null === $this->schema->cveMetadata?->cveId) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return Persistence\Record::withPublished(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Published(
             $this->schema->cveMetadata->cveId,
-            $this->publishedMetadata(),
             $this->publishedAssigner(),
             $this->publishedData(),
+            $this->publishedMetadata(),
         );
     }
 
-    /**
-     * @return Persistence\Record<Metadata\Rejected, Metadata\Assigner\Rejected, Data\Rejected>
-     */
-    private function rejected(): Persistence\Record
+    private function rejected(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Rejected
     {
         if (null === $this->schema->cveMetadata?->cveId) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return Persistence\Record::withRejected(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Rejected(
             $this->schema->cveMetadata->cveId,
-            $this->rejectedMetadata(),
             $this->rejectedAssigner(),
             $this->rejectedData(),
+            $this->rejectedMetadata(),
         );
     }
 
-    private function publishedMetadata(): Persistence\Record\Metadata\Published
+    private function publishedMetadata(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Published
     {
         if (null === $this->schema->cveMetadata) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Metadata\Published($this->schema->cveMetadata))->toPersistence();
+        return new Metadata\Published($this->schema->cveMetadata)->toPersistence();
     }
 
-    private function rejectedMetadata(): Persistence\Record\Metadata\Rejected
+    private function rejectedMetadata(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Rejected
     {
         if (null === $this->schema->cveMetadata) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Metadata\Rejected($this->schema->cveMetadata))->toPersistence();
+        return new Metadata\Rejected($this->schema->cveMetadata)->toPersistence();
     }
 
-    private function publishedAssigner(): Persistence\Record\Metadata\Assigner\Published
+    private function publishedAssigner(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Assigner\Published
     {
         if (null === $this->schema->cveMetadata) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Metadata\Assigner\Published($this->schema->cveMetadata))->toPersistence();
+        return new Metadata\Assigner\Published($this->schema->cveMetadata)->toPersistence();
     }
 
-    private function rejectedAssigner(): Persistence\Record\Metadata\Assigner\Rejected
+    private function rejectedAssigner(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Assigner\Rejected
     {
         if (null === $this->schema->cveMetadata) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Metadata\Assigner\Rejected($this->schema->cveMetadata))->toPersistence();
+        return new Metadata\Assigner\Rejected($this->schema->cveMetadata)->toPersistence();
     }
 
-    private function publishedData(): Persistence\Record\Data\Published
+    private function publishedData(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Published
     {
         if (null === $this->schema->containers) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Data\Published($this->schema->containers))->toPersistence();
+        return new Data\Published($this->schema->containers)->toPersistence();
     }
 
-    private function rejectedData(): Persistence\Record\Data\Rejected
+    private function rejectedData(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Rejected
     {
         if (null === $this->schema->containers?->cna) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return (new Data\Rejected($this->schema->containers->cna))->toPersistence();
+        return new Data\Rejected($this->schema->containers->cna)->toPersistence();
     }
 }

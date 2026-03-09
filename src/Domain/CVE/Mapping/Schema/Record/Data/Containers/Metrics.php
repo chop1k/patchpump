@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers;
 
 use App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class Metrics
@@ -16,9 +15,9 @@ final readonly class Metrics
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Containers\Metrics
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Metrics
     {
-        return new Persistence\Record\Data\Containers\Metrics(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Metrics(
             $this->metrics()
         );
     }
@@ -32,7 +31,7 @@ final readonly class Metrics
 
         foreach ($this->metricsProviders() as $providedBy => $metrics) {
             foreach ($metrics as $metric) {
-                $elements[] = (new Wrappers\Metric($providedBy, $metric))->toPersistence();
+                $elements[] = new Wrappers\Metric($providedBy, $metric)->toPersistence();
             }
         }
 

@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 
 use App\Domain\CVE\Mapping\Schema\Affected\Affected as Wrapped;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class Affected
 {
@@ -16,16 +15,16 @@ final readonly class Affected
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Wrappers\Affected
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Affected
     {
-        return new Persistence\Record\Data\Wrappers\Affected(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Affected(
             $this->providedBy,
             $this->affected(),
         );
     }
 
-    private function affected(): Persistence\Affected\AbstractAffected
+    private function affected(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\AbstractAffected
     {
-        return (new Wrapped($this->schema))->toPersistence();
+        return new Wrapped($this->schema)->toPersistence();
     }
 }

@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers;
 
 use App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class Classification
@@ -16,23 +15,23 @@ final readonly class Classification
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Containers\Classification
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Classification
     {
-        return new Persistence\Record\Data\Containers\Classification(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Classification(
             $this->tags(),
             $this->taxonomies(),
         );
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Tags>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Tags>|null
      */
     private function tags(): ?ArrayCollection
     {
         $elements = [];
 
         foreach ($this->tagsProviders() as $providedBy => $tags) {
-            $elements[] = (new Wrappers\Tags($providedBy, $tags))->toPersistence();
+            $elements[] = new Wrappers\Tags($providedBy, $tags)->toPersistence();
         }
 
         if (0 === count($elements)) {
@@ -67,7 +66,7 @@ final readonly class Classification
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Taxonomy>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Taxonomy>|null
      */
     private function taxonomies(): ?ArrayCollection
     {
@@ -75,7 +74,7 @@ final readonly class Classification
 
         foreach ($this->taxonomiesProviders() as $providedBy => $taxonomies) {
             foreach ($taxonomies as $item) {
-                $elements[] = (new Wrappers\Taxonomy($providedBy, $item))->toPersistence();
+                $elements[] = new Wrappers\Taxonomy($providedBy, $item)->toPersistence();
             }
         }
 

@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 
 use App\Domain\CVE\Mapping\Schema\Metric\Metric as Wrapped;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class Metric
 {
@@ -16,16 +15,16 @@ final readonly class Metric
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Wrappers\Metric
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Metric
     {
-        return new Persistence\Record\Data\Wrappers\Metric(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Metric(
             $this->providedBy,
             $this->metric(),
         );
     }
 
-    private function metric(): Persistence\Metric\Container
+    private function metric(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Metric\Container
     {
-        return (new Wrapped($this->schema))->toPersistence();
+        return new Wrapped($this->schema)->toPersistence();
     }
 }

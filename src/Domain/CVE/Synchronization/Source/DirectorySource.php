@@ -6,14 +6,16 @@ namespace App\Domain\CVE\Synchronization\Source;
 
 use App\Domain\CVE\Synchronization\Source\Directory\Entry;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\SourceInterface;
-use App\Persistence\Document\CVE\Record;
+use App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\AbstractRecord;
+use Generator;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
+use Override;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * @implements SourceInterface<Record>
+ * @implements SourceInterface<AbstractRecord>
  */
 final readonly class DirectorySource implements SourceInterface
 {
@@ -29,11 +31,12 @@ final readonly class DirectorySource implements SourceInterface
     }
 
     /**
-     * @return \Generator<Record>
+     * @return Generator<string, AbstractRecord>
      *
      * @throws FilesystemException
      */
-    public function generator(): \Generator
+    #[Override]
+    public function generator(): Generator
     {
         foreach ($this->paths as $path) {
             yield from $this->innerGenerator($path);
@@ -41,11 +44,11 @@ final readonly class DirectorySource implements SourceInterface
     }
 
     /**
-     * @return \Generator<Record>
+     * @return Generator<string, AbstractRecord>
      *
      * @throws FilesystemException
      */
-    private function innerGenerator(string $path): \Generator
+    private function innerGenerator(string $path): Generator
     {
         foreach ($this->filesystem->listContents($path, deep: true) as $file) {
             $entry = new Entry(

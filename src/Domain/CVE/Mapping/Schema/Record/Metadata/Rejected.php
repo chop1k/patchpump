@@ -6,7 +6,8 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Metadata;
 
 use App\Domain\CVE\Mapping\Common\Timestamp;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use DateTimeImmutable;
+use InvalidArgumentException;
 
 final readonly class Rejected
 {
@@ -15,9 +16,9 @@ final readonly class Rejected
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Metadata\Rejected
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Rejected
     {
-        return new Persistence\Record\Metadata\Rejected(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Rejected(
             $this->schema->serial,
             $this->timestamp($this->schema->datePublished),
             $this->timestamp($this->schema->dateReserved),
@@ -26,7 +27,7 @@ final readonly class Rejected
         );
     }
 
-    private function timestamp(?string $timestamp): ?\DateTimeImmutable
+    private function timestamp(?string $timestamp): ?DateTimeImmutable
     {
         if (null === $timestamp) {
             return null;
@@ -36,7 +37,7 @@ final readonly class Rejected
 
         try {
             return $timestamp->toDateTimeImmutable();
-        } catch (\InvalidArgumentException) {
+        } catch (InvalidArgumentException) {
             return null;
         }
     }

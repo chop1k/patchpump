@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Synchronization\Comparator;
 
 use App\Domain\Vulnerabilities\Synchronization\Contracts\ComparatorInterface;
-use App\Persistence\Document\CVE\Record;
+use App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\AbstractRecord;
 use Carbon\Carbon;
+use Override;
 
 /**
- * @implements ComparatorInterface<Record>
+ * @implements ComparatorInterface<AbstractRecord>
  */
 final class DateComparator implements ComparatorInterface
 {
     /**
-     * @param Record $old
-     * @param Record $new
+     * @param AbstractRecord $old
+     * @param AbstractRecord $new
      */
+    #[Override]
     public function newer(mixed $old, mixed $new): bool
     {
         $oldUpdatedAt = $old->metadata()->updatedAt();

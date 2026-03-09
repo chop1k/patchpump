@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Affected;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -18,7 +18,7 @@ final readonly class Affected
     ) {
     }
 
-    public function toPersistence(): Persistence\Affected\AbstractAffected
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\AbstractAffected
     {
         if (null !== $this->schema->vendor && null !== $this->schema->product) {
             return $this->product();
@@ -28,53 +28,53 @@ final readonly class Affected
             return $this->package();
         }
 
-        throw new \InvalidArgumentException();
+        throw new InvalidArgumentException();
     }
 
-    private function product(): Persistence\Affected\Product
+    private function product(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Product
     {
         if (null === $this->schema->vendor || null === $this->schema->product) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return new Persistence\Affected\Product(
-            new Persistence\Affected\Subject\Product(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Product(
+            new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Subject\Product(
                 $this->schema->vendor,
                 $this->schema->product,
                 $this->schema->collectionURL,
                 $this->schema->packageName,
             ),
-            $this->source(),
             $this->enumeration(),
+            $this->source(),
         );
     }
 
-    private function package(): Persistence\Affected\Package
+    private function package(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Package
     {
         if (null === $this->schema->packageName || null === $this->schema->collectionURL) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
-        return new Persistence\Affected\Package(
-            new Persistence\Affected\Subject\Package(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Package(
+            new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Subject\Package(
                 $this->schema->collectionURL,
                 $this->schema->packageName,
                 $this->schema->vendor,
                 $this->schema->product,
             ),
-            $this->source(),
             $this->enumeration(),
+            $this->source(),
         );
     }
 
-    private function source(): Persistence\Affected\Source
+    private function source(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Source
     {
-        return (new Source($this->schema))->toPersistence();
+        return new Source($this->schema)->toPersistence();
     }
 
-    private function enumeration(): Persistence\Affected\Enumeration
+    private function enumeration(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Enumeration
     {
-        return new Persistence\Affected\Enumeration(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Enumeration(
             $this->container(),
             $this->schema->cpes,
             $this->schema->platforms,
@@ -82,7 +82,7 @@ final readonly class Affected
     }
 
     /**
-     * @return Persistence\Affected\Version\Status|Persistence\Affected\Version\_List
+     * @return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Status|\App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\_List
      */
     private function container(): mixed
     {
@@ -94,39 +94,39 @@ final readonly class Affected
             return $this->_list();
         }
 
-        throw new \InvalidArgumentException();
+        throw new InvalidArgumentException();
     }
 
-    private function status(): Persistence\Affected\Version\Status
+    private function status(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Status
     {
         $status = strtolower($this->schema->defaultStatus ?? '');
 
         return match ($status) {
-            'affected' => Persistence\Affected\Version\Status::withAffected(),
-            'unaffected' => Persistence\Affected\Version\Status::withUnaffected(),
-            'unknown' => Persistence\Affected\Version\Status::withUnknown(),
-            default => throw new \InvalidArgumentException(),
+            'affected' => \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Status::withAffected(),
+            'unaffected' => \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Status::withUnaffected(),
+            'unknown' => \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Status::withUnknown(),
+            default => throw new InvalidArgumentException(),
         };
     }
 
-    private function _list(): Persistence\Affected\Version\_List
+    private function _list(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\_List
     {
-        return new Persistence\Affected\Version\_List(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\_List(
             $this->versions(),
         );
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Affected\Version\Version>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Version>
      */
     private function versions(): ArrayCollection
     {
         if (null === $this->schema->versions) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
         $elements = array_map(
-            static fn (Schema\AffectedVersion $node) => (new Version($node))->toPersistence(),
+            static fn (Schema\AffectedVersion $node) => new Version($node)->toPersistence(),
             array_values($this->schema->versions),
         );
 

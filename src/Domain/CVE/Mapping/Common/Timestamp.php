@@ -6,6 +6,8 @@ namespace App\Domain\CVE\Mapping\Common;
 
 use App\Domain\CVE\Schema;
 use Carbon\Carbon;
+use DateTimeImmutable;
+use InvalidArgumentException;
 
 final readonly class Timestamp
 {
@@ -15,9 +17,9 @@ final readonly class Timestamp
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function toDateTimeImmutable(): \DateTimeImmutable
+    public function toDateTimeImmutable(): DateTimeImmutable
     {
         if (Carbon::canBeCreatedFromFormat($this->timestamp, Schema\Timestamp::FormatWithTz)) {
             return Carbon::createFromFormat(Schema\Timestamp::FormatWithTz, $this->timestamp)
@@ -28,6 +30,6 @@ final readonly class Timestamp
             return Carbon::createFromFormat(Schema\Timestamp::Format, $this->timestamp)->toDateTimeImmutable();
         }
 
-        throw new \InvalidArgumentException('Unsupported timestamp format');
+        throw new InvalidArgumentException('Unsupported timestamp format');
     }
 }

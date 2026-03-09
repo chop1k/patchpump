@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 
 use App\Domain\CVE\Mapping\Schema\Common\Reference as Wrapped;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class Reference
 {
@@ -16,16 +15,16 @@ final readonly class Reference
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Wrappers\Reference
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Reference
     {
-        return new Persistence\Record\Data\Wrappers\Reference(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Reference(
             $this->providedBy,
             $this->reference(),
         );
     }
 
-    private function reference(): Persistence\Common\Reference
+    private function reference(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Reference
     {
-        return (new Wrapped($this->schema))->toPersistence();
+        return new Wrapped($this->schema)->toPersistence();
     }
 }

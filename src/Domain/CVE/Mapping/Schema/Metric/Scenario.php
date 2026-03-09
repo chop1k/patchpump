@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Metric;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -17,9 +17,9 @@ final readonly class Scenario
     ) {
     }
 
-    public function toPersistence(): Persistence\Metric\Scenario
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Metric\Scenario
     {
-        return new Persistence\Metric\Scenario(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Metric\Scenario(
             $this->language(),
             $this->value(),
         );
@@ -27,11 +27,11 @@ final readonly class Scenario
 
     private function language(): string
     {
-        return $this->schema->lang ?? throw new \InvalidArgumentException();
+        return $this->schema->lang ?? throw new InvalidArgumentException();
     }
 
     private function value(): string
     {
-        return $this->schema->value ?? throw new \InvalidArgumentException();
+        return $this->schema->value ?? throw new InvalidArgumentException();
     }
 }

@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 
 use App\Domain\CVE\Mapping\Schema\Common\Credit as Wrapped;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class Credit
 {
@@ -16,16 +15,16 @@ final readonly class Credit
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Wrappers\Credit
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Credit
     {
-        return new Persistence\Record\Data\Wrappers\Credit(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Credit(
             $this->providedBy,
             $this->credit(),
         );
     }
 
-    private function credit(): Persistence\Common\Credit
+    private function credit(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return (new Wrapped($this->schema))->toPersistence();
+        return new Wrapped($this->schema)->toPersistence();
     }
 }

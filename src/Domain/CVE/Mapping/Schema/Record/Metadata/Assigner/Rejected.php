@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Record\Metadata\Assigner;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 final readonly class Rejected
 {
@@ -14,9 +14,9 @@ final readonly class Rejected
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Metadata\Assigner\Rejected
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Assigner\Rejected
     {
-        return new Persistence\Record\Metadata\Assigner\Rejected(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Metadata\Assigner\Rejected(
             $this->id(),
             $this->schema->assignerShortName,
         );
@@ -24,6 +24,6 @@ final readonly class Rejected
 
     private function id(): string
     {
-        return $this->schema->assignerOrgId ?? throw new \InvalidArgumentException();
+        return $this->schema->assignerOrgId ?? throw new InvalidArgumentException();
     }
 }

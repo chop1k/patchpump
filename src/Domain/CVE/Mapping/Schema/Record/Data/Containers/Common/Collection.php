@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers\Common;
 
+use Closure;
+
 /**
  * @template T
  * @template P
@@ -16,9 +18,9 @@ final readonly class Collection
          */
         private array $schema,
         /**
-         * @var \Closure(T): P $factory
+         * @var Closure(T): P $factory
          */
-        private \Closure $factory,
+        private Closure $factory,
     ) {
     }
 

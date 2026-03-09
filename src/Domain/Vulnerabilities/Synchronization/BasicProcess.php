@@ -4,18 +4,27 @@ declare(strict_types=1);
 
 namespace App\Domain\Vulnerabilities\Synchronization;
 
+use App\Domain\Vulnerabilities\Contracts\SynchronizationProcessInterface;
+use App\Domain\Vulnerabilities\Contracts\SynchronizationResultInterface;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\ComparatorInterface;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\PersistenceInterface;
 use App\Domain\Vulnerabilities\Synchronization\Contracts\SourceInterface;
 use App\Domain\Vulnerabilities\Synchronization\Events\RecordAlreadySynchronizedEvent;
 use App\Domain\Vulnerabilities\Synchronization\Events\RecordCreatedEvent;
 use App\Domain\Vulnerabilities\Synchronization\Events\RecordUpdatedEvent;
+use App\Domain\Vulnerabilities\Synchronization\Result\RecordCreated;
+use App\Domain\Vulnerabilities\Synchronization\Result\RecordUnchanged;
+use App\Domain\Vulnerabilities\Synchronization\Result\RecordUpdated;
+use Generator;
+use InvalidArgumentException;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @template T
+ *
+ * @implements SynchronizationProcessInterface<T>
  */
-final readonly class Process
+abstract readonly class BasicProcess implements SynchronizationProcessInterface
 {
     public function __construct(
         private EventDispatcherInterface $eventDispatcher,
@@ -35,51 +44,25 @@ final readonly class Process
     }
 
     /**
-     * @param non-negative-int $limit
-     *
-     * @return \Generator<Result<T>>
+     * @return Generator<non-negative-int, SynchronizationResultInterface<T>>
      */
-    public function generator(int $limit): \Generator
+    public function generator(): Generator
     {
-        $generator = $this->source->generator();
+        $index = 0;
 
-        $buffer = [];
-
-        while (true) {
-            if (false === $generator->valid() || count($buffer) > $limit) {
-                $this->persistence->flush();
-                $this->persistence->clear();
-
-                yield from $buffer;
-
-                $buffer = [];
-            }
-
-            if (false === $generator->valid()) {
-                break;
-            }
-
-            /**
-             * @var string $id
-             */
-            $id = $generator->key();
-            /**
-             * @var T $new
-             */
-            $new = $generator->current();
-
+        foreach ($this->source->generator() as $id => $new) {
             try {
                 $old = $this->persistence->get($id);
 
                 if ($this->comparator->newer($old, $new)) {
-                    $buffer[] = $this->updateOperation($old, $new);
+                    yield $index => $this->updateOperation($old, $new);
                 } else {
-                    $buffer[] = $this->unchangedOperation($old);
+                    yield $index => $this->unchangedOperation($old);
                 }
-            } catch (\InvalidArgumentException) {
-                $buffer[] = $this->createOperation($new);
+            } catch (InvalidArgumentException) {
+                yield $index => $this->createOperation($new);
             } finally {
-                $generator->next();
+                ++$index;
             }
         }
     }
@@ -88,40 +71,40 @@ final readonly class Process
      * @param T $old
      * @param T $new
      *
-     * @return Result<T>
+     * @return SynchronizationResultInterface<T>
      */
-    private function updateOperation(mixed $old, mixed $new): Result
+    protected function updateOperation(mixed $old, mixed $new): SynchronizationResultInterface
     {
         $this->persistence->update($new);
 
         $this->eventDispatcher->dispatch(new RecordUpdatedEvent($old, $new));
 
-        return new Result(2, $new);
+        return new RecordUpdated($old, $new);
     }
 
     /**
      * @param T $old
      *
-     * @return Result<T>
+     * @return SynchronizationResultInterface<T>
      */
-    private function unchangedOperation(mixed $old): Result
+    protected function unchangedOperation(mixed $old): SynchronizationResultInterface
     {
         $this->eventDispatcher->dispatch(new RecordAlreadySynchronizedEvent($old));
 
-        return new Result(0, $old);
+        return new RecordUnchanged($old);
     }
 
     /**
      * @param T $new
      *
-     * @return Result<T>
+     * @return SynchronizationResultInterface<T>
      */
-    private function createOperation(mixed $new): Result
+    protected function createOperation(mixed $new): SynchronizationResultInterface
     {
         $this->persistence->create($new);
 
         $this->eventDispatcher->dispatch(new RecordCreatedEvent($new));
 
-        return new Result(1, $new);
+        return new RecordCreated($new);
     }
 }

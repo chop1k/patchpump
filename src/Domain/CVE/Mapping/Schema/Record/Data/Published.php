@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Record\Data;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class Published
@@ -15,9 +14,9 @@ final readonly class Published
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Published
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Published
     {
-        return new Persistence\Record\Data\Published(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Published(
             $this->providers(),
             $this->summary(),
             $this->applicability(),
@@ -28,12 +27,12 @@ final readonly class Published
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Provider\Published>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Provider\Published>
      */
     private function providers(): ArrayCollection
     {
         $elements = array_map(
-            static fn (Schema\CNA $provider) => (new Provider\Published($provider))->toPersistence(),
+            static fn (Schema\CNA $provider) => new Provider\Published($provider)->toPersistence(),
             [
                 $this->schema->cna,
                 ...($this->schema->adp ?? []),
@@ -43,28 +42,28 @@ final readonly class Published
         return new ArrayCollection($elements);
     }
 
-    private function summary(): Persistence\Record\Data\Containers\Summary
+    private function summary(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Summary
     {
-        return (new Containers\Summary($this->schema))->toPersistence();
+        return new Containers\Summary($this->schema)->toPersistence();
     }
 
-    private function applicability(): Persistence\Record\Data\Containers\Applicability
+    private function applicability(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Applicability
     {
-        return (new Containers\Applicability($this->schema))->toPersistence();
+        return new Containers\Applicability($this->schema)->toPersistence();
     }
 
-    private function history(): ?Persistence\Record\Data\Containers\History
+    private function history(): ?\App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\History
     {
-        return (new Containers\History($this->schema))->toPersistence();
+        return new Containers\History($this->schema)->toPersistence();
     }
 
-    private function classification(): ?Persistence\Record\Data\Containers\Classification
+    private function classification(): ?\App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Classification
     {
-        return (new Containers\Classification($this->schema))->toPersistence();
+        return new Containers\Classification($this->schema)->toPersistence();
     }
 
-    private function metrics(): ?Persistence\Record\Data\Containers\Metrics
+    private function metrics(): ?\App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Metrics
     {
-        return (new Containers\Metrics($this->schema))->toPersistence();
+        return new Containers\Metrics($this->schema)->toPersistence();
     }
 }

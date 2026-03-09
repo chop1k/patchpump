@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers;
 
 use App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class Summary
@@ -16,9 +15,9 @@ final readonly class Summary
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Containers\Summary
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Summary
     {
-        return new Persistence\Record\Data\Containers\Summary(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Summary(
             $this->titles(),
             $this->descriptions(),
             $this->references(),
@@ -27,14 +26,14 @@ final readonly class Summary
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Title>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Title>
      */
     private function titles(): ArrayCollection
     {
         $elements = [];
 
         foreach ($this->titlesProviders() as $providedBy => $title) {
-            $elements[] = (new Wrappers\Title($providedBy, $title))->toPersistence();
+            $elements[] = new Wrappers\Title($providedBy, $title)->toPersistence();
         }
 
         return new ArrayCollection($elements);
@@ -65,7 +64,7 @@ final readonly class Summary
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Description>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Description>
      */
     private function descriptions(): ArrayCollection
     {
@@ -73,7 +72,7 @@ final readonly class Summary
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Reference>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Reference>|null
      */
     private function references(): ?ArrayCollection
     {
@@ -81,7 +80,7 @@ final readonly class Summary
 
         foreach ($this->referencesProviders() as $providedBy => $references) {
             foreach ($references as $reference) {
-                $elements[] = (new Wrappers\Reference($providedBy, $reference))->toPersistence();
+                $elements[] = new Wrappers\Reference($providedBy, $reference)->toPersistence();
             }
         }
 
@@ -110,7 +109,7 @@ final readonly class Summary
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Problem>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Problem>|null
      */
     private function problems(): ?ArrayCollection
     {
@@ -118,7 +117,7 @@ final readonly class Summary
 
         foreach ($this->problemsProviders() as $providedBy => $problems) {
             foreach ($problems as $problem) {
-                $elements[] = (new Wrappers\Problem($providedBy, $problem))->toPersistence();
+                $elements[] = new Wrappers\Problem($providedBy, $problem)->toPersistence();
             }
         }
 

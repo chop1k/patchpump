@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\CPE;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -18,7 +17,7 @@ final readonly class Applicability
     ) {
     }
 
-    public function toPersistence(): Persistence\CPE\Applicability
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability
     {
         $operator = strtolower($this->schema->operator ?? '');
 
@@ -29,37 +28,37 @@ final readonly class Applicability
         };
     }
 
-    private function and(): Persistence\CPE\Applicability
+    private function and(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability
     {
-        return Persistence\CPE\Applicability::withAnd(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability::withAnd(
             $this->nodes(),
             $this->schema->negate,
         );
     }
 
-    private function or(): Persistence\CPE\Applicability
+    private function or(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability
     {
-        return Persistence\CPE\Applicability::withOr(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability::withOr(
             $this->nodes(),
             $this->schema->negate,
         );
     }
 
-    private function null(): Persistence\CPE\Applicability
+    private function null(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability
     {
-        return Persistence\CPE\Applicability::withNull(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Applicability::withNull(
             $this->nodes(),
             $this->schema->negate,
         );
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\CPE\Node>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\CPE\Node>
      */
     private function nodes(): ArrayCollection
     {
         $elements = array_map(
-            static fn (Schema\CPENode $node) => (new Node($node))->toPersistence(),
+            static fn (Schema\CPENode $node) => new Node($node)->toPersistence(),
             array_values($this->schema->nodes),
         );
 

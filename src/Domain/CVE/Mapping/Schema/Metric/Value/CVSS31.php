@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Metric\Value;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class CVSS31
 {
@@ -14,8 +13,8 @@ final readonly class CVSS31
     ) {
     }
 
-    public function toPersistence(): Persistence\Metric\Value\CVSS31
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Metric\Value\CVSS31
     {
-        return new Persistence\Metric\Value\CVSS31();
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Metric\Value\CVSS31();
     }
 }

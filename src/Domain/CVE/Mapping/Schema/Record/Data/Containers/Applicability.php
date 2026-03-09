@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers;
 
 use App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class Applicability
@@ -16,16 +15,16 @@ final readonly class Applicability
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Containers\Applicability
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Applicability
     {
-        return new Persistence\Record\Data\Containers\Applicability(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\Applicability(
             $this->affected(),
             $this->cpe(),
         );
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Affected>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Affected>
      */
     private function affected(): ArrayCollection
     {
@@ -33,7 +32,7 @@ final readonly class Applicability
 
         foreach ($this->affectedProviders() as $providedBy => $affected) {
             foreach ($affected as $item) {
-                $elements[] = (new Wrappers\Affected($providedBy, $item))->toPersistence();
+                $elements[] = new Wrappers\Affected($providedBy, $item)->toPersistence();
             }
         }
 
@@ -61,7 +60,7 @@ final readonly class Applicability
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\CPE>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\CPE>|null
      */
     private function cpe(): ?ArrayCollection
     {
@@ -69,7 +68,7 @@ final readonly class Applicability
 
         foreach ($this->cpeProviders() as $providedBy => $cpe) {
             foreach ($cpe as $item) {
-                $elements[] = (new Wrappers\CPE($providedBy, $item))->toPersistence();
+                $elements[] = new Wrappers\CPE($providedBy, $item)->toPersistence();
             }
         }
 

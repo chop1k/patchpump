@@ -6,6 +6,7 @@ namespace App\Domain\CVE\Mapping\Schema\Affected\Version;
 
 use App\Domain\CVE\Schema;
 use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -17,9 +18,9 @@ final readonly class Change
     ) {
     }
 
-    public function toPersistence(): Persistence\Affected\Version\Change
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Change
     {
-        return new Persistence\Affected\Version\Change(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Version\Change(
             $this->at(),
             $this->status(),
         );
@@ -27,7 +28,7 @@ final readonly class Change
 
     private function at(): string
     {
-        return $this->schema->at ?? throw new \InvalidArgumentException();
+        return $this->schema->at ?? throw new InvalidArgumentException();
     }
 
     private function status(): Persistence\Affected\Affection
@@ -38,7 +39,7 @@ final readonly class Change
             'unknown' => Persistence\Affected\Affection::Unknown,
             'affected' => Persistence\Affected\Affection::Affected,
             'unaffected' => Persistence\Affected\Affection::Unaffected,
-            default => throw new \InvalidArgumentException(),
+            default => throw new InvalidArgumentException(),
         };
     }
 }

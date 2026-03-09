@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Common;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -17,7 +17,7 @@ final readonly class Credit
     ) {
     }
 
-    public function toPersistence(): Persistence\Common\Credit
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
         $type = strtolower($this->schema->type ?? '');
 
@@ -36,99 +36,99 @@ final readonly class Credit
         };
     }
 
-    public function other(): Persistence\Common\Credit
+    public function other(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withOther(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withOther(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function finder(): Persistence\Common\Credit
+    public function finder(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withFinder(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withFinder(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function reporter(): Persistence\Common\Credit
+    public function reporter(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withReporter(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withReporter(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function analyst(): Persistence\Common\Credit
+    public function analyst(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withAnalyst(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withAnalyst(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function coordinator(): Persistence\Common\Credit
+    public function coordinator(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withCoordinator(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withCoordinator(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function remediationDeveloper(): Persistence\Common\Credit
+    public function remediationDeveloper(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withRemediationDeveloper(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withRemediationDeveloper(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function remediationReviewer(): Persistence\Common\Credit
+    public function remediationReviewer(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withRemediationReviewer(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withRemediationReviewer(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function remediationVerifier(): Persistence\Common\Credit
+    public function remediationVerifier(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withRemediationVerifier(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withRemediationVerifier(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function tool(): Persistence\Common\Credit
+    public function tool(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withTool(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withTool(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function sponsor(): Persistence\Common\Credit
+    public function sponsor(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withSponsor(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withSponsor(
             $this->language(),
             $this->value(),
             $this->schema->user,
         );
     }
 
-    public function null(): Persistence\Common\Credit
+    public function null(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit
     {
-        return Persistence\Common\Credit::withNull(
+        return \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Credit::withNull(
             $this->language(),
             $this->value(),
             $this->schema->user,
@@ -137,11 +137,11 @@ final readonly class Credit
 
     private function language(): string
     {
-        return $this->schema->lang ?? throw new \InvalidArgumentException();
+        return $this->schema->lang ?? throw new InvalidArgumentException();
     }
 
     private function value(): string
     {
-        return $this->schema->value ?? throw new \InvalidArgumentException();
+        return $this->schema->value ?? throw new InvalidArgumentException();
     }
 }

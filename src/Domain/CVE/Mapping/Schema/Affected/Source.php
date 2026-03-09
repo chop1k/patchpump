@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Affected;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 final readonly class Source
 {
@@ -14,9 +13,9 @@ final readonly class Source
     ) {
     }
 
-    public function toPersistence(): Persistence\Affected\Source
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Source
     {
-        return new Persistence\Affected\Source(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Affected\Source(
             $this->schema->repo,
             $this->schema->modules,
             $this->schema->programFiles,

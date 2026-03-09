@@ -6,7 +6,6 @@ namespace App\Domain\CVE\Mapping\Schema\Record\Data\Containers;
 
 use App\Domain\CVE\Mapping\Schema\Record\Data\Wrappers;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
 
 final readonly class History
@@ -16,9 +15,9 @@ final readonly class History
     ) {
     }
 
-    public function toPersistence(): Persistence\Record\Data\Containers\History
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\History
     {
-        return new Persistence\Record\Data\Containers\History(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Containers\History(
             $this->timelines(),
             $this->credits(),
             $this->sources(),
@@ -26,7 +25,7 @@ final readonly class History
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Timeline>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Timeline>|null
      */
     private function timelines(): ?ArrayCollection
     {
@@ -34,7 +33,7 @@ final readonly class History
 
         foreach ($this->timelinesProviders() as $providedBy => $timeline) {
             foreach ($timeline as $item) {
-                $elements[] = (new Wrappers\Timeline($providedBy, $item))->toPersistence();
+                $elements[] = new Wrappers\Timeline($providedBy, $item)->toPersistence();
             }
         }
 
@@ -70,7 +69,7 @@ final readonly class History
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Credit>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Credit>|null
      */
     private function credits(): ?ArrayCollection
     {
@@ -78,7 +77,7 @@ final readonly class History
 
         foreach ($this->creditProviders() as $providedBy => $credits) {
             foreach ($credits as $item) {
-                $elements[] = (new Wrappers\Credit($providedBy, $item))->toPersistence();
+                $elements[] = new Wrappers\Credit($providedBy, $item)->toPersistence();
             }
         }
 
@@ -114,14 +113,14 @@ final readonly class History
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Record\Data\Wrappers\Source>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\Data\Wrappers\Source>|null
      */
     private function sources(): ?ArrayCollection
     {
         $elements = [];
 
         foreach ($this->sourcesProviders() as $providedBy => $source) {
-            $elements[] = (new Wrappers\Source($providedBy, $source))->toPersistence();
+            $elements[] = new Wrappers\Source($providedBy, $source)->toPersistence();
         }
 
         if (0 === count($elements)) {

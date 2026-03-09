@@ -15,6 +15,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
+ *
+ * @psalm-internal App\Domain\CVE\Synchronization\Source\DirectorySource
  */
 final readonly class Entry
 {

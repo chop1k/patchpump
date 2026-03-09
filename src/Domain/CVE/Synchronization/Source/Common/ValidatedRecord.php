@@ -6,10 +6,11 @@ namespace App\Domain\CVE\Synchronization\Source\Common;
 
 use App\Domain\CVE\Mapping\RecordMapping;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 
 /**
  * @internal
+ *
+ * @psalm-internal App\Domain\CVE\Synchronization\Source
  */
 final readonly class ValidatedRecord
 {
@@ -18,7 +19,7 @@ final readonly class ValidatedRecord
     ) {
     }
 
-    public function toPersistence(): Persistence\Record
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Record\AbstractRecord
     {
         $mapping = new RecordMapping();
 

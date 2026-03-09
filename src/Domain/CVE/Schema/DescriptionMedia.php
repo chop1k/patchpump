@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\CVE\Schema;
 
+use App\Presentation\API\Resource\Vulnerability\Summary\Description;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

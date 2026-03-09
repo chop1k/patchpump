@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\CVE\Mapping\Schema\Taxonomy;
 
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -18,9 +18,9 @@ final readonly class Mapping
     ) {
     }
 
-    public function toPersistence(): Persistence\Taxonomy\Mapping
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Taxonomy\Mapping
     {
-        return new Persistence\Taxonomy\Mapping(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Taxonomy\Mapping(
             $this->name(),
             $this->relations(),
             $this->schema->taxonomyVersion,
@@ -29,20 +29,20 @@ final readonly class Mapping
 
     private function name(): string
     {
-        return $this->schema->taxonomyName ?? throw new \InvalidArgumentException();
+        return $this->schema->taxonomyName ?? throw new InvalidArgumentException();
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Taxonomy\Relation>
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Taxonomy\Relation>
      */
     private function relations(): ArrayCollection
     {
         if (null === $this->schema->taxonomyRelations) {
-            throw new \InvalidArgumentException();
+            throw new InvalidArgumentException();
         }
 
         $elements = array_map(
-            static fn (Schema\TaxonomyRelation $node) => (new Relation($node))->toPersistence(),
+            static fn (Schema\TaxonomyRelation $node) => new Relation($node)->toPersistence(),
             array_values($this->schema->taxonomyRelations),
         );
 

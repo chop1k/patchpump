@@ -10,6 +10,8 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * @internal
+ *
+ * @psalm-internal App\Domain\CVE\Synchronization\Source
  */
 final readonly class SerializedRecord
 {

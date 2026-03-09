@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\Vulnerabilities\Synchronization\Contracts;
 
+use Generator;
+
 /**
  * @template T
  */
 interface SourceInterface
 {
     /**
-     * @return \Generator<string, T>
+     * @return Generator<string, T>
      */
-    public function generator(): \Generator;
+    public function generator(): Generator;
 }

@@ -6,8 +6,8 @@ namespace App\Domain\CVE\Mapping\Schema\Problem;
 
 use App\Domain\CVE\Mapping\Schema\Common\Reference;
 use App\Domain\CVE\Schema;
-use App\Persistence\Document\CVE as Persistence;
 use Doctrine\Common\Collections\ArrayCollection;
+use InvalidArgumentException;
 
 /**
  * @internal
@@ -19,9 +19,9 @@ final readonly class Description
     ) {
     }
 
-    public function toPersistence(): Persistence\Problem\Description
+    public function toPersistence(): \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Problem\Description
     {
-        return new Persistence\Problem\Description(
+        return new \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Problem\Description(
             $this->language(),
             $this->content(),
             $this->schema->cweId,
@@ -32,16 +32,16 @@ final readonly class Description
 
     private function language(): string
     {
-        return $this->schema->lang ?? throw new \InvalidArgumentException();
+        return $this->schema->lang ?? throw new InvalidArgumentException();
     }
 
     private function content(): string
     {
-        return $this->schema->description ?? throw new \InvalidArgumentException();
+        return $this->schema->description ?? throw new InvalidArgumentException();
     }
 
     /**
-     * @return ArrayCollection<non-negative-int, Persistence\Common\Reference>|null
+     * @return ArrayCollection<non-negative-int, \App\Infrastructure\Persistence\Storage\NoSQL\CVE\Common\Reference>|null
      */
     private function references(): ?ArrayCollection
     {
@@ -50,7 +50,7 @@ final readonly class Description
         }
 
         $elements = array_map(
-            static fn (Schema\Reference $node) => (new Reference($node))->toPersistence(),
+            static fn (Schema\Reference $node) => new Reference($node)->toPersistence(),
             array_values($this->schema->references),
         );
 
