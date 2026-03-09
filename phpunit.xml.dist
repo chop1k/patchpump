@@ -17,6 +17,9 @@
     </php>
 
     <testsuites>
+        <testsuite name="fuzzing">
+            <directory>tests/Fuzzing</directory>
+        </testsuite>
         <testsuite name="unit">
             <directory>tests/Unit</directory>
         </testsuite>
