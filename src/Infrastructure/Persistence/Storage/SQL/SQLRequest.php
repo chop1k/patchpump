@@ -23,8 +23,6 @@ final readonly class SQLRequest implements RequestInterface
     }
 
     /**
-     * @inheritDoc
-     *
      * @throws FilesystemException
      */
     #[Override]

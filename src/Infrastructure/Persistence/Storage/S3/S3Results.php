@@ -6,5 +6,4 @@ namespace App\Infrastructure\Persistence\Storage\S3;
 
 final readonly class S3Results
 {
-
 }

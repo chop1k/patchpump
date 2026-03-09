@@ -7,7 +7,6 @@ namespace App\Infrastructure\Persistence\Storage\S3;
 use App\Infrastructure\Persistence\Contracts\BridgeInterface;
 use App\Infrastructure\Persistence\Contracts\RequestInterface;
 use App\Infrastructure\Persistence\Contracts\ResponseInterface;
-use League\Flysystem\FilesystemException;
 use Override;
 
 /**
@@ -19,11 +18,6 @@ final readonly class S3Bridge implements BridgeInterface
     ) {
     }
 
-    /**
-     * @inheritDoc
-     *
-     * @throws FilesystemException
-     */
     #[Override]
     public function response(RequestInterface $request): ResponseInterface
     {

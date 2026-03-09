@@ -41,8 +41,6 @@ final readonly class SQLTemplate implements TemplateInterface
     }
 
     /**
-     * @inheritDoc
-     *
      * @throws FilesystemException
      */
     #[Override]

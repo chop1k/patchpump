@@ -9,7 +9,7 @@ use App\Infrastructure\Persistence\Contracts\RequestInterface;
 use App\Infrastructure\Persistence\Contracts\ResponseInterface;
 use App\Infrastructure\Persistence\Storage\SQL\SQLRequest;
 use App\Infrastructure\Persistence\Storage\SQL\SQLResponse;
-use League\Flysystem\FilesystemException;
+use Exception;
 use Override;
 
 /**
@@ -23,9 +23,7 @@ final readonly class PostgresBridge implements BridgeInterface
     }
 
     /**
-     * @inheritDoc
-     *
-     * @throws FilesystemException
+     * @throws Exception
      */
     #[Override]
     public function response(RequestInterface $request): ResponseInterface
@@ -35,9 +33,9 @@ final readonly class PostgresBridge implements BridgeInterface
 
         $result = pg_query_params($this->db, $template, $params);
 
-        if ($result === false) {
+        if (false === $result) {
             // todo: normal exception
-            throw new \Exception('123');
+            throw new Exception('123');
         }
 
         $results = pg_fetch_all($result) ?: [];
