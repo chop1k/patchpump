@@ -8,6 +8,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-mbstring": "*",
+        "ext-pgsql": "*",
         "ext-mongodb": "*",
         "api-platform/doctrine-odm": "^4.2.17",
         "api-platform/doctrine-orm": "^4.2.17",
