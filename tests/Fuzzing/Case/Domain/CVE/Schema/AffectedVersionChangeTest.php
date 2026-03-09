@@ -38,7 +38,6 @@ final class AffectedVersionChangeTest extends AbstractSchemaTestCase
      */
     public static function successProvider(): iterable
     {
-
         $configuration = [
             'at' => [
                 '123',

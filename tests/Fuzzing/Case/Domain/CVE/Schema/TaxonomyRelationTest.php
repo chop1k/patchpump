@@ -38,16 +38,15 @@ final class TaxonomyRelationTest extends AbstractSchemaTestCase
      */
     public static function successProvider(): iterable
     {
-
         $configuration = [
             'taxonomyId' => [
                 '123',
             ],
             'relationshipName' => [
-                '123'
+                '123',
             ],
             'relationshipValue' => [
-                '123'
+                '123',
             ],
         ];
 

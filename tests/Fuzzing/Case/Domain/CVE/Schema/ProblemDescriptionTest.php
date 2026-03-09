@@ -65,8 +65,8 @@ final class ProblemDescriptionTest extends AbstractSchemaTestCase
                 null,
                 [
                     $reference_1,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $factory = self::factory(...);
@@ -126,8 +126,8 @@ final class ProblemDescriptionTest extends AbstractSchemaTestCase
                 ],
                 [
                     null,
-                ]
-            ]
+                ],
+            ],
         ];
 
         $factory = self::factory(...);

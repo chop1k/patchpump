@@ -59,7 +59,7 @@ final class TaxonomyMappingTest extends AbstractSchemaTestCase
             'taxonomyRelations' => [
                 [
                     $relation_1,
-                ]
+                ],
             ],
         ];
 

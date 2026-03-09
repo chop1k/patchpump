@@ -100,7 +100,7 @@ final class ProblemTypeTest extends AbstractSchemaTestCase
                 ],
                 [
                     new stdClass(),
-                ]
+                ],
             ],
         ];
 
