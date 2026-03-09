@@ -1,0 +1,13 @@
+{
+    debug
+    local_certs
+    skip_install_trust
+
+    log {
+        level DEBUG
+    }
+}
+
+{$SERVER_ADDRESS} {
+    reverse_proxy {$APP_ADDRESS} transport fastcgi
+}

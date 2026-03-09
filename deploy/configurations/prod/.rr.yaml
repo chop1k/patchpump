@@ -1,0 +1,43 @@
+version: "3"
+
+server:
+  command: "php public/index.php"
+
+http:
+  fcgi:
+    address: "tcp://0.0.0.0:7921"
+  access_logs: true
+  max_request_size: 256
+  middleware:
+    - "headers"
+    - "gzip"
+  uploads:
+    dir: "/tmp"
+    forbid:
+      - ".php"
+      - ".php3"
+      - ".php4"
+      - ".php5"
+      - ".php7"
+      - ".php8"
+      - ".phtml"
+      - ".phar"
+      - ".exe"
+      - ".bat"
+      - ".js"
+      - ".jsx"
+      - ".mjs"
+      - ".cjs"
+      - ".ts"
+      - ".tsx"
+      - ".py"
+      - ".pyw"
+      - ".pyc"
+      - ".pyo"
+      - ".pyd"
+      - ".ipy"
+
+status:
+  address: "127.0.0.1:2114"
+
+# todo: logs
