@@ -17,8 +17,8 @@ services:
     App\API\:
         resource: '../src/API'
 
-    App\Console\:
-        resource: '../src/Console'
+    App\Console\Command\:
+        resource: '../src/Console/Command'
 
     App\Framework\:
         resource: '../src/Framework'
