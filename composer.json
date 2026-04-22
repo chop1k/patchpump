@@ -13,7 +13,6 @@
 		"ext-mysqli" : "*",
 		"ext-redis" : "*",
 		"ext-memcached" : "*",
-		"api-platform/symfony" : "^4.3.3",
 		"baldinof/roadrunner-bundle" : "^3.3.2",
 		"dragonmantank/cron-expression" : "^3.6",
 		"league/flysystem-bundle" : "^3.7.0",
@@ -49,14 +48,8 @@
 		"symfony/stimulus-bundle" : "^2.35.0",
 		"symfony/string" : "7.3.*",
 		"symfony/translation" : "7.3.*",
-		"symfony/twig-bundle" : "7.3.*",
-		"symfony/ux-turbo" : "^2.35.0",
 		"symfony/validator" : "7.3.*",
-		"symfony/web-link" : "7.3.*",
-		"symfony/workflow" : "7.3.*",
-		"symfony/yaml" : "7.3.*",
-		"twig/extra-bundle" : "^2.12|^3.24.0",
-		"twig/twig" : "^2.12|^3.24.0"
+		"symfony/yaml" : "7.3.*"
 	},
 	"require-dev" : {
 		"friendsofphp/php-cs-fixer" : "^3.95.1",
@@ -68,7 +61,6 @@
 		"symfony/maker-bundle" : "^1.67.0",
 		"symfony/phpunit-bridge" : "^7.4.8",
 		"symfony/stopwatch" : "7.3.*",
-		"symfony/web-profiler-bundle" : "7.3.*",
 		"vimeo/psalm" : "^6.16.1"
 	},
 	"config" : {
