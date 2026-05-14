@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Contracts\Request;
+namespace App\Infrastructure\Persistence\Storage\SQLContracts\SQLRequest;
 
-interface NameInterface
+interface SQLNameInterface
 {
     /**
      * @return non-empty-string

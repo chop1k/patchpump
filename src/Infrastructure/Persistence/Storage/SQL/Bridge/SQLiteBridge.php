@@ -9,37 +9,39 @@ use App\Infrastructure\Persistence\Contracts\RequestInterface;
 use App\Infrastructure\Persistence\Contracts\ResponseInterface;
 use App\Infrastructure\Persistence\Storage\SQL\SQLRequest;
 use App\Infrastructure\Persistence\Storage\SQL\SQLResponse;
-use Exception;
+use League\Flysystem\FilesystemException;
 use Override;
+use SQLite3;
 
 /**
  * @implements BridgeInterface<SQLRequest, SQLResponse>
  */
-final readonly class PostgresBridge implements BridgeInterface
+final readonly class SQLiteBridge implements BridgeInterface
 {
     public function __construct(
-        private mixed $db,
+        private SQLite3 $driver,
     ) {
     }
 
     /**
-     * @throws Exception
+     * @throws FilesystemException
      */
     #[Override]
     public function response(RequestInterface $request): ResponseInterface
     {
         $template = $request->template();
-        $params = $request->value();
+        $parameters = $request->value();
 
-        $result = pg_query_params($this->db, $template, $params);
+        $statement = $this->driver->prepare($template);
 
-        if (false === $result) {
-            // todo: normal exception
-            throw new Exception('123');
+        foreach ($parameters as $name => $parameter) {
+            $name = sprintf(':%s', $name);
+
+            $statement->bindParam($name, $parameter);
         }
 
-        $results = pg_fetch_all($result) ?: [];
+        $result = $statement->execute();
 
-        return new SQLResponse($results);
+        return new SQLResponse($result);
     }
 }

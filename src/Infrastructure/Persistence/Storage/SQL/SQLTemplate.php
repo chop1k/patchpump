@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Storage\SQL;
 
-use App\Infrastructure\Persistence\Contracts\Request\TemplateInterface;
+use App\Infrastructure\Persistence\Storage\SQLContracts\Request\TemplateInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Override;
@@ -15,7 +15,7 @@ use Symfony\Component\Filesystem\Path;
  *
  * @implements TemplateInterface<TemplateType>
  */
-final readonly class SQLTemplate implements TemplateInterface
+final readonly class SQLTemplate implements SQLTemplateInterface
 {
     public function __construct(
         private FilesystemOperator $filesystem,

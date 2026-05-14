@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Persistence\Contracts\Request;
+namespace App\Infrastructure\Persistence\Storage\SQL\Contracts\SQLRequest;
 
 /**
  * @template T
  */
-interface ArgumentsInterface
+interface SQLArgumentsInterface
 {
     /**
      * @return T
