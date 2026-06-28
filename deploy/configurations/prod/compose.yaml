@@ -7,13 +7,6 @@ services:
     networks:
       - app_network
 
-#
-#  postgres:
-#
-#  mongo:
-#
-#  memcached:
-
 secrets:
   app_secret:
     file: app_secret.txt

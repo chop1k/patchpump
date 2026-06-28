@@ -1,9 +1,9 @@
-FROM ghcr.io/roadrunner-server/roadrunner:2025.1.3 AS rr
-FROM php:8.2-cli AS php
+FROM ghcr.io/roadrunner-server/roadrunner:2025.1.14 AS rr
+FROM php:8.5-cli AS php
 
 ADD --chmod=0755 \
-    --checksum=sha256:f4e1518189d0edb8f9704044e03def06916c1b3975196bc5887a532b79043acf \
-    https://github.com/mlocati/docker-php-extension-installer/releases/download/2.9.8/install-php-extensions \
+    --checksum=sha256:f94fd02d6a88a951ba2302f0a9a5e9ba3f06eb89640f54ca6043671f8a213c7e \
+    https://github.com/mlocati/docker-php-extension-installer/releases/download/2.11.8/install-php-extensions \
     /usr/local/bin/install-php-extensions
 
 COPY --from=rr /usr/bin/rr /usr/local/bin/rr
@@ -19,24 +19,21 @@ RUN set -eux; \
         sockets \
         opcache \
         intl \
-        mongodb \
+        bcmath \
+        gd
     ;
 
 WORKDIR /app
 
 COPY \
-    assets \
     bin \
     config \
     migrations \
     public \
     src \
-    templates \
     tests \
-    translations \
     composer.* \
     symfony.* \
-    importmap.php \
     .rr.yaml \
     LICENSE \
     ./
@@ -52,11 +49,9 @@ RUN set -eux; \
 RUN set -eux; \
     composer dump-autoload --optimize --no-dev --strict-psr --strict-ambiguous; \
     composer dump-env prod; \
-    php bin/console cache:warmup \
-    && php bin/console assets:install \
-    && php bin/console asset-map:compile
+    php bin/console cache:warmup
 
 HEALTHCHECK --interval=15s --timeout=10s \
-    CMD "curl -f http://127.0.0.1:2114/health || exit 1"
+    CMD "curl -f http://127.0.0.1:2114/api/system/healthcheck|| exit 1"
 
 CMD [ "rr", "serve", "-c", "/app/.rr.yaml" ]
