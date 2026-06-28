@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    storage.directory: '%kernel.project_dir%/var/storage'
 
 services:
     # default configuration for services in *this* file
@@ -13,6 +14,38 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+
+    app.storage.files:
+        class: SleekDB\Store
+        arguments: [ 'files', '%storage.directory%']
+
+    app.storage.scans:
+        class: SleekDB\Store
+        arguments: [ 'scans', '%storage.directory%']
+
+    app.storage.reports:
+        class: SleekDB\Store
+        arguments: [ 'reports', '%storage.directory%']
+
+    app.storage.ranges:
+        class: SleekDB\Store
+        arguments: [ 'ranges', '%storage.directory%']
+
+    app.storage.tasks:
+        class: SleekDB\Store
+        arguments: [ 'tasks', '%storage.directory%']
+
+    app.storage.actives:
+        class: SleekDB\Store
+        arguments: [ 'tasks', '%storage.directory%']
+
+    app.storage.agents:
+        class: SleekDB\Store
+        arguments: [ 'agents', '%storage.directory%']
+        
+    app.storage.artifacts:
+        class: SleekDB\Store
+        arguments: [ 'agents', '%storage.directory%']
 
     App\Presentation\API\:
         resource: '../src/Presentation/API'
