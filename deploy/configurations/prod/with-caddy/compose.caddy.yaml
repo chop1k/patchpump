@@ -1,0 +1,23 @@
+
+services:
+  web:
+    container_name: 'caddy'
+    image: caddy
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    env_file:
+      - .env.caddy
+    volumes:
+      - $PWD/conf:/etc/caddy
+      - caddy_configuration:/config
+      - caddy_data:/data
+
+volumes:
+  caddy_data:
+    driver: 'local'
+  caddy_configuration:
+    driver: 'local'

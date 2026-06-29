@@ -1,0 +1,21 @@
+
+services:
+  app:
+    container_name: 'app'
+    build:
+      dockerfile: Dockerfile
+    networks:
+      - app_network
+
+secrets:
+  app_secret:
+    file: app_secret.txt
+  postgres_password:
+    file: postgres_password.txt
+  mongo_password:
+    file: mongo_password.txt
+
+networks:
+  app_network:
+    name: app_network
+    driver: 'bridge'

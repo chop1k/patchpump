@@ -1,0 +1,29 @@
+{
+    admin off
+    persist_config off
+    grace_period 10s
+
+    log {
+        level INFO
+    }
+
+    servers {
+        protocols {
+            h1
+            h2
+        }
+        metrics
+        timeouts {
+            read_body 30s
+            read_headers 15s
+            write 30s
+            keep_alive 5m
+        }
+    }
+}
+
+{$SERVER_NAME} {
+    encode gzip zstd
+
+    reverse_proxy {$APP_ADDRESS} transport fastcgi
+}
