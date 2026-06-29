@@ -1,6 +1,6 @@
 # patchpump
 
-> Self-hosted vulnerability management framework for small-to-mid infrastructures.
+> Self-hosted vulnerability management system for small-to-mid infrastructures.
 
 ---
 
@@ -19,65 +19,29 @@ Our ultimate vision is to evolve patchpump into a system that automates the full
 
 ---
 
-## Packages
+## Components
 
-| Package                                                  | Description                                   | Version |
-|----------------------------------------------------------|-----------------------------------------------|---------|
-| [`packages/ui-operational-plugin`](packages/core-plugin) | Plugin API for operational ui`s plugin system | v0.0.0  |
-| [`packages/core-plugin`](packages/core-plugin)           | Plugin API for core`s plugin system           | v0.0.0  |
-| [`packages/agent-plugin`](packages/agent-plugin)         | Plugin API for agent`s plugin system          | v0.0.0  |
-
-## Apps
-
-| App              | Description                   | Path                                         |
-|------------------|-------------------------------|----------------------------------------------|
-| `ui/operational` | Operational web interface     | [`apps/ui/operational`](apps/ui/operational) |
-| `ui/admin`       | Admin web interface           | [`apps/ui/admin`](apps/ui/admin)             |
-| `core/core`      | Core data aggregation service | [`apps/core/core`](apps/core/core)           |
-| `core/agent`     | Core data gathering service   | [`apps/core/agent`](apps/core/agent)         |
-
-> Each package and app has its own `README.md` with specific setup and usage details.
+| Component        | Description                     | Link                                                                                               |
+|------------------|---------------------------------|----------------------------------------------------------------------------------------------------|
+| `operational-ui` | Operational web interface       | [`github.com/chop1k/patchpump-operational-ui`](https://github.com/chop1k/patchpump-operational-ui) |
+| `admin-ui`       | Admin web interface             | [`github.com/chop1k/patchpump-admin-ui`](https://github.com/chop1k/patchpump-admin-ui)             |
+| `core`           | Core data processing component  | [`github.com/chop1k/patchpump`](https://github.com/chop1k/patchpump)                               |
+| `agent`          | Core data gathering component   | [`github.com/chop1k/patchpump-agent`](https://github.com/chop1k/patchpump-agent)                   |
 
 ---
 
-## Platform Support
+## Core
 
-### `ui/operational` — Browser support
-
-| Browser                  | Min. Version | Supported |
-|--------------------------|--------------|-----------|
-| some-supported-browser   | 112+         | yes       |
-| some-unsupported-browser | 11           | no        |
-
-### `ui/admin` — Browser support
-
-| Browser                  | Min. Version | Supported |
-|--------------------------|--------------|-----------|
-| some-supported-browser   | 112+         | yes       |
-| some-unsupported-browser | 11           | no        |
-
-### `core/core` — OS support
+### Platform Support
 
 | OS                   | Architecture          | Supported         |
 |----------------------|-----------------------|-------------------|
-| some-supported-os    | x86_64                | yes               |
-| some-unsupported-os  | x86_64                | no                |
-| some-experimental-os | x86_64                | experimental      |
-| some-restricted-os   | x86_64                | yes (docker-only) |
-
-
-### `core/agent` — OS support
-
-| OS                   | Architecture | Supported         |
-|----------------------|--------------|-------------------|
-| some-supported-os    | x86_64       | yes               |
-| some-unsupported-os  | x86_64       | no                |
-| some-experimental-os | x86_64       | experimental      |
-| some-restricted-os   | x86_64       | yes (docker-only) |
+| docker:alpine        | x86_64                | yes               |
+| docker:debian        | x86_64                | yes               |
 
 ---
 
-## Version History
+### Version History
 
 | Version  | Status          | Released   | End of Life |
 |----------|-----------------|------------|-------------|
@@ -96,23 +60,6 @@ Our ultimate vision is to evolve patchpump into a system that automates the full
 
 ---
 
-## Todo
-
-- [ ] Implement some feature blah
-- [ ] Implement some feature blah blah
-- [ ] Implement some feature blah blah blah
-
----
-
-## Roadmap
-
-### v0.0.0
-- blah blah blah
-- blah blah blah blah
-- blah blah blah
-
----
-
 ## Contributing
 
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for details about contributing.
@@ -121,4 +68,4 @@ Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for details about contributing.
 
 ## License
 
-Licensed under terms of MIT license. Read [`LICENSE`](LICENSE) for details.
+Licensed under terms of AGPL license. Read [`LICENSE`](LICENSE) for details.
