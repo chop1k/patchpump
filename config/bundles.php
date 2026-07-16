@@ -8,4 +8,5 @@ return [
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     Baldinof\RoadRunnerBundle\BaldinofRoadRunnerBundle::class => ['all' => true],
+    Artprima\PrometheusMetricsBundle\ArtprimaPrometheusMetricsBundle::class => ['all' => true],
 ];
