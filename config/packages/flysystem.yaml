@@ -1,6 +1,9 @@
-# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
 flysystem:
     storages:
+        postgres_migrations.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/migrations/database/postgres/schema'
         temporary.storage:
             adapter: 'local'
             options:
